@@ -5,6 +5,18 @@ const GlobalStyle = createGlobalStyle`
   font-family: "Neue Haas Grotesk Display Pro", sans-serif;
 }
 
+html,body {
+  height: 100%;
+}
+
+body > #root {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
 html,
 body,
 div,
