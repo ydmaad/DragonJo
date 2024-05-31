@@ -1,13 +1,10 @@
-import { useState } from 'react';
-import reactLogo from './assets/react.svg';
-import viteLogo from '/vite.svg';
-import './App.css';
+import GlobalStyle from './layouts/GlobalStyle';
 import Router from './routes/router';
 
 function App() {
-
   return (
     <>
+      <GlobalStyle />
       <Router />
     </>
   );
