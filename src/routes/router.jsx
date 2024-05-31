@@ -1,3 +1,4 @@
+
 import { BrowserRouter, Route, Routes } from 'react-router-dom/dist';
 
 import Layout from '../layouts/Layout';
@@ -10,9 +11,11 @@ const Router = () => (
       <Routes>
         <Route path="/" element={<HomePage />} />
         <Route path="/auth" element={<AuthPage />} />
-      </Routes>
-    </Layout>
-  </BrowserRouter>
-);
+        </Routes>
+      </Layout>
+    </BrowserRouter>
+  );
+};
+
 
 export default Router;
