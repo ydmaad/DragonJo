@@ -13,10 +13,9 @@ ${reset}
 
   body > #root {
     height: 100%;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
+    display: grid;
+    grid-template-columns: 1fr;
+    place-items: center;
   }
 `;
 export default GlobalStyle;

@@ -2,6 +2,7 @@ import styled from 'styled-components';
 
 const FooterFooter = styled.footer`
   display: flex;
+  flex: 1;
   flex-direction: column;
   padding: 10px;
   box-sizing: border-box;
