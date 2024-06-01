@@ -28,8 +28,9 @@ export const Header = styled.header`
       margin-right: 50px;
     }
     & .new-post-btn {
-      width: 100%;
-      height: 100%;
+      // Link태그 넣으니 버튼 크기 이상해져서 px로 수정했습니다.
+      width: 110px;
+      height: 40px;
       font-size: 20px;
       background: none;
       border-radius: 5px;

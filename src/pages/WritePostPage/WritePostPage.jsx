@@ -3,6 +3,7 @@ import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { createPost } from '../../redux/slices/postSlice';
 import {
+  Wrapper,
   Container,
   Header,
   Title,
@@ -32,22 +33,24 @@ const WritePostPage = () => {
   };
 
   return (
-    <Container>
-      <Header>
-        <Title>게시글 작성</Title>
-        <Subtitle>게시글을 작성하고 업로드하세요</Subtitle>
-      </Header>
-      <Form>
-        <Label>게시글 제목</Label>
-        <Input type="text" value={title} onChange={(e) => setTitle(e.target.value)} />
-        <Label>게시글 내용</Label>
-        <Textarea value={content} onChange={(e) => setContent(e.target.value)} />
-        <ButtonContainer>
-          <Button onClick={handleCreatePost}>업로드</Button>
-          <Button onClick={() => navigate('/')}>뒤로가기</Button>
-        </ButtonContainer>
-      </Form>
-    </Container>
+    <Wrapper>
+      <Container>
+        <Header>
+          <Title>게시글 작성</Title>
+          <Subtitle>게시글을 작성하고 업로드하세요</Subtitle>
+        </Header>
+        <Form>
+          <Label>게시글 제목</Label>
+          <Input type="text" value={title} onChange={(e) => setTitle(e.target.value)} />
+          <Label>게시글 내용</Label>
+          <Textarea value={content} onChange={(e) => setContent(e.target.value)} />
+          <ButtonContainer>
+            <Button onClick={handleCreatePost}>업로드</Button>
+            <Button onClick={() => navigate('/')}>뒤로가기</Button>
+          </ButtonContainer>
+        </Form>
+      </Container>
+    </Wrapper>
   );
 };
 

@@ -1,4 +1,3 @@
-import React from 'react';
 import * as S from '../../styledComponents/MyProfile';
 import profileIcon from '../../assets/profileIcon.png';
 const Mypage = () => {
@@ -7,7 +6,7 @@ const Mypage = () => {
       <S.MyProfile>
         <div className="profile-photo">
           <S.profileId>
-            <div className='profile-box'>
+            <div className="profile-box">
               <img src={profileIcon} alt="profileIcon" />
             </div>
             <div>
