@@ -1,11 +1,5 @@
-import React from 'react';
-
 const Mypage = () => {
-  return (
-    <>
-        
-    </>
-  )
+  return <></>;
 };
 
 export default Mypage;
