@@ -4,7 +4,7 @@ import styled from 'styled-components';
 import ToggleIcon from '../../components/ToggleIcon';
 import PasswordEyeIcon from '../../components/icons/PasswordEyeIcon';
 import PasswordEyeOffIcon from '../../components/icons/PasswrodEyeOffIcon';
-import { registerUser } from '../../service/user';
+import validationUserInfo from '../../utils/validationUserInfo';
 
 const LoginMainDiv = styled.div`
   margin: 0 auto;
@@ -85,9 +85,19 @@ const LoginFormInputBox = styled.div`
   max-width: 500px;
 `;
 
-const LoginFormLabel = styled.label`
+const LoginTextBox = styled.div`
+  display: flex;
+  gap: 16px;
+  align-items: center;
   font-size: 12px;
   font-weight: 600;
+`;
+
+const LoginFormLabel = styled.label``;
+
+const LoginErrorText = styled.p`
+  color: #ff4d4d;
+  font-weight: bold;
 `;
 
 const LoginFormInput = styled.input`
@@ -154,10 +164,18 @@ const IconDiv = styled.div`
   top: 50%;
 `;
 
+const initialAuthError = {
+  email: '',
+  username: '',
+  password: '',
+  passwordConfirm: ''
+};
+
 function AuthPage() {
   const [isLoginForm, setIsLoginForm] = useState(true);
   const [passwordVisible, setPasswordVisible] = useState(false);
   const [passwordConfirmVisible, setPasswordConfirmVisible] = useState(false);
+  const [authError, setAuthError] = useState({});
 
   const inputRef = useRef([]);
 
@@ -178,13 +196,20 @@ function AuthPage() {
 
   const register = async () => {
     console.log('register');
-    const [email, password] = inputRef.current;
-    const response = await registerUser({
-      email: email.value,
-      password: password.value,
-      username: '김승회'
-    });
-    console.log(response);
+    const userInfo = inputRef.current;
+
+    const error = validationUserInfo(userInfo);
+    setAuthError(error);
+
+    if (Object.values(error).some((error) => error)) {
+      return;
+    }
+    // const response = await registerUser({
+    //   email: email.value,
+    //   password: password.value,
+    //   username,
+    // });
+    // console.log(response);
 
     resetInputRef();
     setIsLoginForm(true);
@@ -208,8 +233,25 @@ function AuthPage() {
           <LoginFormH1>{isLoginForm ? '로그인' : '회원가입'}</LoginFormH1>
 
           <LoginForm>
+            {!isLoginForm && (
+              <LoginFormInputBox>
+                <LoginTextBox>
+                  <LoginFormLabel htmlFor="username">유저명</LoginFormLabel>
+                  {authError.username && <LoginErrorText>{authError.username}</LoginErrorText>}
+                </LoginTextBox>
+                <LoginFormInput
+                  ref={(e) => (inputRef.current[3] = e)}
+                  id="username"
+                  type="text"
+                  placeholder="닉네임을 입력하세요"
+                />
+              </LoginFormInputBox>
+            )}
             <LoginFormInputBox>
-              <LoginFormLabel htmlFor="email">이메일</LoginFormLabel>
+              <LoginTextBox>
+                <LoginFormLabel htmlFor="email">이메일</LoginFormLabel>
+                {authError.email && <LoginErrorText>{authError.email}</LoginErrorText>}
+              </LoginTextBox>
               <LoginFormInput
                 ref={(e) => (inputRef.current[0] = e)}
                 id="email"
@@ -218,7 +260,10 @@ function AuthPage() {
               />
             </LoginFormInputBox>
             <LoginFormInputBox>
-              <LoginFormLabel htmlFor="password">비밀번호</LoginFormLabel>
+              <LoginTextBox>
+                <LoginFormLabel htmlFor="password">비밀번호</LoginFormLabel>
+                {authError.password && <LoginErrorText>{authError.password}</LoginErrorText>}
+              </LoginTextBox>
               <LoginFormInput
                 ref={(e) => (inputRef.current[1] = e)}
                 id="password"
@@ -238,10 +283,13 @@ function AuthPage() {
 
             {!isLoginForm && (
               <LoginFormInputBox>
-                <LoginFormLabel htmlFor="password">비밀번호 확인</LoginFormLabel>
+                <LoginTextBox>
+                  <LoginFormLabel htmlFor="passwordConfirm">비밀번호 확인</LoginFormLabel>
+                  {authError.passwordConfirm && <LoginErrorText>{authError.passwordConfirm}</LoginErrorText>}
+                </LoginTextBox>
                 <LoginFormInput
                   ref={(e) => (inputRef.current[2] = e)}
-                  id="password"
+                  id="passwordConfirm"
                   type={passwordConfirmVisible ? 'text' : 'password'}
                   placeholder="비밀번호를 다시 입력하세요"
                   minLength={6}
