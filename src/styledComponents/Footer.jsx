@@ -1,28 +1,32 @@
 import styled from 'styled-components';
 
 export const Footer = styled.footer`
-  display: flex;
-  flex: 1;
-  flex-direction: column;
-  padding: 0px 20px 20px 20px;
-  box-sizing: border-box;
   width: 100%;
-  gap: 8px;
   background-image: linear-gradient(to bottom, #ffffff, #cccccc);
   border-top: 1px solid rgba(0, 0, 0, 0.2);
-  & .nabc-icon {
-    display: block;
-    width: 44px;
-  }
-  & .github-icon {
-    width: 48px;
-    display: block;
-    cursor: pointer;
-  }
-  & .notion-icon {
-    width: 35px;
-    display: block;
-    cursor: pointer;
+  & .contents {
+    width: 1320px;
+    margin: 0px auto;
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+    padding: 0px 20px 20px 20px;
+    box-sizing: border-box;
+    gap: 8px;
+    & .nabc-icon {
+      display: block;
+      width: 44px;
+    }
+    & .github-icon {
+      width: 48px;
+      display: block;
+      cursor: pointer;
+    }
+    & .notion-icon {
+      width: 35px;
+      display: block;
+      cursor: pointer;
+    }
   }
 `;
 export const FlexBox = styled.div`
