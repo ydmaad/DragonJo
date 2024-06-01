@@ -221,7 +221,7 @@ function AuthPage() {
               </IconDiv>
             </LoginFormInputBox>
 
-            {isLoginForm === 'register' && (
+            {!isLoginForm && (
               <LoginFormInputBox>
                 <LoginFormLabel htmlFor="password">비밀번호 확인</LoginFormLabel>
                 <LoginFormInput
