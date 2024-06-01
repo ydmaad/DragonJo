@@ -11,6 +11,10 @@
   },
   "dependencies": {
     "@reduxjs/toolkit": "^2.2.5",
+<<<<<<< HEAD
+=======
+    "@supabase/supabase-js": "^2.43.4",
+>>>>>>> 73b71d8e2699fd76890a896398e341e68ccc56ea
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-redux": "^9.1.2",
