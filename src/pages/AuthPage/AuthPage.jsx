@@ -1,3 +1,4 @@
+import { LogInIcon, UserRoundPlusIcon } from 'lucide-react';
 import { useRef, useState } from 'react';
 import styled from 'styled-components';
 import ToggleIcon from '../../components/ToggleIcon';
@@ -109,11 +110,13 @@ const LoginFormInput = styled.input`
 `;
 
 const LoginFormButton = styled.button`
-  width: fit-content;
+  display: flex;
+  align-items: center;
+  width: 100%;
   font-size: 12px;
   font-weight: bold;
   width: 150px;
-  padding: 10px 50px;
+  padding: 10px 10px;
   border-radius: 8px;
   border: none;
   cursor: pointer;
@@ -126,6 +129,10 @@ const LoginFormButton = styled.button`
     background-color: #eeeeee;
     box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.8);
   }
+`;
+
+const LoginButtonText = styled.p`
+  width: 100%;
 `;
 
 const LoginLink = styled.div`
@@ -147,7 +154,7 @@ const IconDiv = styled.div`
 `;
 
 function AuthPage() {
-  const [authForm, setAuthForm] = useState('login');
+  const [isLoginForm, setIsLoginForm] = useState(true);
   const [passwordVisible, setPasswordVisible] = useState(false);
   const [passwordConfirmVisible, setPasswordConfirmVisible] = useState(false);
 
@@ -169,10 +176,11 @@ function AuthPage() {
   };
 
   const toggleAuthForm = () => {
-    setAuthForm((prevState) => (prevState === 'login' ? 'register' : 'login'));
+    console.log('toggle');
+    setIsLoginForm((prevState) => !prevState);
     setPasswordVisible(false);
   };
-
+  LoginFormButton;
   return (
     <LoginMainDiv>
       <Test>
@@ -183,7 +191,7 @@ function AuthPage() {
         <LoginImage src="http://via.placeholder.com/640x240" alt="" width={'100%'} />
 
         <LoginFormDiv>
-          <LoginFormH1>{authForm === 'login' ? '로그인' : '회원가입'}</LoginFormH1>
+          <LoginFormH1>{isLoginForm ? '로그인' : '회원가입'}</LoginFormH1>
 
           <LoginForm onSubmit={(e) => onSubmitHandler(e)}>
             <LoginFormInputBox>
@@ -213,7 +221,7 @@ function AuthPage() {
               </IconDiv>
             </LoginFormInputBox>
 
-            {authForm === 'register' && (
+            {isLoginForm === 'register' && (
               <LoginFormInputBox>
                 <LoginFormLabel htmlFor="password">비밀번호 확인</LoginFormLabel>
                 <LoginFormInput
@@ -234,14 +242,20 @@ function AuthPage() {
               </LoginFormInputBox>
             )}
 
-            <LoginFormButton onClick={authForm === 'login' ? logIn : register} type="submit">
-              {authForm === 'login' ? '로그인' : '회원가입'}
+            <LoginFormButton onClick={isLoginForm ? logIn : register} type="submit">
+              <LoginButtonText>{isLoginForm ? '로그인' : '회원가입'}</LoginButtonText>
+              <ToggleIcon
+                toggled={isLoginForm}
+                onToggle={setIsLoginForm}
+                onIcon={<LogInIcon />}
+                offIcon={<UserRoundPlusIcon />}
+              />
             </LoginFormButton>
           </LoginForm>
 
           <LoginLink>
             <p>처음왔는가?</p>
-            <LoginSignup onClick={toggleAuthForm}>{authForm === 'login' ? '회원가입' : '로그인'}</LoginSignup>
+            <LoginSignup onClick={toggleAuthForm}>{isLoginForm ? '회원가입' : '로그인'}</LoginSignup>
           </LoginLink>
         </LoginFormDiv>
       </Abc>
