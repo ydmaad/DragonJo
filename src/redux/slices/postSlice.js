@@ -1,10 +1,5 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
-import { createClient } from '@supabase/supabase-js';
-
-const supabase = createClient(
-  'https://yzkoayeawivyvwgpnzvu.supabase.co',
-  'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Inl6a29heWVhd2l2eXZ3Z3BuenZ1Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3MTcxNTczMjEsImV4cCI6MjAzMjczMzMyMX0.v7vxRW7a8xOhF0n2c9dcwr6pTu7PZp9x748xcpdbdZA'
-);
+import supabase from '../../api/supabaseClient';
 
 export const fetchPosts = createAsyncThunk('posts/fetchPosts', async () => {
   const { data } = await supabase.from('posts').select();
