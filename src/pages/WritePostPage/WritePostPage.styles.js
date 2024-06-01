@@ -9,7 +9,7 @@ export const Container = styled.div`
   background-color: #f9f9f9;
 `;
 
-export const Header = styled.div`
+export const Header = styled.header`
   margin-bottom: 20px;
   text-align: center;
 `;
@@ -24,7 +24,7 @@ export const Subtitle = styled.p`
   color: #666;
 `;
 
-export const Form = styled.div`
+export const Form = styled.form`
   display: flex;
   flex-direction: column;
   width: 100%;
@@ -49,6 +49,7 @@ export const Textarea = styled.textarea`
   margin-bottom: 20px;
   border: 1px solid #ccc;
   border-radius: 5px;
+  resize: none;
 `;
 
 export const ButtonContainer = styled.div`
