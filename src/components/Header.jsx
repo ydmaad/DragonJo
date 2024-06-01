@@ -4,8 +4,10 @@ import * as S from '../styledComponents/Header';
 import backIcon from '../assets/back.png';
 function Header() {
   const location = useLocation();
-  const path = location.pathname.slice(1);
+  const path = location.pathname.split('/');
   const navigate = useNavigate();
+
+  console.log(path[1]);
   return (
     <>
       <S.Header>
@@ -38,13 +40,17 @@ function Header() {
           <div>
             <p>
               {(() => {
-                switch (path) {
+                switch (path[1]) {
                   case 'auth':
                     return '로그인';
                   case 'mypage':
                     return '내 정보';
                   case 'detail':
                     return '상세페이지';
+                  case 'write':
+                    return '게시글 업로드';
+                  case 'edit':
+                    return '게시글 수정';
                   default:
                     return '';
                 }
