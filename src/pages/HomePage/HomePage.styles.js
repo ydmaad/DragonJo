@@ -3,6 +3,12 @@ import styled from 'styled-components';
 export const PostList = styled.ul`
   list-style-type: none;
   padding: 0;
+  width: 1320px;
+  margin: 0 auto;
+  display: flex;
+  justify-content: start;
+  gap: 20px;
+  flex-wrap: wrap;
 `;
 
 export const PostItem = styled.li`
