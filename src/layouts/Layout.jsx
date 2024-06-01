@@ -4,6 +4,10 @@ import Header from '../components/Header';
 import GlobalStyle from './GlobalStyle';
 
 const Main = styled.main`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
   flex: 1;
 `;
 

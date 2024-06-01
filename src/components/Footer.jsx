@@ -1,9 +1,10 @@
+import { Link } from 'react-router-dom';
 import logo from '../assets/Dragonlogo3.png';
 import githubIcon from '../assets/github.png';
-import notion from '../assets/notion.png';
 import nabc from '../assets/nabc.png';
-import { Link } from 'react-router-dom';
+import notion from '../assets/notion.png';
 import * as S from '../styledComponents/Footer';
+
 function Footer() {
   return (
     <S.Footer>

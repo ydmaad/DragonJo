@@ -13,9 +13,9 @@ ${reset}
 
   body > #root {
     height: 100%;
-    display: grid;
-    grid-template-columns: 1fr;
-    place-items: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
   }
 `;
 export default GlobalStyle;

@@ -1,6 +1,7 @@
 import { Link } from 'react-router-dom';
 import logo from '../assets/Dragonlogo3.png';
 import * as S from '../styledComponents/Header';
+
 function Header() {
   return (
     <S.Header>
