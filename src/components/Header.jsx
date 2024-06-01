@@ -28,7 +28,7 @@ function Header() {
           </div>
         </div>
       </S.Header>
-      {path === '' ? null : (
+      {path[1] === '' ? null : (
         <S.Nav>
           <div
             onClick={() => {
