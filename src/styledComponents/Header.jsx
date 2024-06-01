@@ -56,8 +56,8 @@ export const Nav = styled.nav`
   padding: 0px 20px;
   box-sizing: border-box;
   & img {
-    width: 44px;
-    height: 44px;
+    width: 28px;
+    height: 28px;
     display: block;
     cursor: pointer;
   }
