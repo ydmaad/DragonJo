@@ -1,5 +1,10 @@
+import { LogInIcon, UserRoundPlusIcon } from 'lucide-react';
 import { useRef, useState } from 'react';
 import styled from 'styled-components';
+import ToggleIcon from '../../components/ToggleIcon';
+import PasswordEyeIcon from '../../components/icons/PasswordEyeIcon';
+import PasswordEyeOffIcon from '../../components/icons/PasswrodEyeOffIcon';
+import { registerUser } from '../../service/user';
 
 const LoginMainDiv = styled.div`
   margin: 0 auto;
@@ -63,7 +68,7 @@ const LoginFormH1 = styled.h1`
   padding: 20px;
 `;
 
-const LoginForm = styled.form`
+const LoginForm = styled.div`
   width: 100%;
   display: flex;
   flex-direction: column;
@@ -72,6 +77,7 @@ const LoginForm = styled.form`
 `;
 
 const LoginFormInputBox = styled.div`
+  position: relative;
   width: 100%;
   display: flex;
   gap: 8px;
@@ -105,11 +111,13 @@ const LoginFormInput = styled.input`
 `;
 
 const LoginFormButton = styled.button`
-  width: fit-content;
+  display: flex;
+  align-items: center;
+  width: 100%;
   font-size: 12px;
   font-weight: bold;
   width: 150px;
-  padding: 10px 50px;
+  padding: 10px 10px;
   border-radius: 8px;
   border: none;
   cursor: pointer;
@@ -124,6 +132,10 @@ const LoginFormButton = styled.button`
   }
 `;
 
+const LoginButtonText = styled.p`
+  width: 100%;
+`;
+
 const LoginLink = styled.div`
   display: flex;
   font-size: 11px;
@@ -135,29 +147,53 @@ const LoginSignup = styled.p`
   cursor: pointer;
 `;
 
+const IconDiv = styled.div`
+  cursor: pointer;
+  position: absolute;
+  right: 10px;
+  top: 50%;
+`;
+
 function AuthPage() {
-  const [authForm, setAuthForm] = useState("login");
+  const [isLoginForm, setIsLoginForm] = useState(true);
+  const [passwordVisible, setPasswordVisible] = useState(false);
+  const [passwordConfirmVisible, setPasswordConfirmVisible] = useState(false);
 
   const inputRef = useRef([]);
 
-  const onSubmitHandler = (e) => {
-    e.preventDefault();
-    console.log("SUBMIT !!");
-    console.log(inputRef.current[0].value);
-    console.log(inputRef.current[1].value);
-  }
+  // const onSubmitHandler = (e) => {
+  //   e.preventDefault();
+  //   console.log('SUBMIT !!');
+  // };
+
+  const resetInputRef = () => {
+    inputRef.current.forEach((ref) => {
+      ref.value = '';
+    });
+  };
 
   const logIn = () => {
-    console.log("log in");
-  }
+    console.log('log in');
+  };
 
-  const register = () => {
-    console.log("register");
-  }
+  const register = async () => {
+    console.log('register');
+    const [email, password] = inputRef.current;
+    const response = await registerUser({
+      email: email.value,
+      password: password.value,
+      username: '김승회'
+    });
+    console.log(response);
+
+    resetInputRef();
+    setIsLoginForm(true);
+  };
 
   const toggleAuthForm = () => {
-    setAuthForm((prevState)=>prevState === "login" ? "register" : "login")
-  }
+    setIsLoginForm((prevState) => !prevState);
+    setPasswordVisible(false);
+  };
 
   return (
     <LoginMainDiv>
@@ -169,29 +205,73 @@ function AuthPage() {
         <LoginImage src="http://via.placeholder.com/640x240" alt="" width={'100%'} />
 
         <LoginFormDiv>
-          <LoginFormH1>{authForm === "login" ? "로그인" : "회원가입"}</LoginFormH1>
+          <LoginFormH1>{isLoginForm ? '로그인' : '회원가입'}</LoginFormH1>
 
-          <LoginForm onSubmit={(e)=>onSubmitHandler(e)}>
+          <LoginForm>
             <LoginFormInputBox>
               <LoginFormLabel htmlFor="email">이메일</LoginFormLabel>
-              <LoginFormInput ref={(e)=> inputRef.current[0] = e} id="email" type="email" placeholder="이메일을 입력하세요" />
+              <LoginFormInput
+                ref={(e) => (inputRef.current[0] = e)}
+                id="email"
+                type="email"
+                placeholder="이메일을 입력하세요"
+              />
             </LoginFormInputBox>
             <LoginFormInputBox>
               <LoginFormLabel htmlFor="password">비밀번호</LoginFormLabel>
-              <LoginFormInput ref={(e)=> inputRef.current[1] = e} id="password" type="password" placeholder="비밀번호를 입력하세요" />
+              <LoginFormInput
+                ref={(e) => (inputRef.current[1] = e)}
+                id="password"
+                type={passwordVisible ? 'text' : 'password'}
+                placeholder="비밀번호를 입력하세요"
+                minLength={6}
+              />
+              <IconDiv>
+                <ToggleIcon
+                  toggled={passwordVisible}
+                  onToggle={setPasswordVisible}
+                  onIcon={<PasswordEyeIcon />}
+                  offIcon={<PasswordEyeOffIcon />}
+                />
+              </IconDiv>
             </LoginFormInputBox>
 
-           {authForm === "register" &&  <LoginFormInputBox>
-              <LoginFormLabel htmlFor="password">비밀번호 확인</LoginFormLabel>
-              <LoginFormInput ref={(e)=> inputRef.current[2] = e} id="password" type="password" placeholder="비밀번호를 입력하세요" />
-            </LoginFormInputBox>}
+            {!isLoginForm && (
+              <LoginFormInputBox>
+                <LoginFormLabel htmlFor="password">비밀번호 확인</LoginFormLabel>
+                <LoginFormInput
+                  ref={(e) => (inputRef.current[2] = e)}
+                  id="password"
+                  type={passwordConfirmVisible ? 'text' : 'password'}
+                  placeholder="비밀번호를 다시 입력하세요"
+                  minLength={6}
+                />
 
-            <LoginFormButton onClick={authForm === "login" ? logIn : register} type="submit">{authForm === "login" ? "로그인" : "회원가입"}</LoginFormButton>
+                <IconDiv>
+                  <ToggleIcon
+                    toggled={passwordConfirmVisible}
+                    onToggle={setPasswordConfirmVisible}
+                    onIcon={<PasswordEyeIcon />}
+                    offIcon={<PasswordEyeOffIcon />}
+                  />
+                </IconDiv>
+              </LoginFormInputBox>
+            )}
+
+            <LoginFormButton onClick={isLoginForm ? logIn : register} type="submit">
+              <LoginButtonText>{isLoginForm ? '로그인' : '회원가입'}</LoginButtonText>
+              <ToggleIcon
+                toggled={isLoginForm}
+                onToggle={setIsLoginForm}
+                onIcon={<LogInIcon />}
+                offIcon={<UserRoundPlusIcon />}
+              />
+            </LoginFormButton>
           </LoginForm>
 
           <LoginLink>
             <p>처음왔는가?</p>
-            <LoginSignup onClick={toggleAuthForm}>{authForm === "login" ?  "회원가입":"로그인" }</LoginSignup>
+            <LoginSignup onClick={toggleAuthForm}>{isLoginForm ? '회원가입' : '로그인'}</LoginSignup>
           </LoginLink>
         </LoginFormDiv>
       </Abc>
