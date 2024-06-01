@@ -227,7 +227,7 @@ function AuthPage() {
                 <LoginFormInput
                   ref={(e) => (inputRef.current[2] = e)}
                   id="password"
-                  type={passwordVisible ? 'text' : 'password'}
+                  type={passwordConfirmVisible ? 'text' : 'password'}
                   placeholder="비밀번호를 다시 입력하세요"
                 />
 
