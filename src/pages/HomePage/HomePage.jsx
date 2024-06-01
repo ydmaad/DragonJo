@@ -72,7 +72,7 @@ function HomePage() {
   return (
     <main>
       <PostList>
-        {posts.map((post) => (
+        {posts?.map((post) => (
           <PostItem key={post.id}>
             <PostTitle>{post.title}</PostTitle>
             <br />
