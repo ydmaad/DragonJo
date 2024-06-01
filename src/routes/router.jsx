@@ -1,5 +1,5 @@
 import { BrowserRouter, Route, Routes } from 'react-router-dom/dist';
-
+import Mypage from '../pages/Mypage/Mypage';
 import Layout from '../layouts/Layout';
 import AuthPage from '../pages/AuthPage/AuthPage';
 import HomePage from '../pages/HomePage/HomePage';
@@ -14,6 +14,7 @@ const Router = () => (
         <Route path="/auth" element={<AuthPage />} />
         <Route path="/write" element={<WritePostPage />} />
         <Route path="/edit/:id" element={<EditPostPage />} />
+        <Route path="/mypage" element={<Mypage />} />
       </Routes>
     </Layout>
   </BrowserRouter>

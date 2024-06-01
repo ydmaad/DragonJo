@@ -1,56 +1,50 @@
-import styled from 'styled-components';
-
-const FooterFooter = styled.footer`
-  display: flex;
-  flex: 1;
-  flex-direction: column;
-  padding: 10px;
-  box-sizing: border-box;
-  width: 100%;
-  gap: 8px;
-
-  background-image: linear-gradient(to bottom, #ffffff, #cccccc);
-  border-top: 1px solid rgba(0, 0, 0, 0.2);
-`;
-const FlexBox = styled.div`
-  display: flex;
-  font-size: 12px;
-`;
-const FooterTeamInfo = styled(FlexBox)`
-  gap: 16px;
-`;
-
-const FooterSpartaInfo = styled(FlexBox)`
-  flex-direction: column;
-  gap: 6px;
-`;
+import { Link } from 'react-router-dom';
+import logo from '../assets/Dragonlogo3.png';
+import githubIcon from '../assets/github.png';
+import nabc from '../assets/nabc.png';
+import notion from '../assets/notion.png';
+import * as S from '../styledComponents/Footer';
 
 function Footer() {
   return (
-    <FooterFooter>
-      <FooterTeamInfo>
-        <div>Logo</div>
-        <FlexBox>
-          <div>Logo2</div>
-          <p>내일배움캠프 용4조(A04)</p>
-        </FlexBox>
-        <FlexBox>
-          <div>Github</div>
-          <div>Notion</div>
-        </FlexBox>
-      </FooterTeamInfo>
-      <FooterSpartaInfo>
-        <div>팀스파르타(주) 사업자 정보</div>
-        <div>
+    <S.Footer>
+      <S.FooterTeamInfo>
+        <S.FlexBox>
+          <Link to={'/'}>
+            <img src={logo} alt="DragonLogo" />
+          </Link>
+        </S.FlexBox>
+        <S.FlexBox>
           <div>
-            대표자:이범규|사업자 등록번호:783-86-01715|통신판매업 신고번호:2020-서울강남-02300|평생교육시설
-            신고번호:제661호
+            <img className="nabc-icon" src={nabc} alt="spartaIcon" />
           </div>
-          <div>주소:서울특별시 강남구 테헤란노44길 8 12층 | 이메일:contact@teamsparta.co|전화:1522-8016</div>
-        </div>
+          <p>내일배움캠프 용4조 (A04)</p>
+        </S.FlexBox>
+        <S.FlexBox>
+          <div>
+            <Link to={'https://github.com/ydmaad/DragonJo'} target="_blank">
+              <img className="github-icon" src={githubIcon} alt="githubIcon" />
+            </Link>
+          </div>
+          <div>
+            <Link to={'https://teamsparta.notion.site/A04-14dc580d21244e7bbb1e579e45711ba9'} target="_blank">
+              <img className="notion-icon" src={notion} alt="notionIcon" />
+            </Link>
+          </div>
+        </S.FlexBox>
+      </S.FooterTeamInfo>
+      <S.FooterSpartaInfo>
+        <p>팀스파르타(주) 사업자 정보</p>
+        <ul>
+          <li>대표자:이범규|</li>
+          <li>사업자 등록번호:783-86-01715|</li>
+          <li>통신판매업 신고번호:2020-서울강남-02300|</li>
+          <li>평생교육시설 신고번호:제661호</li>
+        </ul>
+        <address>주소:서울특별시 강남구 테헤란노44길 8 12층 | 이메일:contact@teamsparta.co|전화:1522-8016</address>
         <div>Copyright © 2024 TEAMSPARTA. All rights reserved.</div>
-      </FooterSpartaInfo>
-    </FooterFooter>
+      </S.FooterSpartaInfo>
+    </S.Footer>
   );
 }
 

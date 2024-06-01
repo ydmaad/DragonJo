@@ -4,6 +4,7 @@ import Header from '../components/Header';
 import GlobalStyle from './GlobalStyle';
 
 const Main = styled.main`
+  width: 100%;
   flex: 1;
 `;
 
