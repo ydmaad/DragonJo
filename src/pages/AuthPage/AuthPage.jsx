@@ -1,5 +1,8 @@
 import { useRef, useState } from 'react';
 import styled from 'styled-components';
+import ToggleIcon from '../../components/ToggleIcon';
+import PasswordEyeIcon from '../../components/icons/PasswordEyeIcon';
+import PasswordEyeOffIcon from '../../components/icons/PasswrodEyeOffIcon';
 
 const LoginMainDiv = styled.div`
   margin: 0 auto;
@@ -72,6 +75,7 @@ const LoginForm = styled.form`
 `;
 
 const LoginFormInputBox = styled.div`
+  position: relative;
   width: 100%;
   display: flex;
   gap: 8px;
@@ -135,29 +139,39 @@ const LoginSignup = styled.p`
   cursor: pointer;
 `;
 
+const IconDiv = styled.div`
+  cursor: pointer;
+  position: absolute;
+  right: 10px;
+  top: 50%;
+`;
+
 function AuthPage() {
-  const [authForm, setAuthForm] = useState("login");
+  const [authForm, setAuthForm] = useState('login');
+  const [passwordVisible, setPasswordVisible] = useState(false);
+  const [passwordConfirmVisible, setPasswordConfirmVisible] = useState(false);
 
   const inputRef = useRef([]);
 
   const onSubmitHandler = (e) => {
     e.preventDefault();
-    console.log("SUBMIT !!");
+    console.log('SUBMIT !!');
     console.log(inputRef.current[0].value);
     console.log(inputRef.current[1].value);
-  }
+  };
 
   const logIn = () => {
-    console.log("log in");
-  }
+    console.log('log in');
+  };
 
   const register = () => {
-    console.log("register");
-  }
+    console.log('register');
+  };
 
   const toggleAuthForm = () => {
-    setAuthForm((prevState)=>prevState === "login" ? "register" : "login")
-  }
+    setAuthForm((prevState) => (prevState === 'login' ? 'register' : 'login'));
+    setPasswordVisible(false);
+  };
 
   return (
     <LoginMainDiv>
@@ -169,29 +183,65 @@ function AuthPage() {
         <LoginImage src="http://via.placeholder.com/640x240" alt="" width={'100%'} />
 
         <LoginFormDiv>
-          <LoginFormH1>{authForm === "login" ? "로그인" : "회원가입"}</LoginFormH1>
+          <LoginFormH1>{authForm === 'login' ? '로그인' : '회원가입'}</LoginFormH1>
 
-          <LoginForm onSubmit={(e)=>onSubmitHandler(e)}>
+          <LoginForm onSubmit={(e) => onSubmitHandler(e)}>
             <LoginFormInputBox>
               <LoginFormLabel htmlFor="email">이메일</LoginFormLabel>
-              <LoginFormInput ref={(e)=> inputRef.current[0] = e} id="email" type="email" placeholder="이메일을 입력하세요" />
+              <LoginFormInput
+                ref={(e) => (inputRef.current[0] = e)}
+                id="email"
+                type="email"
+                placeholder="이메일을 입력하세요"
+              />
             </LoginFormInputBox>
             <LoginFormInputBox>
               <LoginFormLabel htmlFor="password">비밀번호</LoginFormLabel>
-              <LoginFormInput ref={(e)=> inputRef.current[1] = e} id="password" type="password" placeholder="비밀번호를 입력하세요" />
+              <LoginFormInput
+                ref={(e) => (inputRef.current[1] = e)}
+                id="password"
+                type={passwordVisible ? 'text' : 'password'}
+                placeholder="비밀번호를 입력하세요"
+              />
+              <IconDiv>
+                <ToggleIcon
+                  toggled={passwordVisible}
+                  onToggle={setPasswordVisible}
+                  onIcon={<PasswordEyeIcon />}
+                  offIcon={<PasswordEyeOffIcon />}
+                />
+              </IconDiv>
             </LoginFormInputBox>
 
-           {authForm === "register" &&  <LoginFormInputBox>
-              <LoginFormLabel htmlFor="password">비밀번호 확인</LoginFormLabel>
-              <LoginFormInput ref={(e)=> inputRef.current[2] = e} id="password" type="password" placeholder="비밀번호를 입력하세요" />
-            </LoginFormInputBox>}
+            {authForm === 'register' && (
+              <LoginFormInputBox>
+                <LoginFormLabel htmlFor="password">비밀번호 확인</LoginFormLabel>
+                <LoginFormInput
+                  ref={(e) => (inputRef.current[2] = e)}
+                  id="password"
+                  type={passwordVisible ? 'text' : 'password'}
+                  placeholder="비밀번호를 다시 입력하세요"
+                />
 
-            <LoginFormButton onClick={authForm === "login" ? logIn : register} type="submit">{authForm === "login" ? "로그인" : "회원가입"}</LoginFormButton>
+                <IconDiv>
+                  <ToggleIcon
+                    toggled={passwordConfirmVisible}
+                    onToggle={setPasswordConfirmVisible}
+                    onIcon={<PasswordEyeIcon />}
+                    offIcon={<PasswordEyeOffIcon />}
+                  />
+                </IconDiv>
+              </LoginFormInputBox>
+            )}
+
+            <LoginFormButton onClick={authForm === 'login' ? logIn : register} type="submit">
+              {authForm === 'login' ? '로그인' : '회원가입'}
+            </LoginFormButton>
           </LoginForm>
 
           <LoginLink>
             <p>처음왔는가?</p>
-            <LoginSignup onClick={toggleAuthForm}>{authForm === "login" ?  "회원가입":"로그인" }</LoginSignup>
+            <LoginSignup onClick={toggleAuthForm}>{authForm === 'login' ? '회원가입' : '로그인'}</LoginSignup>
           </LoginLink>
         </LoginFormDiv>
       </Abc>
