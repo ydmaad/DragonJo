@@ -1,3 +1,4 @@
+import { useRef, useState } from 'react';
 import styled from 'styled-components';
 
 const LoginMainDiv = styled.div`
@@ -107,6 +108,7 @@ const LoginFormButton = styled.button`
   width: fit-content;
   font-size: 12px;
   font-weight: bold;
+  width: 150px;
   padding: 10px 50px;
   border-radius: 8px;
   border: none;
@@ -134,6 +136,29 @@ const LoginSignup = styled.p`
 `;
 
 function AuthPage() {
+  const [authForm, setAuthForm] = useState("login");
+
+  const inputRef = useRef([]);
+
+  const onSubmitHandler = (e) => {
+    e.preventDefault();
+    console.log("SUBMIT !!");
+    console.log(inputRef.current[0].value);
+    console.log(inputRef.current[1].value);
+  }
+
+  const logIn = () => {
+    console.log("log in");
+  }
+
+  const register = () => {
+    console.log("register");
+  }
+
+  const toggleAuthForm = () => {
+    setAuthForm((prevState)=>prevState === "login" ? "register" : "login")
+  }
+
   return (
     <LoginMainDiv>
       <Test>
@@ -144,23 +169,29 @@ function AuthPage() {
         <LoginImage src="http://via.placeholder.com/640x240" alt="" width={'100%'} />
 
         <LoginFormDiv>
-          <LoginFormH1>로그인</LoginFormH1>
+          <LoginFormH1>{authForm === "login" ? "로그인" : "회원가입"}</LoginFormH1>
 
-          <LoginForm>
+          <LoginForm onSubmit={(e)=>onSubmitHandler(e)}>
             <LoginFormInputBox>
               <LoginFormLabel htmlFor="email">이메일</LoginFormLabel>
-              <LoginFormInput id="email" type="email" placeholder="이메일을 입력하세요" />
+              <LoginFormInput ref={(e)=> inputRef.current[0] = e} id="email" type="email" placeholder="이메일을 입력하세요" />
             </LoginFormInputBox>
             <LoginFormInputBox>
               <LoginFormLabel htmlFor="password">비밀번호</LoginFormLabel>
-              <LoginFormInput id="password" type="password" placeholder="비밀번호를 입력하세요" />
+              <LoginFormInput ref={(e)=> inputRef.current[1] = e} id="password" type="password" placeholder="비밀번호를 입력하세요" />
             </LoginFormInputBox>
-            <LoginFormButton type="button">로그인</LoginFormButton>
+
+           {authForm === "register" &&  <LoginFormInputBox>
+              <LoginFormLabel htmlFor="password">비밀번호 확인</LoginFormLabel>
+              <LoginFormInput ref={(e)=> inputRef.current[2] = e} id="password" type="password" placeholder="비밀번호를 입력하세요" />
+            </LoginFormInputBox>}
+
+            <LoginFormButton onClick={authForm === "login" ? logIn : register} type="submit">{authForm === "login" ? "로그인" : "회원가입"}</LoginFormButton>
           </LoginForm>
 
           <LoginLink>
             <p>처음왔는가?</p>
-            <LoginSignup>회원가입</LoginSignup>
+            <LoginSignup onClick={toggleAuthForm}>{authForm === "login" ?  "회원가입":"로그인" }</LoginSignup>
           </LoginLink>
         </LoginFormDiv>
       </Abc>
