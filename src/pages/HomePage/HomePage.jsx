@@ -100,9 +100,6 @@ function HomePage() {
         ) : (
           <Button onClick={signInWithGithub}>로그인</Button>
         )}
-        <Link to={`/write`}>
-          <Button type="button">게시글 작성</Button>
-        </Link>
       </Section>
     </main>
   );

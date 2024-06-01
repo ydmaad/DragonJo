@@ -21,7 +21,9 @@ function Header() {
           </div>
           <div className="post-login-box">
             <div className="new-post">
-              <button className="new-post-btn">새 게시글</button>
+              <Link to={'/write'}>
+                <button className="new-post-btn">새 게시글</button>
+              </Link>
             </div>
 
             <button className="login-btn">로그인</button>
