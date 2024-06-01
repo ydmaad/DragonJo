@@ -1,10 +1,9 @@
 import { useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { fetchPosts } from '../../redux/slices/postSlice';
 import { Link } from 'react-router-dom';
-import { PostList, PostItem, PostTitle, PostContent, Button, ProfileImage, Section } from './HomePage.styles';
-
-import supabase from '../../api/supabaseClient';
+import { fetchPosts } from '../../redux/slices/postSlice';
+import { supabase } from '../../service/supabase';
+import { Button, PostContent, PostItem, PostList, PostTitle, ProfileImage, Section } from './HomePage.styles';
 
 function HomePage() {
   const dispatch = useDispatch();

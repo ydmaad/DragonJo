@@ -1,10 +1,10 @@
 import { BrowserRouter, Route, Routes } from 'react-router-dom/dist';
-import Mypage from '../pages/Mypage/Mypage';
 import Layout from '../layouts/Layout';
 import AuthPage from '../pages/AuthPage/AuthPage';
-import HomePage from '../pages/HomePage/HomePage';
-import WritePostPage from '../pages/WritePostPage/WritePostPage';
 import EditPostPage from '../pages/EditPostPage/EditPostPage';
+import HomePage from '../pages/HomePage/HomePage';
+import Mypage from '../pages/Mypage/Mypage';
+import WritePostPage from '../pages/WritePostPage/WritePostPage';
 
 const Router = () => (
   <BrowserRouter>

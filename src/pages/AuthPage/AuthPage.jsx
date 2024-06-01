@@ -4,6 +4,7 @@ import styled from 'styled-components';
 import ToggleIcon from '../../components/ToggleIcon';
 import PasswordEyeIcon from '../../components/icons/PasswordEyeIcon';
 import PasswordEyeOffIcon from '../../components/icons/PasswrodEyeOffIcon';
+import { registerUser } from '../../service/user';
 
 const LoginMainDiv = styled.div`
   margin: 0 auto;
@@ -67,7 +68,7 @@ const LoginFormH1 = styled.h1`
   padding: 20px;
 `;
 
-const LoginForm = styled.form`
+const LoginForm = styled.div`
   width: 100%;
   display: flex;
   flex-direction: column;
@@ -160,27 +161,40 @@ function AuthPage() {
 
   const inputRef = useRef([]);
 
-  const onSubmitHandler = (e) => {
-    e.preventDefault();
-    console.log('SUBMIT !!');
-    console.log(inputRef.current[0].value);
-    console.log(inputRef.current[1].value);
+  // const onSubmitHandler = (e) => {
+  //   e.preventDefault();
+  //   console.log('SUBMIT !!');
+  // };
+
+  const resetInputRef = () => {
+    inputRef.current.forEach((ref) => {
+      ref.value = '';
+    });
   };
 
   const logIn = () => {
     console.log('log in');
   };
 
-  const register = () => {
+  const register = async () => {
     console.log('register');
+    const [email, password] = inputRef.current;
+    const response = await registerUser({
+      email: email.value,
+      password: password.value,
+      username: '김승회'
+    });
+    console.log(response);
+
+    resetInputRef();
+    setIsLoginForm(true);
   };
 
   const toggleAuthForm = () => {
-    console.log('toggle');
     setIsLoginForm((prevState) => !prevState);
     setPasswordVisible(false);
   };
-  LoginFormButton;
+
   return (
     <LoginMainDiv>
       <Test>
@@ -193,7 +207,7 @@ function AuthPage() {
         <LoginFormDiv>
           <LoginFormH1>{isLoginForm ? '로그인' : '회원가입'}</LoginFormH1>
 
-          <LoginForm onSubmit={(e) => onSubmitHandler(e)}>
+          <LoginForm>
             <LoginFormInputBox>
               <LoginFormLabel htmlFor="email">이메일</LoginFormLabel>
               <LoginFormInput
@@ -210,6 +224,7 @@ function AuthPage() {
                 id="password"
                 type={passwordVisible ? 'text' : 'password'}
                 placeholder="비밀번호를 입력하세요"
+                minLength={6}
               />
               <IconDiv>
                 <ToggleIcon
@@ -229,6 +244,7 @@ function AuthPage() {
                   id="password"
                   type={passwordConfirmVisible ? 'text' : 'password'}
                   placeholder="비밀번호를 다시 입력하세요"
+                  minLength={6}
                 />
 
                 <IconDiv>
