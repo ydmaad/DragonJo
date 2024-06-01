@@ -164,13 +164,6 @@ const IconDiv = styled.div`
   top: 50%;
 `;
 
-const initialAuthError = {
-  email: '',
-  username: '',
-  password: '',
-  passwordConfirm: ''
-};
-
 function AuthPage() {
   const [isLoginForm, setIsLoginForm] = useState(true);
   const [passwordVisible, setPasswordVisible] = useState(false);
@@ -218,6 +211,7 @@ function AuthPage() {
   const toggleAuthForm = () => {
     setIsLoginForm((prevState) => !prevState);
     setPasswordVisible(false);
+    setAuthError({});
   };
 
   return (
