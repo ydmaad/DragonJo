@@ -5,8 +5,8 @@ const passwordRegex = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[!@#$%^&*])[A-Za-z\d!@#$%^&*]
 export default function validationUserInfo([email, password, passwordConfirm, username]) {
   const emailValue = email.value;
   const passwordValue = password.value;
-  const passwordConfirmValue = passwordConfirm.value;
-  const usernameValue = username.value;
+  const passwordConfirmValue = passwordConfirm ? passwordConfirm.value : null;
+  const usernameValue = username ? username.value : null;
 
   const error = {};
 
@@ -14,7 +14,7 @@ export default function validationUserInfo([email, password, passwordConfirm, us
     error.email = '이메일 양식을 확인해주세요!';
   }
 
-  if (!usernameRegex.test(usernameValue)) {
+  if (usernameValue !== null && !usernameRegex.test(usernameValue)) {
     error.username = '2~10자 사이의 한글,알파벳,숫자만 가능합니다!';
   }
 
@@ -22,7 +22,7 @@ export default function validationUserInfo([email, password, passwordConfirm, us
     error.password = '8자리 이상 영문숫자 특수문자 조합으로 입력하세요!';
   }
 
-  if (passwordValue !== passwordConfirmValue) {
+  if (passwordConfirmValue !== null && passwordValue !== passwordConfirmValue) {
     error.passwordConfirm = '비밀번호가 일치하지 않습니다. 다시 확인해주세요!';
   }
 

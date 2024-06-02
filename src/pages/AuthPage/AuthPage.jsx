@@ -4,6 +4,7 @@ import styled from 'styled-components';
 import ToggleIcon from '../../components/ToggleIcon';
 import PasswordEyeIcon from '../../components/icons/PasswordEyeIcon';
 import PasswordEyeOffIcon from '../../components/icons/PasswrodEyeOffIcon';
+import { loginUser, registerUser } from '../../service/user';
 import validationUserInfo from '../../utils/validationUserInfo';
 
 const LoginMainDiv = styled.div`
@@ -177,13 +178,10 @@ function AuthPage() {
     });
   };
 
-  const logIn = () => {
+  const logIn = async () => {
     console.log('log in');
-  };
-
-  const register = async () => {
-    console.log('register');
     const userInfo = inputRef.current;
+    const [email, password] = userInfo;
 
     const error = validationUserInfo(userInfo);
     setAuthError(error);
@@ -191,12 +189,28 @@ function AuthPage() {
     if (Object.values(error).some((error) => error)) {
       return;
     }
-    // const response = await registerUser({
-    //   email: email.value,
-    //   password: password.value,
-    //   username,
-    // });
-    // console.log(response);
+
+    const response = await loginUser({ email: email.value, password: password.value });
+    console.log(response);
+  };
+
+  const register = async () => {
+    console.log('register');
+    const userInfo = inputRef.current;
+    const [email, password, _, username] = userInfo;
+
+    const error = validationUserInfo(userInfo);
+    setAuthError(error);
+
+    if (Object.values(error).some((error) => error)) {
+      return;
+    }
+    const response = await registerUser({
+      email: email.value,
+      password: password.value,
+      username: username.value
+    });
+    console.log(response);
 
     resetInputRef();
     setIsLoginForm(true);

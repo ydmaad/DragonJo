@@ -14,3 +14,8 @@ export async function registerUser({ email, password, username }) {
 
   return response;
 }
+
+export async function loginUser({ email, password }) {
+  const response = await supabase.auth.signInWithPassword({ email, password });
+  return response;
+}
