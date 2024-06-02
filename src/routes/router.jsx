@@ -5,6 +5,7 @@ import EditPostPage from '../pages/EditPostPage/EditPostPage';
 import HomePage from '../pages/HomePage/HomePage';
 import Mypage from '../pages/Mypage/Mypage';
 import WritePostPage from '../pages/WritePostPage/WritePostPage';
+import DetailPage from '../pages/DetailPage/DetailPage';
 
 const Router = () => (
   <BrowserRouter>
@@ -15,6 +16,7 @@ const Router = () => (
         <Route path="/write" element={<WritePostPage />} />
         <Route path="/edit/:id" element={<EditPostPage />} />
         <Route path="/mypage" element={<Mypage />} />
+        <Route path="/detail/:id" element={<DetailPage />} />
       </Routes>
     </Layout>
   </BrowserRouter>

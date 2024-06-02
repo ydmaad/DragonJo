@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { Link, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { fetchPosts } from '../../redux/slices/postSlice';
 import { supabase } from '../../service/supabase';
 import {
@@ -17,15 +17,16 @@ import postImg from '../../assets/diablo.jpg';
 
 function HomePage() {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
+
   const posts = useSelector((state) => state.posts.posts);
   const status = useSelector((state) => state.posts.status);
   const error = useSelector((state) => state.posts.error);
 
   const [signIn, setSignIn] = useState(false);
   const [profileUrl, setProfileUrl] = useState('');
-  const fileInputRef = useRef(null);
 
-  const nevigate = useNavigate();
+  const fileInputRef = useRef(null);
 
   useEffect(() => {
     if (status === 'idle') {
@@ -88,7 +89,7 @@ function HomePage() {
           <PostItem
             key={post.id}
             onClick={() => {
-              nevigate(`edit/${post.id}`);
+              navigate(`detail/${post.id}`);
             }}
           >
             <PostImage src={postImg} />
