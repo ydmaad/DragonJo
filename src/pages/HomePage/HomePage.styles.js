@@ -1,8 +1,10 @@
 import styled from 'styled-components';
 
+// 전체 게시물 리스트
 export const PostList = styled.ul`
+  /* background-color: green; */
   list-style-type: none;
-  padding: 0;
+  padding: 20px;
   width: 1320px;
   margin: 0 auto;
   display: flex;
@@ -11,28 +13,55 @@ export const PostList = styled.ul`
   flex-wrap: wrap;
 `;
 
+// 각각의 게시물
 export const PostItem = styled.li`
-  border-bottom: 1px solid #ccc;
-  margin-bottom: 10px;
-  padding-bottom: 10px;
+  cursor: pointer;
+
+  border: 1px solid black;
+  margin: auto;
+  margin-bottom: 30px;
+  border-radius: 7px;
+  width: 300px;
+  height: 400px;
+
+  &:hover {
+    background-color: #6666;
+  }
 `;
 
+// 게시물 타이틀
 export const PostTitle = styled.h2`
+  color: black;
   font-size: 24px;
   font-weight: bold;
-  margin: 0;
+  margin: 0 25px;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  -webkit-line-clamp: 1;
+  text-overflow: ellipsis;
 `;
 
+// 게시물 내용
 export const PostContent = styled.p`
+  color: black;
+
   white-space: pre-wrap;
-  font-size: 16px;
-  margin: 10px 0 0 0;
+  font-size: 18px;
+  margin: 0 25px;
+  width: 250px;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  -webkit-line-clamp: 7;
+  text-overflow: ellipsis;
 `;
 
+// 게시글 수정 버튼
 export const Button = styled.button`
-  margin-top: 10px;
+  margin: 10px 0px 0px 25px;
   padding: 8px 12px;
-  background-color: #007bff;
+  background-color: #2fa93c;
   color: white;
   border: none;
   border-radius: 4px;
@@ -43,6 +72,7 @@ export const Button = styled.button`
   }
 `;
 
+// 프로필 이미지
 export const ProfileImage = styled.img`
   border-radius: 50%;
   cursor: pointer;
@@ -54,4 +84,11 @@ export const Section = styled.section`
   display: flex;
   gap: 10px;
   align-items: center;
+`;
+
+// 게시물 이미지
+export const PostImage = styled.img`
+  width: 250px;
+  height: 150px;
+  margin: 25px;
 `;
