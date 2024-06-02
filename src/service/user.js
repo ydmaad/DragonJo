@@ -15,7 +15,7 @@ export async function registerUser([email, password, _, username]) {
   return response;
 }
 
-export async function loginUser([email, password]) {
+export async function logInUser([email, password]) {
   const response = await supabase.auth.signInWithPassword({
     email: email.value,
     password: password.value
@@ -23,4 +23,8 @@ export async function loginUser([email, password]) {
   return response;
 }
 
-//TODO logout 함수
+export async function logOutUser() {
+  const response = await supabase.auth.signOut();
+
+  return response;
+}

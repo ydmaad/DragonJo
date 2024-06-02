@@ -6,7 +6,7 @@ import ToggleIcon from '../../components/ToggleIcon';
 import PasswordEyeIcon from '../../components/icons/PasswordEyeIcon';
 import PasswordEyeOffIcon from '../../components/icons/PasswrodEyeOffIcon';
 import { setUser } from '../../redux/slices/user.slice';
-import { loginUser, registerUser } from '../../service/user';
+import { logInUser, registerUser } from '../../service/user';
 import validationUserInfo from '../../utils/validationUserInfo';
 
 const LoginMainDiv = styled.div`
@@ -193,7 +193,7 @@ function AuthPage() {
       return;
     }
 
-    const response = isLoginForm ? await loginUser(userInfo) : await registerUser(userInfo);
+    const response = isLoginForm ? await logInUser(userInfo) : await registerUser(userInfo);
 
     if (response.error) {
       //TODO 에러처리 생각하기
