@@ -2,10 +2,38 @@ import { Link, useLocation, useNavigate } from 'react-router-dom';
 import logo from '../assets/Dragonlogo3.png';
 import * as S from '../styledComponents/Header';
 import backIcon from '../assets/back.png';
+import { useEffect, useRef, useState } from 'react';
+import { supabase } from '../service/supabase';
+
 function Header() {
   const location = useLocation();
-  const path = location.pathname.split('/');
   const navigate = useNavigate();
+  const path = location.pathname.split('/');
+
+  const [profileUrl, setProfileUrl] = useState('');
+
+  const fileInputRef = useRef(null);
+
+  function checkProfile() {
+    const { data } = supabase.storage.from('avatars').getPublicUrl('avatar_1717215361574.png');
+    setProfileUrl(data.publicUrl);
+  }
+
+  async function handleFileInputChange(files) {
+    const [file] = files;
+
+    if (!file) {
+      return;
+    }
+
+    const { data } = await supabase.storage.from('avatars').upload(`avatar_${Date.now()}.png`, file);
+
+    setProfileUrl(`https://yzkoayeawivyvwgpnzvu.supabase.co/storage/v1/object/public/avatars/${data.path}`);
+  }
+
+  useEffect(() => {
+    checkProfile();
+  }, []);
 
   console.log(path[1]);
   return (
@@ -21,11 +49,36 @@ function Header() {
           </div>
           <div className="post-login-box">
             <div className="new-post">
-              <Link to={'/write'}>
-                <button className="new-post-btn">새 게시글</button>
-              </Link>
+              <button
+                className="new-post-btn"
+                onClick={() => {
+                  navigate('write');
+                }}
+              >
+                새 게시글
+              </button>
             </div>
-            <button className="login-btn">로그인</button>
+            <button
+              className="login-btn"
+              onClick={() => {
+                navigate('auth');
+              }}
+            >
+              로그인
+            </button>
+            <input
+              onChange={(e) => handleFileInputChange(e.target.files)}
+              type="file"
+              ref={fileInputRef}
+              className="hidden"
+            />
+            <S.ProfileImage
+              src={profileUrl}
+              alt="profile"
+              onClick={() => {
+                navigate('mypage');
+              }}
+            />
           </div>
         </div>
       </S.Header>

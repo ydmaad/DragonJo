@@ -28,9 +28,8 @@ export const Header = styled.header`
       margin-right: 50px;
     }
     & .new-post-btn {
-      // Link태그 넣으니 버튼 크기 이상해져서 px로 수정했습니다.
-      width: 110px;
-      height: 40px;
+      width: 100%;
+      height: 100%;
       font-size: 20px;
       background: none;
       border-radius: 5px;
@@ -66,4 +65,11 @@ export const Nav = styled.nav`
     font-size: 24px;
     font-weight: bold;
   }
+`;
+
+export const ProfileImage = styled.img`
+  border-radius: 50%;
+  cursor: pointer;
+  width: 45px;
+  height: 45px;
 `;

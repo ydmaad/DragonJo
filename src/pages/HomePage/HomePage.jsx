@@ -1,18 +1,9 @@
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { fetchPosts } from '../../redux/slices/postSlice';
 import { supabase } from '../../service/supabase';
-import {
-  Button,
-  PostContent,
-  PostItem,
-  PostList,
-  PostTitle,
-  ProfileImage,
-  Section,
-  PostImage
-} from './HomePage.styles';
+import { Button, PostContent, PostItem, PostList, PostTitle, Section, PostImage } from './HomePage.styles';
 import postImg from '../../assets/diablo.jpg';
 
 function HomePage() {
@@ -24,9 +15,6 @@ function HomePage() {
   const error = useSelector((state) => state.posts.error);
 
   const [signIn, setSignIn] = useState(false);
-  const [profileUrl, setProfileUrl] = useState('');
-
-  const fileInputRef = useRef(null);
 
   useEffect(() => {
     if (status === 'idle') {
@@ -52,26 +40,8 @@ function HomePage() {
     checkSignIn();
   }
 
-  function checkProfile() {
-    const { data } = supabase.storage.from('avatars').getPublicUrl('avatar_1717215361574.png');
-    setProfileUrl(data.publicUrl);
-  }
-
-  async function handleFileInputChange(files) {
-    const [file] = files;
-
-    if (!file) {
-      return;
-    }
-
-    const { data } = await supabase.storage.from('avatars').upload(`avatar_${Date.now()}.png`, file);
-
-    setProfileUrl(`https://yzkoayeawivyvwgpnzvu.supabase.co/storage/v1/object/public/avatars/${data.path}`);
-  }
-
   useEffect(() => {
     checkSignIn();
-    checkProfile();
   }, []);
 
   if (status === 'loading') {
@@ -104,13 +74,6 @@ function HomePage() {
       <Section>
         {signIn ? (
           <>
-            <input
-              onChange={(e) => handleFileInputChange(e.target.files)}
-              type="file"
-              ref={fileInputRef}
-              className="hidden"
-            />
-            <ProfileImage src={profileUrl} alt="profile" onClick={() => fileInputRef.current.click()} />
             <Button onClick={signOut}>로그아웃</Button>
           </>
         ) : (
