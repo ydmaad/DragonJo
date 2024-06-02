@@ -163,8 +163,6 @@ const IconDiv = styled.div`
 
 function AuthPage() {
   const dispatch = useDispatch();
-  // const userInfo = useSelector((state) => state.user.userInfo);
-
   const [isLoginForm, setIsLoginForm] = useState(true);
   const [passwordVisible, setPasswordVisible] = useState(false);
   const [passwordConfirmVisible, setPasswordConfirmVisible] = useState(false);

@@ -1,7 +1,7 @@
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import logo from '../assets/Dragonlogo3.png';
-import * as S from '../styledComponents/Header';
 import backIcon from '../assets/back.png';
+import * as S from '../styledComponents/Header';
 function Header() {
   const location = useLocation();
   const path = location.pathname.split('/');
@@ -26,7 +26,9 @@ function Header() {
               </Link>
             </div>
 
-            <button className="login-btn">로그인</button>
+            <Link to="/auth">
+              <button className="login-btn">로그인</button>
+            </Link>
           </div>
         </div>
       </S.Header>
