@@ -25,7 +25,6 @@ function Header() {
                 <button className="new-post-btn">새 게시글</button>
               </Link>
             </div>
-
             <button className="login-btn">로그인</button>
           </div>
         </div>

@@ -30,16 +30,10 @@ export const PostContent = styled.p`
 `;
 
 export const Button = styled.button`
-  margin-top: 10px;
-  padding: 8px 12px;
-  background-color: #007bff;
-  color: white;
-  border: none;
-  border-radius: 4px;
   cursor: pointer;
-
+  background-color: white;
   &:hover {
-    background-color: #0056b3;
+    background-color: #6666;
   }
 `;
 

@@ -45,7 +45,7 @@ const EditPostPage = () => {
   };
 
   const handleDeletePost = () => {
-    const confirmDelete = window.confirm('정말 이 글을 삭제하시겠습니까?');
+    const confirmDelete = confirm('정말 이 글을 삭제하시겠습니까?');
     if (confirmDelete) {
       dispatch(deletePost(postId));
       navigate('/');
