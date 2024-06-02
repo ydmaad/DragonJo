@@ -45,7 +45,6 @@ export const PostTitle = styled.h2`
 // 게시물 내용
 export const PostContent = styled.p`
   color: black;
-
   white-space: pre-wrap;
   font-size: 18px;
   margin: 0 25px;
@@ -55,6 +54,7 @@ export const PostContent = styled.p`
   overflow: hidden;
   -webkit-line-clamp: 7;
   text-overflow: ellipsis;
+
 `;
 
 // 게시글 수정 버튼
