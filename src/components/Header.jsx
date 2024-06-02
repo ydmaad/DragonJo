@@ -2,7 +2,7 @@ import { Link, useLocation, useNavigate } from 'react-router-dom';
 import logo from '../assets/Dragonlogo3.png';
 import * as S from '../styledComponents/Header';
 import backIcon from '../assets/back.png';
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { supabase } from '../service/supabase';
 
 function Header() {
@@ -12,24 +12,24 @@ function Header() {
 
   const [profileUrl, setProfileUrl] = useState('');
 
-  const fileInputRef = useRef(null);
+  // const fileInputRef = useRef(null);
 
   function checkProfile() {
     const { data } = supabase.storage.from('avatars').getPublicUrl('avatar_1717215361574.png');
     setProfileUrl(data.publicUrl);
   }
 
-  async function handleFileInputChange(files) {
-    const [file] = files;
+  // async function handleFileInputChange(files) {
+  //   const [file] = files;
 
-    if (!file) {
-      return;
-    }
+  //   if (!file) {
+  //     return;
+  //   }
 
-    const { data } = await supabase.storage.from('avatars').upload(`avatar_${Date.now()}.png`, file);
+  //   const { data } = await supabase.storage.from('avatars').upload(`avatar_${Date.now()}.png`, file);
 
-    setProfileUrl(`https://yzkoayeawivyvwgpnzvu.supabase.co/storage/v1/object/public/avatars/${data.path}`);
-  }
+  //   setProfileUrl(`https://yzkoayeawivyvwgpnzvu.supabase.co/storage/v1/object/public/avatars/${data.path}`);
+  // }
 
   useEffect(() => {
     checkProfile();
@@ -66,12 +66,13 @@ function Header() {
             >
               로그인
             </button>
+            {/* 프로필 이미지 추가 부분
             <input
               onChange={(e) => handleFileInputChange(e.target.files)}
               type="file"
               ref={fileInputRef}
               className="hidden"
-            />
+            /> */}
             <S.ProfileImage
               src={profileUrl}
               alt="profile"
