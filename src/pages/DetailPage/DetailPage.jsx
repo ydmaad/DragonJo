@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams, useNavigate } from 'react-router-dom';
 import { fetchPosts, updatePost } from '../../redux/slices/postSlice';
-import { Wrapper, Container, Header, Title, sContent, Form, ButtonContainer, Button } from './DetailPage.styles';
+import { Wrapper, Container, Header, Title, Content, Form, ButtonContainer, Button } from './DetailPage.styles';
 
 const DetailPage = () => {
   const { id } = useParams();
@@ -39,7 +39,7 @@ const DetailPage = () => {
           <Title>{title}</Title>
         </Header>
         <Form>
-          <sContent>{content}</sContent>
+          <Content>{content}</Content>
           <ButtonContainer>
             <Button onClick={handleUpdatePost}>수정</Button>
             <Button onClick={() => navigate('/')}>돌아가기</Button>

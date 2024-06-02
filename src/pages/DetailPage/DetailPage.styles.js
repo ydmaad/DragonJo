@@ -25,7 +25,7 @@ export const Title = styled.h1`
   color: #333;
 `;
 
-export const sContent = styled.p`
+export const Content = styled.p`
   font-size: 18px;
 `;
 
