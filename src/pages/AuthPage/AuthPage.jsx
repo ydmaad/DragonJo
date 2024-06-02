@@ -63,7 +63,7 @@ const LoginFormH1 = styled.h1`
   padding: 20px;
 `;
 
-const LoginForm = styled.div`
+const LoginForm = styled.form`
   width: 100%;
   display: flex;
   flex-direction: column;
@@ -178,10 +178,11 @@ function AuthPage() {
     });
   };
 
-  const logIn = async () => {
-    console.log('log in');
+  const onSubmitHandler = async (e) => {
+    e.preventDefault();
+    console.log(isLoginForm ? 'login' : 'register');
+
     const userInfo = inputRef.current;
-    const [email, password] = userInfo;
 
     const error = validationUserInfo(userInfo);
     setAuthError(error);
@@ -190,29 +191,11 @@ function AuthPage() {
       return;
     }
 
-    const response = await loginUser({ email: email.value, password: password.value });
-    console.log(response);
-  };
+    const response = isLoginForm ? await loginUser(userInfo) : await registerUser(userInfo);
 
-  const register = async () => {
-    console.log('register');
-    const userInfo = inputRef.current;
-    const [email, password, _, username] = userInfo;
-
-    const error = validationUserInfo(userInfo);
-    setAuthError(error);
-
-    if (Object.values(error).some((error) => error)) {
-      return;
-    }
-    const response = await registerUser({
-      email: email.value,
-      password: password.value,
-      username: username.value
-    });
     console.log(response);
 
-    resetInputRef();
+    if (!isLoginForm) resetInputRef();
     setIsLoginForm(true);
   };
 
@@ -230,7 +213,7 @@ function AuthPage() {
         <LoginFormDiv>
           <LoginFormH1>{isLoginForm ? '로그인' : '회원가입'}</LoginFormH1>
 
-          <LoginForm>
+          <LoginForm onSubmit={(e) => onSubmitHandler(e)}>
             {!isLoginForm && (
               <LoginFormInputBox>
                 <LoginTextBox>
@@ -245,6 +228,7 @@ function AuthPage() {
                 />
               </LoginFormInputBox>
             )}
+
             <LoginFormInputBox>
               <LoginTextBox>
                 <LoginFormLabel htmlFor="email">이메일</LoginFormLabel>
@@ -257,6 +241,7 @@ function AuthPage() {
                 placeholder="이메일을 입력하세요"
               />
             </LoginFormInputBox>
+
             <LoginFormInputBox>
               <LoginTextBox>
                 <LoginFormLabel htmlFor="password">비밀번호</LoginFormLabel>
@@ -304,7 +289,7 @@ function AuthPage() {
               </LoginFormInputBox>
             )}
 
-            <LoginFormButton onClick={isLoginForm ? logIn : register} type="submit">
+            <LoginFormButton>
               <LoginButtonText>{isLoginForm ? '로그인' : '회원가입'}</LoginButtonText>
               <ToggleIcon
                 toggled={isLoginForm}

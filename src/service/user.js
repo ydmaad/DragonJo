@@ -1,12 +1,12 @@
 import { supabase } from './supabase';
 
-export async function registerUser({ email, password, username }) {
+export async function registerUser([email, password, _, username]) {
   const response = await supabase.auth.signUp({
-    email,
-    password,
+    email: email.value,
+    password: password.value,
     options: {
       data: {
-        username,
+        username: username.value,
         avatar_url: ''
       }
     }
@@ -15,7 +15,10 @@ export async function registerUser({ email, password, username }) {
   return response;
 }
 
-export async function loginUser({ email, password }) {
-  const response = await supabase.auth.signInWithPassword({ email, password });
+export async function loginUser([email, password]) {
+  const response = await supabase.auth.signInWithPassword({
+    email: email.value,
+    password: password.value
+  });
   return response;
 }
