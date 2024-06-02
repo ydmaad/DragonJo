@@ -52,9 +52,8 @@ export const PostContent = styled.p`
   display: -webkit-box;
   -webkit-box-orient: vertical;
   overflow: hidden;
-  -webkit-line-clamp: 7;
+  -webkit-line-clamp: 6;
   text-overflow: ellipsis;
-
 `;
 
 // 게시글 수정 버튼
