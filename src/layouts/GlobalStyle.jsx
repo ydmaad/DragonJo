@@ -4,7 +4,7 @@ import { reset } from 'styled-reset';
 const GlobalStyle = createGlobalStyle`
 ${reset}
   * {
-    font-family: "Noto Sans KR", sans-serif;
+    font-family: "Axiforma", sans-serif;
   }
 
   html,body{

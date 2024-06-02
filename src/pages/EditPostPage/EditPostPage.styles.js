@@ -1,6 +1,7 @@
 import styled from 'styled-components';
 
 export const Wrapper = styled.div`
+  font-family: Axiforma;
   display: flex;
   justify-content: center;
   align-items: center;
