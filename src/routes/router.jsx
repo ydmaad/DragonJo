@@ -6,18 +6,20 @@ import HomePage from '../pages/HomePage/HomePage';
 import Mypage from '../pages/Mypage/Mypage';
 import WritePostPage from '../pages/WritePostPage/WritePostPage';
 
-const Router = () => (
-  <BrowserRouter>
-    <Layout>
-      <Routes>
-        <Route path="/" element={<HomePage />} />
-        <Route path="/auth" element={<AuthPage />} />
-        <Route path="/write" element={<WritePostPage />} />
-        <Route path="/edit/:id" element={<EditPostPage />} />
-        <Route path="/mypage" element={<Mypage />} />
-      </Routes>
-    </Layout>
-  </BrowserRouter>
-);
+const Router = () => {
+  return (
+    <BrowserRouter>
+      <Layout>
+        <Routes>
+          <Route path="/" element={<HomePage />} />
+          <Route path="/auth" element={<AuthPage />} />
+          <Route path="/write" element={<WritePostPage />} />
+          <Route path="/edit/:id" element={<EditPostPage />} />
+          <Route path="/mypage" element={<Mypage />} />
+        </Routes>
+      </Layout>
+    </BrowserRouter>
+  );
+};
 
 export default Router;

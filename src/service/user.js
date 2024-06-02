@@ -22,3 +22,5 @@ export async function loginUser([email, password]) {
   });
   return response;
 }
+
+//TODO logout 함수

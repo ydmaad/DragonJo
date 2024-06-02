@@ -1,9 +1,11 @@
 import { LogInIcon, UserRoundPlusIcon } from 'lucide-react';
 import { useRef, useState } from 'react';
+import { useDispatch } from 'react-redux';
 import styled from 'styled-components';
 import ToggleIcon from '../../components/ToggleIcon';
 import PasswordEyeIcon from '../../components/icons/PasswordEyeIcon';
 import PasswordEyeOffIcon from '../../components/icons/PasswrodEyeOffIcon';
+import { setUser } from '../../redux/slices/user.slice';
 import { loginUser, registerUser } from '../../service/user';
 import validationUserInfo from '../../utils/validationUserInfo';
 
@@ -160,6 +162,9 @@ const IconDiv = styled.div`
 `;
 
 function AuthPage() {
+  const dispatch = useDispatch();
+  // const userInfo = useSelector((state) => state.user.userInfo);
+
   const [isLoginForm, setIsLoginForm] = useState(true);
   const [passwordVisible, setPasswordVisible] = useState(false);
   const [passwordConfirmVisible, setPasswordConfirmVisible] = useState(false);
@@ -180,7 +185,6 @@ function AuthPage() {
 
   const onSubmitHandler = async (e) => {
     e.preventDefault();
-    console.log(isLoginForm ? 'login' : 'register');
 
     const userInfo = inputRef.current;
 
@@ -193,10 +197,33 @@ function AuthPage() {
 
     const response = isLoginForm ? await loginUser(userInfo) : await registerUser(userInfo);
 
-    console.log(response);
+    if (response.error) {
+      //TODO 에러처리 생각하기
+      console.log('response.error!!', response.error);
+      return;
+    }
 
-    if (!isLoginForm) resetInputRef();
-    setIsLoginForm(true);
+    if (isLoginForm) {
+      const {
+        id,
+        email,
+        user_metadata: { avatar_url, username }
+      } = response.data.user;
+
+      const userInfo = {
+        id,
+        email,
+        user_metadata: {
+          avatar_url,
+          username
+        }
+      };
+
+      dispatch(setUser({ userInfo }));
+      //TODO login 후 refresh token 함수 만들기
+    } else resetInputRef();
+
+    // setIsLoginForm(true);
   };
 
   const toggleAuthForm = () => {
