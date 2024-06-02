@@ -38,14 +38,20 @@ export const MyProfile = styled.div`
     background: #095544;
     padding: 80px 100px;
     box-sizing: border-box;
-    & > h3 {
+    & > .profile-title {
       font-size: 24px;
       font-weight: bold;
       color: #fff;
       border-bottom: 1px solid #fff;
       padding-bottom: 20px;
       box-sizing: border-box;
-      margin-bottom:50px;
+      margin-bottom: 50px;
+    }
+    & > .profile-subtitle {
+      font-size: 24px;
+      font-weight: bold;
+      color: #fff;
+      margin-bottom: 20px;
     }
   }
 `;
@@ -78,5 +84,56 @@ export const profileId = styled.div`
   & p {
     font-size: 24px;
     font-weight: bold;
+  }
+`;
+
+export const Mypagetable = styled.table`
+  width: 680px;
+  height: 500px;
+  color: #fff;
+  font-size: 18px;
+  font-weight: bold;
+  text-align: center;
+  & tbody {
+    border-collapse: collapse;
+  }
+  & tr {
+    height: 100px;
+  }
+  & td {
+  }
+`;
+export const MypagetdTitle = styled.td`
+  width: 185px;
+  line-height: 100px;
+  background: #007c60;
+  border: 1px solid #fff;
+  box-sizing: border-box;
+  border-left: none;
+`;
+export const MypageContents = styled.td`
+  border: 1px solid #fff;
+  box-sizing: border-box;
+  border-right: none;
+  & div {
+    display: flex;
+    justify-content: space-between;
+    padding: 0px 20px;
+    align-items: center;
+    & button {
+      font-size: 12px;
+      font-weight: bold;
+      background: #fff;
+      color: red;
+      border: none;
+      outline: none;
+      width: 44px;
+      height: 25px;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+    & button:active {
+      box-shadow: inset 1px 1px 4px #6e6e6e;
+    }
   }
 `;
