@@ -26,7 +26,7 @@ export const Title = styled.h1`
 `;
 
 export const Subtitle = styled.p`
-  font-size: 16px;
+  font-size: 20px;
   color: #666;
 `;
 
@@ -38,11 +38,12 @@ export const Form = styled.form`
 
 export const Label = styled.label`
   margin-bottom: 10px;
-  font-size: 14px;
+  font-size: 20px;
   color: #333;
 `;
 
 export const Input = styled.input`
+  font-size: 18px;
   padding: 10px;
   margin-bottom: 20px;
   border: 1px solid #ccc;
@@ -50,6 +51,7 @@ export const Input = styled.input`
 `;
 
 export const Textarea = styled.textarea`
+  font-size: 18px;
   padding: 10px;
   height: 200px;
   margin-bottom: 20px;
@@ -65,7 +67,7 @@ export const ButtonContainer = styled.div`
 
 export const Button = styled.button`
   padding: 10px 20px;
-  font-size: 16px;
+  font-size: 18px;
   border: none;
   border-radius: 5px;
   cursor: pointer;

@@ -25,7 +25,7 @@ export const PostTitle = styled.h2`
 
 export const PostContent = styled.p`
   white-space: pre-wrap;
-  font-size: 16px;
+  font-size: 18px;
   margin: 10px 0 0 0;
 `;
 
