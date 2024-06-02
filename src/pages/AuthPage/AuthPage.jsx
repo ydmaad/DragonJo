@@ -15,12 +15,6 @@ const LoginMainDiv = styled.div`
   user-select: none;
 `;
 
-const Test = styled.div`
-  display: flex;
-  width: 100%;
-  justify-content: space-between;
-`;
-
 const Abc = styled.div`
   display: grid;
   width: 100%;
@@ -216,10 +210,6 @@ function AuthPage() {
 
   return (
     <LoginMainDiv>
-      <Test>
-        <div>{'<'}</div>
-        <div>로그인</div>
-      </Test>
       <Abc>
         <LoginImage src="http://via.placeholder.com/640x240" alt="" width={'100%'} />
 
