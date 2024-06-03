@@ -1,4 +1,6 @@
 import styled from 'styled-components';
+import ReactQuill from 'react-quill';
+import 'react-quill/dist/quill.snow.css';
 
 export const PostList = styled.ul`
   list-style-type: none;
