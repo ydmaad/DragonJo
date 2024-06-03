@@ -1,6 +1,7 @@
 import { LogInIcon, UserRoundPlusIcon } from 'lucide-react';
 import { useRef, useState } from 'react';
 import { useDispatch } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import ToggleIcon from '../../components/ToggleIcon';
 import PasswordEyeIcon from '../../components/icons/PasswordEyeIcon';
@@ -163,6 +164,7 @@ const IconDiv = styled.div`
 
 function AuthPage() {
   const dispatch = useDispatch();
+  const nav = useNavigate();
   const [isLoginForm, setIsLoginForm] = useState(true);
   const [passwordVisible, setPasswordVisible] = useState(false);
   const [passwordConfirmVisible, setPasswordConfirmVisible] = useState(false);
@@ -219,9 +221,11 @@ function AuthPage() {
 
       dispatch(setUser({ userInfo }));
       //TODO login 후 refresh token 함수 만들기
-    } else resetInputRef();
-
-    // setIsLoginForm(true);
+      nav('/', { replace: true });
+    } else {
+      resetInputRef();
+      setIsLoginForm(true);
+    }
   };
 
   const toggleAuthForm = () => {
