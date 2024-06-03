@@ -11,7 +11,7 @@ import {
   Form,
   Label,
   Input,
-  Textarea,
+  StyledReactQuill,
   ButtonContainer,
   Button
 } from './EditPostPage.styles';
@@ -63,7 +63,7 @@ const EditPostPage = () => {
           <Label>게시글 제목</Label>
           <Input type="text" value={title} onChange={(e) => setTitle(e.target.value)} />
           <Label>게시글 내용</Label>
-          <Textarea value={content} onChange={(e) => setContent(e.target.value)} />
+          <StyledReactQuill value={content} onChange={setContent} />
           <ButtonContainer>
             <Button onClick={handleUpdatePost}>수정</Button>
             <Button onClick={handleDeletePost}>삭제</Button>

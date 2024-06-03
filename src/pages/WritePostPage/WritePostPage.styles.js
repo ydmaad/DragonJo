@@ -1,4 +1,6 @@
 import styled from 'styled-components';
+import ReactQuill from 'react-quill';
+import 'react-quill/dist/quill.snow.css';
 
 export const Wrapper = styled.div`
   display: flex;
@@ -51,14 +53,17 @@ export const Input = styled.input`
   border-radius: 5px;
 `;
 
-export const Textarea = styled.textarea`
-  font-size: 18px;
-  padding: 10px;
-  height: 200px;
-  margin-bottom: 20px;
-  border: 1px solid #ccc;
-  border-radius: 5px;
-  resize: none;
+export const StyledReactQuill = styled(ReactQuill)`
+  .ql-editor {
+    font-size: 18px;
+    min-height: 400px;
+  }
+
+  .ql-container {
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    margin-bottom: 20px;
+  }
 `;
 
 export const ButtonContainer = styled.div`
