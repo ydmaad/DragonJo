@@ -1,20 +1,22 @@
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
+import postImg from '../../assets/diablo.jpg';
 import { fetchPosts } from '../../redux/slices/postSlice';
 import { supabase } from '../../service/supabase';
+import ReactQuill from 'react-quill';
+import 'react-quill/dist/quill.snow.css';
 import {
   Button,
   PostContent,
+  PostImage,
   PostItem,
   PostList,
   PostTitle,
-  Section,
-  PostImage,
+  SearchBtn,
   SearchInput,
-  SearchBtn
+  Section
 } from './HomePage.styles';
-import postImg from '../../assets/diablo.jpg';
 
 function HomePage() {
   const dispatch = useDispatch();
@@ -80,7 +82,7 @@ function HomePage() {
             <PostImage src={postImg} />
             <PostTitle>{post.title}</PostTitle>
             <br />
-            <PostContent>{post.content}</PostContent>
+            <PostContent dangerouslySetInnerHTML={{ __html: post.content }} />
             <br />
           </PostItem>
         ))}
