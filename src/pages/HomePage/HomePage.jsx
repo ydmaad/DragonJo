@@ -4,6 +4,8 @@ import { useNavigate } from 'react-router-dom';
 import postImg from '../../assets/diablo.jpg';
 import { fetchPosts } from '../../redux/slices/postSlice';
 import { supabase } from '../../service/supabase';
+import ReactQuill from 'react-quill';
+import 'react-quill/dist/quill.snow.css';
 import {
   Button,
   PostContent,
