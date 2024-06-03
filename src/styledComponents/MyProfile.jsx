@@ -137,3 +137,8 @@ export const MypageContents = styled.td`
     }
   }
 `;
+export const UnloginNotice=styled.h1`
+  text-align: center;
+  font-size:40px;
+  font-weight:bold;
+`
