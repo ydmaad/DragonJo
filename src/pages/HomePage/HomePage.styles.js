@@ -102,7 +102,7 @@ export const PostImage = styled.img`
   margin: 25px;
 `;
 
-export const SearchInput = styled.div`
+export const SearchInput = styled.form`
   padding: 20px;
   width: 1320px;
   margin: 0 auto;

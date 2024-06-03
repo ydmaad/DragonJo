@@ -39,7 +39,7 @@ const DetailPage = () => {
           <Title>{title}</Title>
         </Header>
         <Form>
-          <Content>{content}</Content>
+          <Content dangerouslySetInnerHTML={{ __html: post.content }}></Content>
           <ButtonContainer>
             <Button onClick={handleUpdatePost}>수정</Button>
             <Button onClick={() => navigate('/')}>돌아가기</Button>
