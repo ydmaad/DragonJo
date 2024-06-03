@@ -1,6 +1,6 @@
 // import { supabase } from '../../service/supabase';
 // import { useState } from 'react';
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import postImg from '../../assets/diablo.jpg';
@@ -26,7 +26,7 @@ function HomePage() {
   const posts = useSelector((state) => state.posts.posts);
   const status = useSelector((state) => state.posts.status);
   const error = useSelector((state) => state.posts.error);
-
+  
   const [search, setSearch] = useState('');
   const [searchPost, setSearchPost] = useState([]);
   // const [signIn, setSignIn] = useState(false);
@@ -92,7 +92,9 @@ function HomePage() {
               navigate(`detail/${post.id}`);
             }}
           >
-            <PostImage src={postImg} />
+            <div className='post-img'>
+              <PostImage src={postImg} />
+            </div>
             <PostTitle>{post.title}</PostTitle>
             <br />
             <PostContent dangerouslySetInnerHTML={{ __html: post.content }} />
