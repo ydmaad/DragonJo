@@ -1,6 +1,6 @@
 // import { supabase } from '../../service/supabase';
 // import { useState } from 'react';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import postImg from '../../assets/diablo.jpg';
