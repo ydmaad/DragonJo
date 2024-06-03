@@ -1,7 +1,8 @@
 import { useCallback, useEffect } from 'react';
 import { useDispatch } from 'react-redux';
+import { RouterProvider } from 'react-router-dom';
 import { clearUser, setUser } from './redux/slices/user.slice';
-import Router from './routes/router';
+import router from './routes/router';
 import { supabase } from './service/supabase';
 import { logOutUser } from './service/user';
 import { getLocalStorageKey } from './utils/localStorage';
@@ -53,7 +54,8 @@ function App() {
     getUserInfo();
   }, [getUserInfo]);
 
-  return <Router />;
+  // return <Router />;
+  return <RouterProvider router={router} />;
 }
 
 export default App;
