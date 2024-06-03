@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useParams, useNavigate } from 'react-router-dom';
 import { fetchPosts, deletePost, updatePost } from '../../redux/slices/postSlice';
 import {
+  Wrapper,
   Container,
   Header,
   Title,
@@ -10,7 +11,7 @@ import {
   Form,
   Label,
   Input,
-  Textarea,
+  StyledReactQuill,
   ButtonContainer,
   Button
 } from './EditPostPage.styles';
@@ -44,7 +45,7 @@ const EditPostPage = () => {
   };
 
   const handleDeletePost = () => {
-    const confirmDelete = window.confirm('정말 이 글을 삭제하시겠습니까?');
+    const confirmDelete = confirm('정말 이 글을 삭제하시겠습니까?');
     if (confirmDelete) {
       dispatch(deletePost(postId));
       navigate('/');
@@ -52,23 +53,25 @@ const EditPostPage = () => {
   };
 
   return (
-    <Container>
-      <Header>
-        <Title>게시글 수정</Title>
-        <Subtitle>게시글을 수정하고 업로드하세요</Subtitle>
-      </Header>
-      <Form>
-        <Label>게시글 제목</Label>
-        <Input type="text" value={title} onChange={(e) => setTitle(e.target.value)} />
-        <Label>게시글 내용</Label>
-        <Textarea value={content} onChange={(e) => setContent(e.target.value)} />
-        <ButtonContainer>
-          <Button onClick={handleUpdatePost}>수정</Button>
-          <Button onClick={handleDeletePost}>삭제</Button>
-          <Button onClick={() => navigate('/')}>돌아가기</Button>
-        </ButtonContainer>
-      </Form>
-    </Container>
+    <Wrapper>
+      <Container>
+        <Header>
+          <Title>게시글 수정</Title>
+          <Subtitle>게시글을 수정하고 업로드하세요</Subtitle>
+        </Header>
+        <Form>
+          <Label>게시글 제목</Label>
+          <Input type="text" value={title} onChange={(e) => setTitle(e.target.value)} />
+          <Label>게시글 내용</Label>
+          <StyledReactQuill value={content} onChange={setContent} />
+          <ButtonContainer>
+            <Button onClick={handleUpdatePost}>수정</Button>
+            <Button onClick={handleDeletePost}>삭제</Button>
+            <Button onClick={() => navigate('/')}>돌아가기</Button>
+          </ButtonContainer>
+        </Form>
+      </Container>
+    </Wrapper>
   );
 };
 

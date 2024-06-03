@@ -1,17 +1,22 @@
+import { LogInIcon, UserRoundPlusIcon } from 'lucide-react';
+import { useRef, useState } from 'react';
+import { useDispatch } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
+import ToggleIcon from '../../components/ToggleIcon';
+import PasswordEyeIcon from '../../components/icons/PasswordEyeIcon';
+import PasswordEyeOffIcon from '../../components/icons/PasswrodEyeOffIcon';
+import { setUser } from '../../redux/slices/user.slice';
+import { logInUser, registerUser } from '../../service/user';
+import validationUserInfo from '../../utils/validationUserInfo';
 
 const LoginMainDiv = styled.div`
+  margin: 0 auto;
   width: 100%;
   max-width: 1320px;
   padding: 10px;
   box-sizing: border-box;
   user-select: none;
-`;
-
-const Test = styled.div`
-  display: flex;
-  width: 100%;
-  justify-content: space-between;
 `;
 
 const Abc = styled.div`
@@ -70,6 +75,7 @@ const LoginForm = styled.form`
 `;
 
 const LoginFormInputBox = styled.div`
+  position: relative;
   width: 100%;
   display: flex;
   gap: 8px;
@@ -77,9 +83,19 @@ const LoginFormInputBox = styled.div`
   max-width: 500px;
 `;
 
-const LoginFormLabel = styled.label`
+const LoginTextBox = styled.div`
+  display: flex;
+  gap: 16px;
+  align-items: center;
   font-size: 12px;
   font-weight: 600;
+`;
+
+const LoginFormLabel = styled.label``;
+
+const LoginErrorText = styled.p`
+  color: #ff4d4d;
+  font-weight: bold;
 `;
 
 const LoginFormInput = styled.input`
@@ -103,10 +119,13 @@ const LoginFormInput = styled.input`
 `;
 
 const LoginFormButton = styled.button`
-  width: fit-content;
+  display: flex;
+  align-items: center;
+  width: 100%;
   font-size: 12px;
   font-weight: bold;
-  padding: 10px 50px;
+  width: 150px;
+  padding: 10px 10px;
   border-radius: 8px;
   border: none;
   cursor: pointer;
@@ -121,6 +140,10 @@ const LoginFormButton = styled.button`
   }
 `;
 
+const LoginButtonText = styled.p`
+  width: 100%;
+`;
+
 const LoginLink = styled.div`
   display: flex;
   font-size: 11px;
@@ -132,34 +155,168 @@ const LoginSignup = styled.p`
   cursor: pointer;
 `;
 
+const IconDiv = styled.div`
+  cursor: pointer;
+  position: absolute;
+  right: 10px;
+  top: 50%;
+`;
+
 function AuthPage() {
+  const dispatch = useDispatch();
+  const nav = useNavigate();
+  const [isLoginForm, setIsLoginForm] = useState(true);
+  const [passwordVisible, setPasswordVisible] = useState(false);
+  const [passwordConfirmVisible, setPasswordConfirmVisible] = useState(false);
+  const [authError, setAuthError] = useState({});
+
+  const inputRef = useRef([]);
+
+  // const onSubmitHandler = (e) => {
+  //   e.preventDefault();
+  //   console.log('SUBMIT !!');
+  // };
+
+  const resetInputRef = () => {
+    inputRef.current.forEach((ref) => {
+      ref.value = '';
+    });
+  };
+
+  const onSubmitHandler = async (e) => {
+    e.preventDefault();
+
+    const userInfo = inputRef.current;
+
+    const error = validationUserInfo(userInfo);
+    setAuthError(error);
+
+    if (Object.values(error).some((error) => error)) {
+      return;
+    }
+
+    const response = isLoginForm ? await logInUser(userInfo) : await registerUser(userInfo);
+    console.log(response);
+    if (response.error) {
+      //TODO 에러처리 생각하기
+      console.log('response.error!!', response.error);
+      return;
+    }
+
+    if (isLoginForm) {
+      dispatch(setUser({ userInfo: response.data }));
+      //TODO login 후 refresh token 함수 만들기
+      nav('/', { replace: true });
+    } else {
+      resetInputRef();
+      setIsLoginForm(true);
+    }
+  };
+
+  const toggleAuthForm = () => {
+    setIsLoginForm((prevState) => !prevState);
+    setPasswordVisible(false);
+    setAuthError({});
+  };
+
   return (
     <LoginMainDiv>
-      <Test>
-        <div>{'<'}</div>
-        <div>로그인</div>
-      </Test>
       <Abc>
         <LoginImage src="http://via.placeholder.com/640x240" alt="" width={'100%'} />
 
         <LoginFormDiv>
-          <LoginFormH1>로그인</LoginFormH1>
+          <LoginFormH1>{isLoginForm ? '로그인' : '회원가입'}</LoginFormH1>
 
-          <LoginForm>
+          <LoginForm onSubmit={(e) => onSubmitHandler(e)}>
+            {!isLoginForm && (
+              <LoginFormInputBox>
+                <LoginTextBox>
+                  <LoginFormLabel htmlFor="username">유저명</LoginFormLabel>
+                  {authError.username && <LoginErrorText>{authError.username}</LoginErrorText>}
+                </LoginTextBox>
+                <LoginFormInput
+                  ref={(e) => (inputRef.current[3] = e)}
+                  id="username"
+                  type="text"
+                  placeholder="닉네임을 입력하세요"
+                />
+              </LoginFormInputBox>
+            )}
+
             <LoginFormInputBox>
-              <LoginFormLabel htmlFor="email">이메일</LoginFormLabel>
-              <LoginFormInput id="email" type="email" placeholder="이메일을 입력하세요" />
+              <LoginTextBox>
+                <LoginFormLabel htmlFor="email">이메일</LoginFormLabel>
+                {authError.email && <LoginErrorText>{authError.email}</LoginErrorText>}
+              </LoginTextBox>
+              <LoginFormInput
+                ref={(e) => (inputRef.current[0] = e)}
+                id="email"
+                type="email"
+                placeholder="이메일을 입력하세요"
+              />
             </LoginFormInputBox>
+
             <LoginFormInputBox>
-              <LoginFormLabel htmlFor="password">비밀번호</LoginFormLabel>
-              <LoginFormInput id="password" type="password" placeholder="비밀번호를 입력하세요" />
+              <LoginTextBox>
+                <LoginFormLabel htmlFor="password">비밀번호</LoginFormLabel>
+                {authError.password && <LoginErrorText>{authError.password}</LoginErrorText>}
+              </LoginTextBox>
+              <LoginFormInput
+                ref={(e) => (inputRef.current[1] = e)}
+                id="password"
+                type={passwordVisible ? 'text' : 'password'}
+                placeholder="비밀번호를 입력하세요"
+                minLength={6}
+              />
+              <IconDiv>
+                <ToggleIcon
+                  toggled={passwordVisible}
+                  onToggle={setPasswordVisible}
+                  onIcon={<PasswordEyeIcon />}
+                  offIcon={<PasswordEyeOffIcon />}
+                />
+              </IconDiv>
             </LoginFormInputBox>
-            <LoginFormButton type="button">로그인</LoginFormButton>
+
+            {!isLoginForm && (
+              <LoginFormInputBox>
+                <LoginTextBox>
+                  <LoginFormLabel htmlFor="passwordConfirm">비밀번호 확인</LoginFormLabel>
+                  {authError.passwordConfirm && <LoginErrorText>{authError.passwordConfirm}</LoginErrorText>}
+                </LoginTextBox>
+                <LoginFormInput
+                  ref={(e) => (inputRef.current[2] = e)}
+                  id="passwordConfirm"
+                  type={passwordConfirmVisible ? 'text' : 'password'}
+                  placeholder="비밀번호를 다시 입력하세요"
+                  minLength={6}
+                />
+
+                <IconDiv>
+                  <ToggleIcon
+                    toggled={passwordConfirmVisible}
+                    onToggle={setPasswordConfirmVisible}
+                    onIcon={<PasswordEyeIcon />}
+                    offIcon={<PasswordEyeOffIcon />}
+                  />
+                </IconDiv>
+              </LoginFormInputBox>
+            )}
+
+            <LoginFormButton>
+              <LoginButtonText>{isLoginForm ? '로그인' : '회원가입'}</LoginButtonText>
+              <ToggleIcon
+                toggled={isLoginForm}
+                onToggle={setIsLoginForm}
+                onIcon={<LogInIcon />}
+                offIcon={<UserRoundPlusIcon />}
+              />
+            </LoginFormButton>
           </LoginForm>
 
           <LoginLink>
             <p>처음왔는가?</p>
-            <LoginSignup>회원가입</LoginSignup>
+            <LoginSignup onClick={toggleAuthForm}>{isLoginForm ? '회원가입' : '로그인'}</LoginSignup>
           </LoginLink>
         </LoginFormDiv>
       </Abc>
