@@ -1,18 +1,21 @@
 import { createSlice } from '@reduxjs/toolkit';
 
 const initialState = {
-  user: {
-    id: '',
-    email: '',
-    avatar_url: '',
-    username: ''
-  },
-  token: {
-    access_token: '',
-    token_type: 'bearer',
-    expires_in: 0,
-    expires_at: 0,
-    refresh_token: ''
+  userInfo: {
+    user: {
+      id: '',
+      email: '',
+      avatar_url: '',
+      username: ''
+    },
+    token: {
+      access_token: '',
+      token_type: 'bearer',
+      expires_in: 0,
+      expires_at: 0,
+      refresh_token: ''
+    },
+    isLoggedIn: false
   }
 };
 
@@ -40,11 +43,15 @@ const userSlice = createSlice({
       };
       // console.log('NEW TOKEN', newToken);
       // console.log('NEW USER', newUser);
-      state.user = newUser;
-      state.token = newToken;
+      state.userInfo.user = newUser;
+      state.userInfo.token = newToken;
+      state.userInfo.isLoggedIn = true;
+    },
+    clearUser(state) {
+      state.userInfo = initialState;
     }
   }
 });
 
-export const { setUser } = userSlice.actions;
+export const { setUser, clearUser } = userSlice.actions;
 export default userSlice.reducer;

@@ -1,9 +1,10 @@
-import { useCallback, useLayoutEffect } from 'react';
+import { useCallback, useEffect } from 'react';
 import { useDispatch } from 'react-redux';
-import { setUser } from './redux/slices/user.slice';
+import { clearUser, setUser } from './redux/slices/user.slice';
 import Router from './routes/router';
 import { supabase } from './service/supabase';
 import { logOutUser } from './service/user';
+import { getLocalStorageKey } from './utils/localStorage';
 
 function App() {
   const dispatch = useDispatch();
@@ -19,6 +20,7 @@ function App() {
       if (remainingTime < 0) {
         // 토큰 만료?
         logOutUser();
+        dispatch(clearUser());
         return;
       }
 
@@ -36,17 +38,18 @@ function App() {
   );
 
   const getUserInfo = useCallback(async () => {
-    const {
-      data: { session },
-      error
-    } = await supabase.auth.getSession();
+    // const {
+    //   data: { session },
+    //   error
+    // } = await supabase.auth.getSession();
+    const session = JSON.parse(localStorage.getItem(getLocalStorageKey()));
     if (session) {
       dispatch(setUser({ userInfo: session }));
       autoLogOutHandler(session.refresh_token, session.expires_at);
     }
   }, [dispatch, autoLogOutHandler]);
 
-  useLayoutEffect(() => {
+  useEffect(() => {
     getUserInfo();
   }, [getUserInfo]);
 

@@ -1,13 +1,20 @@
 import { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import logo from '../assets/Dragonlogo3.png';
 import backIcon from '../assets/back.png';
+import { clearUser } from '../redux/slices/user.slice';
 import { supabase } from '../service/supabase';
+import { logOutUser } from '../service/user';
 import * as S from '../styledComponents/Header';
 
 function Header() {
   const location = useLocation();
   const navigate = useNavigate();
+  const dispatch = useDispatch();
+
+  const { isLoggedIn, user } = useSelector((state) => state.user.userInfo);
+
   const path = location.pathname.split('/');
 
   const [profileUrl, setProfileUrl] = useState('');
@@ -35,38 +42,34 @@ function Header() {
     checkProfile();
   }, []);
 
-  console.log(path[1]);
+  const logOutHandler = () => {
+    logOutUser();
+    dispatch(clearUser());
+    navigate('/', { replace: true });
+  };
   return (
     <>
       <S.Header>
         <div className="contents">
-          <div>
-            <h1>
-              <Link to={'/'}>
-                <img src={logo} alt="DragonLOGO" />
-              </Link>
-            </h1>
-          </div>
-          <div className="post-login-box">
-            <div className="new-post">
-              <button
-                className="new-post-btn"
-                onClick={() => {
-                  navigate('write');
-                }}
-              >
-                새 게시글
-              </button>
-            </div>
+          <Link to={'/'}>
+            <img src={logo} alt="DragonLOGO" />
+          </Link>
 
-            <button
-              className="login-btn"
-              onClick={() => {
-                navigate('auth');
-              }}
-            >
-              로그인
-            </button>
+          <div className="post-login-box">
+            <Link className="new-post-btn" to="/write">
+              <button>새 게시글</button>
+            </Link>
+
+            <div className="auth-div">
+              {isLoggedIn && <p>{user.username}</p>}
+              {isLoggedIn ? (
+                <Link onClick={logOutHandler}>로그아웃</Link>
+              ) : (
+                <Link className="new-post-btn" to="/auth">
+                  로그인
+                </Link>
+              )}
+            </div>
             {/* 프로필 이미지 추가 부분
             <input
               onChange={(e) => handleFileInputChange(e.target.files)}
@@ -75,7 +78,8 @@ function Header() {
               className="hidden"
             /> */}
             <S.ProfileImage
-              src={profileUrl}
+              // src={profileUrl}
+              src={'http://via.placeholder.com/640x240'}
               alt="profile"
               onClick={() => {
                 navigate('mypage');
