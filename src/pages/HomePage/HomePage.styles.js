@@ -22,8 +22,10 @@ export const PostItem = styled.li`
   height: 400px;
 
   &:hover {
-    background-color: #6666;
+    background-color: #dcdcdc;
   }
+
+  line-height: 1.3;
 `;
 
 export const PostTitle = styled.h2`
@@ -47,7 +49,7 @@ export const PostContent = styled.p`
   display: -webkit-box;
   -webkit-box-orient: vertical;
   overflow: hidden;
-  -webkit-line-clamp: 6;
+  -webkit-line-clamp: 5;
   text-overflow: ellipsis;
 `;
 
@@ -60,7 +62,7 @@ export const Button = styled.button`
   border-radius: 4px;
   cursor: pointer;
   &:hover {
-    background-color: #6666;
+    background-color: #dcdcdc;
   }
 `;
 
@@ -74,4 +76,25 @@ export const PostImage = styled.img`
   width: 250px;
   height: 150px;
   margin: 25px;
+`;
+
+export const SearchInput = styled.div`
+  padding: 20px;
+  width: 1320px;
+  margin: 0 auto;
+  display: flex;
+  justify-content: flex-end;
+  gap: 20px;
+`;
+
+export const SearchBtn = styled.button`
+  padding: 8px 12px;
+  background-color: #2fa93c;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  &:hover {
+    background-color: #006633;
+  }
 `;
