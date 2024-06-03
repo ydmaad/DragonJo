@@ -65,7 +65,7 @@ function HomePage() {
             <PostImage src={postImg} />
             <PostTitle>{post.title}</PostTitle>
             <br />
-            <PostContent>{post.content}</PostContent>
+            <PostContent dangerouslySetInnerHTML={{ __html: post.content }} />
             <br />
           </PostItem>
         ))}

@@ -13,7 +13,6 @@ export const PostList = styled.ul`
 
 export const PostItem = styled.li`
   cursor: pointer;
-
   border: 1px solid black;
   margin: auto;
   margin-bottom: 30px;
@@ -38,7 +37,7 @@ export const PostTitle = styled.h2`
   text-overflow: ellipsis;
 `;
 
-export const PostContent = styled.p`
+export const PostContent = styled.div`
   color: black;
   white-space: pre-wrap;
   font-size: 18px;
@@ -49,6 +48,42 @@ export const PostContent = styled.p`
   overflow: hidden;
   -webkit-line-clamp: 6;
   text-overflow: ellipsis;
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    font-weight: bold;
+    margin: 10px 0;
+  }
+
+  p {
+    margin: 10px 0;
+  }
+
+  img {
+    max-width: 100%;
+    height: auto;
+    margin: 10px 0;
+  }
+
+  ul,
+  ol {
+    margin: 10px 0;
+    padding-left: 20px;
+  }
+
+  li {
+    margin: 5px 0;
+  }
+
+  blockquote {
+    margin: 10px 0;
+    padding-left: 20px;
+    border-left: 5px solid #ccc;
+  }
 `;
 
 export const Button = styled.button`
