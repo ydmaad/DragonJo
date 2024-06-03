@@ -4,7 +4,7 @@ export const PostList = styled.ul`
   list-style-type: none;
   padding: 20px;
   width: 1320px;
-  margin: 0 auto;
+  margin: 0 auto 0 0;
   display: flex;
   justify-content: start;
   gap: 20px;
@@ -102,7 +102,7 @@ export const PostImage = styled.img`
   margin: 25px;
 `;
 
-export const SearchInput = styled.div`
+export const SearchInput = styled.form`
   padding: 20px;
   width: 1320px;
   margin: 0 auto;
