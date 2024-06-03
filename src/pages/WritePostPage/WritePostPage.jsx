@@ -3,8 +3,6 @@ import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { createPost } from '../../redux/slices/postSlice';
 import { Quill } from 'react-quill';
-import ReactQuill from 'react-quill';
-import 'react-quill/dist/quill.snow.css';
 import {
   Wrapper,
   Container,
@@ -26,22 +24,11 @@ Quill.register(ImageBlot, true);
 const WritePostPage = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const quillRef = useRef(null);
 
   const [title, setTitle] = useState('');
   const [content, setContent] = useState('');
 
-  useEffect(() => {
-    const quill = quillRef.current.getEditor();
-
-    quill.root.addEventListener('drop', handleDrop, false);
-    quill.root.addEventListener('paste', handlePaste, false);
-
-    return () => {
-      quill.root.removeEventListener('drop', handleDrop);
-      quill.root.removeEventListener('paste', handlePaste);
-    };
-  }, []);
+  const quillRef = useRef(null);
 
   const handleCreatePost = () => {
     if (title && content) {
@@ -112,6 +99,18 @@ const WritePostPage = () => {
       ['clean']
     ]
   };
+
+  useEffect(() => {
+    const quill = quillRef.current.getEditor();
+
+    quill.root.addEventListener('drop', handleDrop, false);
+    quill.root.addEventListener('paste', handlePaste, false);
+
+    return () => {
+      quill.root.removeEventListener('drop', handleDrop);
+      quill.root.removeEventListener('paste', handlePaste);
+    };
+  }, []);
 
   return (
     <Wrapper>
