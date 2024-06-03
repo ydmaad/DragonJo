@@ -3,7 +3,17 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { fetchPosts } from '../../redux/slices/postSlice';
 import { supabase } from '../../service/supabase';
-import { Button, PostContent, PostItem, PostList, PostTitle, Section, PostImage } from './HomePage.styles';
+import {
+  Button,
+  PostContent,
+  PostItem,
+  PostList,
+  PostTitle,
+  Section,
+  PostImage,
+  SearchInput,
+  SearchBtn
+} from './HomePage.styles';
 import postImg from '../../assets/diablo.jpg';
 
 function HomePage() {
@@ -54,6 +64,11 @@ function HomePage() {
 
   return (
     <main>
+      <SearchInput>
+        <input type="text" placeholder="검색하시오" />
+        <SearchBtn>검색</SearchBtn>
+      </SearchInput>
+
       <PostList>
         {posts?.map((post) => (
           <PostItem
