@@ -5,7 +5,6 @@ import { clearUser, setUser } from './redux/slices/user.slice';
 import router from './routes/router';
 import { supabase } from './service/supabase';
 import { logOutUser } from './service/user';
-import { getLocalStorageKey } from './utils/localStorage';
 
 function App() {
   const dispatch = useDispatch();
@@ -35,7 +34,11 @@ function App() {
   );
 
   const getUserInfo = useCallback(async () => {
-    const session = JSON.parse(localStorage.getItem(getLocalStorageKey()));
+    const data = await supabase.auth.getSession();
+    const { session } = data.data;
+    // const session2 = JSON.parse(localStorage.getItem(getLocalStorageKey()));
+    // console.log('session', session);
+    // console.log('res', res);
     if (session) {
       dispatch(setUser({ userInfo: session }));
       autoLogOutHandler(session.refresh_token, session.expires_at);

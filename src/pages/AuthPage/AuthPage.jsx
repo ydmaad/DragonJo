@@ -7,6 +7,7 @@ import ToggleIcon from '../../components/ToggleIcon';
 import PasswordEyeIcon from '../../components/icons/PasswordEyeIcon';
 import PasswordEyeOffIcon from '../../components/icons/PasswrodEyeOffIcon';
 import { setUser } from '../../redux/slices/user.slice';
+import { supabase } from '../../service/supabase';
 import { logInUser, registerUser } from '../../service/user';
 import validationUserInfo from '../../utils/validationUserInfo';
 
@@ -214,6 +215,17 @@ function AuthPage() {
     setAuthError({});
   };
 
+  const githubLoginHandler = async () => {
+    console.log('GITHUB LOGIN');
+    const { data, error } = await supabase.auth.signInWithOAuth({
+      provider: 'github'
+    });
+  };
+
+  const googleLoginHandler = () => {
+    console.log('GOOGLE LOGIN');
+  };
+
   return (
     <LoginMainDiv>
       <Abc>
@@ -226,12 +238,12 @@ function AuthPage() {
             {!isLoginForm && (
               <LoginFormInputBox>
                 <LoginTextBox>
-                  <LoginFormLabel htmlFor="username">유저명</LoginFormLabel>
-                  {authError.username && <LoginErrorText>{authError.username}</LoginErrorText>}
+                  <LoginFormLabel htmlFor="user_name">유저명</LoginFormLabel>
+                  {authError.user_name && <LoginErrorText>{authError.user_name}</LoginErrorText>}
                 </LoginTextBox>
                 <LoginFormInput
                   ref={(e) => (inputRef.current[3] = e)}
-                  id="username"
+                  id="user_name"
                   type="text"
                   placeholder="닉네임을 입력하세요"
                 />
@@ -298,6 +310,15 @@ function AuthPage() {
               </LoginFormInputBox>
             )}
 
+            <OAuthIconsDiv>
+              <div onClick={githubLoginHandler}>
+                <img src={'/src/assets/github.png'} alt="github"></img>
+              </div>
+              <div onClick={googleLoginHandler}>
+                <img src={'/src/assets/google.png'} alt="github"></img>
+              </div>
+            </OAuthIconsDiv>
+
             <LoginFormButton>
               <LoginButtonText>{isLoginForm ? '로그인' : '회원가입'}</LoginButtonText>
               <ToggleIcon
@@ -320,3 +341,28 @@ function AuthPage() {
 }
 
 export default AuthPage;
+
+const OAuthIconsDiv = styled.div`
+  display: flex;
+  gap: 1rem;
+
+  & div {
+    cursor: pointer;
+  }
+
+  & img {
+    width: 35px;
+    height: 35px;
+    background-color: white;
+    border-radius: 100%;
+  }
+
+  & img:hover {
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.6);
+  }
+
+  & img:active {
+    background-color: #efefef;
+    box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.8);
+  }
+`;
