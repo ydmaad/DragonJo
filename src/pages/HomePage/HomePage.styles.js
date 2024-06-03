@@ -58,27 +58,16 @@ export const PostContent = styled.div`
   h5,
   h6 {
     font-weight: bold;
-    margin: 10px 0;
-  }
-
-  p {
-    margin: 10px 0;
   }
 
   img {
     max-width: 100%;
     height: auto;
-    margin: 10px 0;
   }
 
   ul,
   ol {
-    margin: 10px 0;
     padding-left: 20px;
-  }
-
-  li {
-    margin: 5px 0;
   }
 
   blockquote {
