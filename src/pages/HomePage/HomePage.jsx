@@ -1,19 +1,30 @@
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { Link } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { fetchPosts } from '../../redux/slices/postSlice';
 import { supabase } from '../../service/supabase';
-import { Button, PostContent, PostItem, PostList, PostTitle, ProfileImage, Section } from './HomePage.styles';
+import {
+  Button,
+  PostContent,
+  PostItem,
+  PostList,
+  PostTitle,
+  Section,
+  PostImage,
+  SearchInput,
+  SearchBtn
+} from './HomePage.styles';
+import postImg from '../../assets/diablo.jpg';
 
 function HomePage() {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
+
   const posts = useSelector((state) => state.posts.posts);
   const status = useSelector((state) => state.posts.status);
   const error = useSelector((state) => state.posts.error);
 
   const [signIn, setSignIn] = useState(false);
-  const [profileUrl, setProfileUrl] = useState('');
-  const fileInputRef = useRef(null);
 
   useEffect(() => {
     if (status === 'idle') {
@@ -39,26 +50,8 @@ function HomePage() {
     checkSignIn();
   }
 
-  function checkProfile() {
-    const { data } = supabase.storage.from('avatars').getPublicUrl('avatar_1717215361574.png');
-    setProfileUrl(data.publicUrl);
-  }
-
-  async function handleFileInputChange(files) {
-    const [file] = files;
-
-    if (!file) {
-      return;
-    }
-
-    const { data } = await supabase.storage.from('avatars').upload(`avatar_${Date.now()}.png`, file);
-
-    setProfileUrl(`https://yzkoayeawivyvwgpnzvu.supabase.co/storage/v1/object/public/avatars/${data.path}`);
-  }
-
   useEffect(() => {
     checkSignIn();
-    checkProfile();
   }, []);
 
   if (status === 'loading') {
@@ -71,16 +64,24 @@ function HomePage() {
 
   return (
     <main>
+      <SearchInput>
+        <input type="text" placeholder="검색하시오" />
+        <SearchBtn>검색</SearchBtn>
+      </SearchInput>
+
       <PostList>
         {posts?.map((post) => (
-          <PostItem key={post.id}>
+          <PostItem
+            key={post.id}
+            onClick={() => {
+              navigate(`detail/${post.id}`);
+            }}
+          >
+            <PostImage src={postImg} />
             <PostTitle>{post.title}</PostTitle>
             <br />
             <PostContent>{post.content}</PostContent>
             <br />
-            <Link to={`/edit/${post.id}`}>
-              <Button type="button">게시글 수정</Button>
-            </Link>
           </PostItem>
         ))}
       </PostList>
@@ -88,13 +89,6 @@ function HomePage() {
       <Section>
         {signIn ? (
           <>
-            <input
-              onChange={(e) => handleFileInputChange(e.target.files)}
-              type="file"
-              ref={fileInputRef}
-              className="hidden"
-            />
-            <ProfileImage src={profileUrl} alt="profile" onClick={() => fileInputRef.current.click()} />
             <Button onClick={signOut}>로그아웃</Button>
           </>
         ) : (
