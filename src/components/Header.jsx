@@ -1,9 +1,9 @@
+import { useEffect, useState } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import logo from '../assets/Dragonlogo3.png';
-import * as S from '../styledComponents/Header';
 import backIcon from '../assets/back.png';
-import { useEffect, useState } from 'react';
 import { supabase } from '../service/supabase';
+import * as S from '../styledComponents/Header';
 
 function Header() {
   const location = useLocation();
@@ -58,6 +58,7 @@ function Header() {
                 새 게시글
               </button>
             </div>
+
             <button
               className="login-btn"
               onClick={() => {

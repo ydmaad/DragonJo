@@ -1,7 +1,10 @@
-import { useState } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { createPost } from '../../redux/slices/postSlice';
+import { Quill } from 'react-quill';
+import ReactQuill from 'react-quill';
+import 'react-quill/dist/quill.snow.css';
 import {
   Wrapper,
   Container,
@@ -11,17 +14,34 @@ import {
   Form,
   Label,
   Input,
-  Textarea,
+  StyledReactQuill,
   ButtonContainer,
   Button
 } from './WritePostPage.styles';
 
+const ImageBlot = Quill.import('formats/image');
+ImageBlot.className = 'custom-image';
+Quill.register(ImageBlot, true);
+
 const WritePostPage = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const quillRef = useRef(null);
 
   const [title, setTitle] = useState('');
   const [content, setContent] = useState('');
+
+  useEffect(() => {
+    const quill = quillRef.current.getEditor();
+
+    quill.root.addEventListener('drop', handleDrop, false);
+    quill.root.addEventListener('paste', handlePaste, false);
+
+    return () => {
+      quill.root.removeEventListener('drop', handleDrop);
+      quill.root.removeEventListener('paste', handlePaste);
+    };
+  }, []);
 
   const handleCreatePost = () => {
     if (title && content) {
@@ -30,6 +50,67 @@ const WritePostPage = () => {
     } else {
       alert('제목과 내용을 입력해주세요.');
     }
+  };
+
+  const handleDrop = (event) => {
+    event.preventDefault();
+    const quill = quillRef.current.getEditor();
+    const cursorPosition = quill.getSelection().index;
+    const files = event.dataTransfer.files;
+
+    if (files && files.length > 0) {
+      const file = files[0];
+      uploadImage(file, cursorPosition);
+    }
+  };
+
+  const handlePaste = (event) => {
+    const quill = quillRef.current.getEditor();
+    const cursorPosition = quill.getSelection().index;
+    const clipboard = event.clipboardData;
+    const items = clipboard.items;
+
+    for (let i = 0; i < items.length; i++) {
+      if (items[i].type.indexOf('image') !== -1) {
+        const file = items[i].getAsFile();
+        uploadImage(file, cursorPosition);
+      }
+    }
+  };
+
+  const uploadImage = async (file, cursorPosition) => {
+    const formData = new FormData();
+    formData.append('image', file);
+
+    const response = await fetch('YOUR_IMAGE_UPLOAD_ENDPOINT', {
+      method: 'POST',
+      body: formData
+    });
+
+    if (!response.ok) {
+      throw new Error('Image upload failed');
+    }
+
+    const data = await response.json();
+    const imageUrl = data.url;
+
+    const quill = quillRef.current.getEditor();
+    quill.insertEmbed(cursorPosition, 'image', imageUrl);
+  };
+
+  const modules = {
+    toolbar: [
+      [{ header: '1' }, { header: '2' }, { font: [] }],
+      [{ size: [] }],
+      ['bold', 'italic', 'underline', 'strike', 'blockquote', 'code-block'],
+      [{ list: 'ordered' }, { list: 'bullet' }],
+      [{ script: 'sub' }, { script: 'super' }],
+      [{ indent: '-1' }, { indent: '+1' }, { direction: 'rtl' }],
+      [{ color: [] }, { background: [] }],
+      [{ align: [] }],
+      ['link', 'image', 'video'],
+      ['clean']
+    ]
   };
 
   return (
@@ -43,7 +124,7 @@ const WritePostPage = () => {
           <Label>게시글 제목</Label>
           <Input type="text" value={title} onChange={(e) => setTitle(e.target.value)} />
           <Label>게시글 내용</Label>
-          <Textarea value={content} onChange={(e) => setContent(e.target.value)} />
+          <StyledReactQuill ref={quillRef} value={content} onChange={setContent} modules={modules} />
           <ButtonContainer>
             <Button onClick={handleCreatePost}>업로드</Button>
             <Button onClick={() => navigate('/')}>뒤로가기</Button>

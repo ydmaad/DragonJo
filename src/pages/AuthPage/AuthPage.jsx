@@ -1,9 +1,13 @@
 import { LogInIcon, UserRoundPlusIcon } from 'lucide-react';
 import { useRef, useState } from 'react';
+import { useDispatch } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import ToggleIcon from '../../components/ToggleIcon';
 import PasswordEyeIcon from '../../components/icons/PasswordEyeIcon';
 import PasswordEyeOffIcon from '../../components/icons/PasswrodEyeOffIcon';
+import { setUser } from '../../redux/slices/user.slice';
+import { logInUser, registerUser } from '../../service/user';
 import validationUserInfo from '../../utils/validationUserInfo';
 
 const LoginMainDiv = styled.div`
@@ -13,12 +17,6 @@ const LoginMainDiv = styled.div`
   padding: 10px;
   box-sizing: border-box;
   user-select: none;
-`;
-
-const Test = styled.div`
-  display: flex;
-  width: 100%;
-  justify-content: space-between;
 `;
 
 const Abc = styled.div`
@@ -68,7 +66,7 @@ const LoginFormH1 = styled.h1`
   padding: 20px;
 `;
 
-const LoginForm = styled.div`
+const LoginForm = styled.form`
   width: 100%;
   display: flex;
   flex-direction: column;
@@ -165,6 +163,8 @@ const IconDiv = styled.div`
 `;
 
 function AuthPage() {
+  const dispatch = useDispatch();
+  const nav = useNavigate();
   const [isLoginForm, setIsLoginForm] = useState(true);
   const [passwordVisible, setPasswordVisible] = useState(false);
   const [passwordConfirmVisible, setPasswordConfirmVisible] = useState(false);
@@ -183,12 +183,9 @@ function AuthPage() {
     });
   };
 
-  const logIn = () => {
-    console.log('log in');
-  };
+  const onSubmitHandler = async (e) => {
+    e.preventDefault();
 
-  const register = async () => {
-    console.log('register');
     const userInfo = inputRef.current;
 
     const error = validationUserInfo(userInfo);
@@ -197,15 +194,23 @@ function AuthPage() {
     if (Object.values(error).some((error) => error)) {
       return;
     }
-    // const response = await registerUser({
-    //   email: email.value,
-    //   password: password.value,
-    //   username,
-    // });
-    // console.log(response);
 
-    resetInputRef();
-    setIsLoginForm(true);
+    const response = isLoginForm ? await logInUser(userInfo) : await registerUser(userInfo);
+    console.log(response);
+    if (response.error) {
+      //TODO 에러처리 생각하기
+      console.log('response.error!!', response.error);
+      return;
+    }
+
+    if (isLoginForm) {
+      dispatch(setUser({ userInfo: response.data }));
+      //TODO login 후 refresh token 함수 만들기
+      nav('/', { replace: true });
+    } else {
+      resetInputRef();
+      setIsLoginForm(true);
+    }
   };
 
   const toggleAuthForm = () => {
@@ -216,17 +221,13 @@ function AuthPage() {
 
   return (
     <LoginMainDiv>
-      <Test>
-        <div>{'<'}</div>
-        <div>로그인</div>
-      </Test>
       <Abc>
         <LoginImage src="http://via.placeholder.com/640x240" alt="" width={'100%'} />
 
         <LoginFormDiv>
           <LoginFormH1>{isLoginForm ? '로그인' : '회원가입'}</LoginFormH1>
 
-          <LoginForm>
+          <LoginForm onSubmit={(e) => onSubmitHandler(e)}>
             {!isLoginForm && (
               <LoginFormInputBox>
                 <LoginTextBox>
@@ -241,6 +242,7 @@ function AuthPage() {
                 />
               </LoginFormInputBox>
             )}
+
             <LoginFormInputBox>
               <LoginTextBox>
                 <LoginFormLabel htmlFor="email">이메일</LoginFormLabel>
@@ -253,6 +255,7 @@ function AuthPage() {
                 placeholder="이메일을 입력하세요"
               />
             </LoginFormInputBox>
+
             <LoginFormInputBox>
               <LoginTextBox>
                 <LoginFormLabel htmlFor="password">비밀번호</LoginFormLabel>
@@ -300,7 +303,7 @@ function AuthPage() {
               </LoginFormInputBox>
             )}
 
-            <LoginFormButton onClick={isLoginForm ? logIn : register} type="submit">
+            <LoginFormButton>
               <LoginButtonText>{isLoginForm ? '로그인' : '회원가입'}</LoginButtonText>
               <ToggleIcon
                 toggled={isLoginForm}
