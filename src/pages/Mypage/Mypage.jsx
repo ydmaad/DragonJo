@@ -1,3 +1,4 @@
+import React from 'react';
 import * as S from '../../styledComponents/MyProfile';
 import profileIcon from '../../assets/profileIcon.png';
 const Mypage = () => {
@@ -16,8 +17,8 @@ const Mypage = () => {
           </S.profileId>
         </div>
         <div className="profile-info">
-          <h3 className='profile-title'>회원정보</h3>
-          <h3 className='profile-subtitle'>회원정보 설정</h3>
+          <h3 className="profile-title">회원정보</h3>
+          <h3 className="profile-subtitle">회원정보 설정</h3>
           <S.Mypagetable>
             <tbody>
               <tr>
