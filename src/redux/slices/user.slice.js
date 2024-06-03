@@ -38,7 +38,8 @@ const userSlice = createSlice({
         avatar_url: user.user_metadata.avatar_url,
         username: user.user_metadata.username
       };
-
+      // console.log('NEW TOKEN', newToken);
+      // console.log('NEW USER', newUser);
       state.user = newUser;
       state.token = newToken;
     }
