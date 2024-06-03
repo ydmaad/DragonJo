@@ -196,7 +196,7 @@ function AuthPage() {
     }
 
     const response = isLoginForm ? await logInUser(userInfo) : await registerUser(userInfo);
-
+    console.log(response);
     if (response.error) {
       //TODO 에러처리 생각하기
       console.log('response.error!!', response.error);
@@ -204,22 +204,7 @@ function AuthPage() {
     }
 
     if (isLoginForm) {
-      const {
-        id,
-        email,
-        user_metadata: { avatar_url, username }
-      } = response.data.user;
-
-      const userInfo = {
-        id,
-        email,
-        user_metadata: {
-          avatar_url,
-          username
-        }
-      };
-
-      dispatch(setUser({ userInfo }));
+      dispatch(setUser({ userInfo: response.data }));
       //TODO login 후 refresh token 함수 만들기
       nav('/', { replace: true });
     } else {
