@@ -33,7 +33,7 @@ function App() {
         });
         dispatch(setUser({ userInfo: data }));
         autoLogOutHandler(refresh_token, expires_at);
-      }, 300000);
+      }, 3300000);
     },
     [dispatch]
   );
