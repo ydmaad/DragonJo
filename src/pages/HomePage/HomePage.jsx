@@ -79,7 +79,7 @@ function HomePage() {
             <br />
             <PostContent>{post.content}</PostContent>
             <br />
-            <Link to={`/edit/${post.id}`}>
+            <Link to={`/detail/${post.id}`}>
               <Button type="button">게시글 수정</Button>
             </Link>
           </PostItem>
