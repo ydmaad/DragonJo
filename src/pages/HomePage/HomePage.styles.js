@@ -87,7 +87,7 @@ export const SearchInput = styled.div`
   gap: 20px;
 `;
 
-export const SearchBtn = styled.button`
+export const SearchBtn = styled.form`
   padding: 8px 12px;
   background-color: #2fa93c;
   color: white;
