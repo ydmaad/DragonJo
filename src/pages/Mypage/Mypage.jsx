@@ -1,6 +1,9 @@
 import React from 'react';
 import * as S from '../../styledComponents/MyProfile';
 import profileIcon from '../../assets/profileIcon.png';
+
+import Mypost from './Mypost';
+
 const Mypage = () => {
   return (
     <>
@@ -67,6 +70,7 @@ const Mypage = () => {
           </S.Mypagetable>
         </div>
       </S.MyProfile>
+      <Mypost />
     </>
   );
 };
