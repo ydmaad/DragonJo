@@ -1,22 +1,12 @@
-import { useEffect, useState } from 'react';
+// import { supabase } from '../../service/supabase';
+// import { useState } from 'react';
+import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import postImg from '../../assets/diablo.jpg';
 import { fetchPosts } from '../../redux/slices/postSlice';
-import { supabase } from '../../service/supabase';
-import ReactQuill from 'react-quill';
-import 'react-quill/dist/quill.snow.css';
-import {
-  Button,
-  PostContent,
-  PostImage,
-  PostItem,
-  PostList,
-  PostTitle,
-  SearchBtn,
-  SearchInput,
-  Section
-} from './HomePage.styles';
+
+import { PostContent, PostImage, PostItem, PostList, PostTitle, SearchBtn, SearchInput } from './HomePage.styles';
 
 function HomePage() {
   const dispatch = useDispatch();
@@ -26,35 +16,35 @@ function HomePage() {
   const status = useSelector((state) => state.posts.status);
   const error = useSelector((state) => state.posts.error);
 
-  const [signIn, setSignIn] = useState(false);
+  // const [signIn, setSignIn] = useState(false);
+
+  // async function checkSignIn() {
+  //   const session = await supabase.auth.getSession();
+  //   const isSignIn = !!session.data.session;
+
+  //   setSignIn(isSignIn);
+  // }
+
+  // async function signInWithGithub() {
+  //   await supabase.auth.signInWithOAuth({
+  //     provider: 'github'
+  //   });
+  // }
+
+  // async function signOut() {
+  //   await supabase.auth.signOut();
+  //   checkSignIn();
+  // }
+
+  // useEffect(() => {
+  //   checkSignIn();
+  // }, []);
 
   useEffect(() => {
     if (status === 'idle') {
       dispatch(fetchPosts());
     }
   }, [status, dispatch]);
-
-  async function signInWithGithub() {
-    await supabase.auth.signInWithOAuth({
-      provider: 'github'
-    });
-  }
-
-  async function checkSignIn() {
-    const session = await supabase.auth.getSession();
-    const isSignIn = !!session.data.session;
-
-    setSignIn(isSignIn);
-  }
-
-  async function signOut() {
-    await supabase.auth.signOut();
-    checkSignIn();
-  }
-
-  useEffect(() => {
-    checkSignIn();
-  }, []);
 
   if (status === 'loading') {
     return <div>Loading...</div>;
@@ -87,16 +77,6 @@ function HomePage() {
           </PostItem>
         ))}
       </PostList>
-
-      <Section>
-        {signIn ? (
-          <>
-            <Button onClick={signOut}>로그아웃</Button>
-          </>
-        ) : (
-          <Button onClick={signInWithGithub}>로그인</Button>
-        )}
-      </Section>
     </main>
   );
 }
