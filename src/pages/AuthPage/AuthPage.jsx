@@ -222,8 +222,11 @@ function AuthPage() {
     });
   };
 
-  const googleLoginHandler = () => {
+  const googleLoginHandler = async () => {
     console.log('GOOGLE LOGIN');
+    const { data, error } = await supabase.auth.signInWithOAuth({
+      provider: 'google'
+    });
   };
 
   return (
