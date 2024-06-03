@@ -172,11 +172,6 @@ function AuthPage() {
 
   const inputRef = useRef([]);
 
-  // const onSubmitHandler = (e) => {
-  //   e.preventDefault();
-  //   console.log('SUBMIT !!');
-  // };
-
   const resetInputRef = () => {
     inputRef.current.forEach((ref) => {
       ref.value = '';

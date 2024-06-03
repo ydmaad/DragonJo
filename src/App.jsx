@@ -1,4 +1,4 @@
-import { useCallback, useEffect } from 'react';
+import { useCallback, useEffect, useRef } from 'react';
 import { useDispatch } from 'react-redux';
 import { RouterProvider } from 'react-router-dom';
 import { clearUser, setUser } from './redux/slices/user.slice';
@@ -9,6 +9,7 @@ import { getLocalStorageKey } from './utils/localStorage';
 
 function App() {
   const dispatch = useDispatch();
+  const timerRef = useRef(null);
 
   const autoLogOutHandler = useCallback(
     (refresh_token, expires_at) => {
@@ -16,18 +17,13 @@ function App() {
       const currentTime = new Date().getTime();
       const remainingTime = expiresTime - currentTime;
 
-      // console.log(expiresTime, currentTime, remainingTime);
-
       if (remainingTime < 0) {
-        // 토큰 만료?
         logOutUser();
         dispatch(clearUser());
         return;
       }
 
-      // 55분 마다 세션 새로 받아와서 로그인 유지
-      // 제대로 테스트 안해봄..
-      setTimeout(async () => {
+      timerRef.current = setTimeout(async () => {
         const { data, error } = await supabase.auth.refreshSession({
           refresh_token
         });
@@ -39,10 +35,6 @@ function App() {
   );
 
   const getUserInfo = useCallback(async () => {
-    // const {
-    //   data: { session },
-    //   error
-    // } = await supabase.auth.getSession();
     const session = JSON.parse(localStorage.getItem(getLocalStorageKey()));
     if (session) {
       dispatch(setUser({ userInfo: session }));
@@ -52,6 +44,7 @@ function App() {
 
   useEffect(() => {
     getUserInfo();
+    return () => clearTimeout(timerRef.current);
   }, [getUserInfo]);
 
   // return <Router />;
