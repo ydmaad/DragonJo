@@ -1,59 +1,51 @@
-import { useCallback, useEffect } from 'react';
+import { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
+import { RouterProvider } from 'react-router-dom';
+import { useAutoLogout } from './hooks/useAutoLogout';
 import { clearUser, setUser } from './redux/slices/user.slice';
-import Router from './routes/router';
-import { supabase } from './service/supabase';
+import router from './routes/router';
 import { logOutUser } from './service/user';
 import { getLocalStorageKey } from './utils/localStorage';
 
 function App() {
   const dispatch = useDispatch();
-
-  const autoLogOutHandler = useCallback(
-    (refresh_token, expires_at) => {
-      const expiresTime = expires_at * 1000;
-      const currentTime = new Date().getTime();
-      const remainingTime = expiresTime - currentTime;
-
-      // console.log(expiresTime, currentTime, remainingTime);
-
-      if (remainingTime < 0) {
-        // 토큰 만료?
-        logOutUser();
-        dispatch(clearUser());
-        return;
-      }
-
-      // 55분 마다 세션 새로 받아와서 로그인 유지
-      // 제대로 테스트 안해봄..
-      setTimeout(async () => {
-        const { data, error } = await supabase.auth.refreshSession({
-          refresh_token
-        });
-        dispatch(setUser({ userInfo: data }));
-        autoLogOutHandler(refresh_token, expires_at);
-      }, 300000);
-    },
-    [dispatch]
-  );
-
-  const getUserInfo = useCallback(async () => {
-    // const {
-    //   data: { session },
-    //   error
-    // } = await supabase.auth.getSession();
-    const session = JSON.parse(localStorage.getItem(getLocalStorageKey()));
-    if (session) {
-      dispatch(setUser({ userInfo: session }));
-      autoLogOutHandler(session.refresh_token, session.expires_at);
-    }
-  }, [dispatch, autoLogOutHandler]);
+  useAutoLogout();
 
   useEffect(() => {
-    getUserInfo();
-  }, [getUserInfo]);
+    const data = JSON.parse(localStorage.getItem(getLocalStorageKey()));
+    // console.log('userInfo', data);
 
-  return <Router />;
+    const session = {
+      access_token: data.access_token,
+      expires_at: data.expires_at,
+      expires_in: data.expires_in,
+      refresh_token: data.refresh_token,
+      token_type: data.token_type
+    };
+
+    const user = {
+      id: data.user.id,
+      email: data.user.email,
+      user_metadata: {
+        avatar_url: data.user.user_metadata.avatar_url,
+        user_name: data.user.user_metadata.user_name
+      }
+    };
+
+    const userInfo = { session, user };
+
+    if (!data) {
+      // console.log('데이터 없음');
+      logOutUser();
+      dispatch(clearUser());
+      return;
+    }
+
+    dispatch(setUser({ userInfo }));
+  }, [dispatch]);
+
+  // return <Router />;
+  return <RouterProvider router={router} />;
 }
 
 export default App;

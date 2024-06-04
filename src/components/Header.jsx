@@ -14,7 +14,7 @@ function Header() {
   const dispatch = useDispatch();
 
   const { isLoggedIn, user } = useSelector((state) => state.user.userInfo);
-
+  // console.log(isLoggedIn, user);
   const path = location.pathname.split('/');
 
   const [profileUrl, setProfileUrl] = useState('');
@@ -61,7 +61,7 @@ function Header() {
             </Link>
 
             <div className="auth-div">
-              {isLoggedIn && <p>{user.username}</p>}
+              {isLoggedIn && <p>{user.user_name}</p>}
               {isLoggedIn ? (
                 <Link onClick={logOutHandler}>로그아웃</Link>
               ) : (
