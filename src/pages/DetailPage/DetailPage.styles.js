@@ -12,13 +12,29 @@ export const PostContent = styled.div`
   -webkit-line-clamp: 5;
   text-overflow: ellipsis; */
 
-  h1,
-  h2,
-  h3,
-  h4,
-  h5,
+  h1 {
+    font-size: 36px;
+    font-weight: 900;
+  }
+  h2 {
+    font-size: 32px;
+    font-weight: 800;
+  }
+  h3 {
+    font-size: 28px;
+    font-weight: 700;
+  }
+  h4 {
+    font-size: 24px;
+    font-weight: 600;
+  }
+  h5 {
+    font-size: 20px;
+    font-weight: 500;
+  }
   h6 {
-    font-weight: bold;
+    font-size: 16px;
+    font-weight: 500;
   }
 
   img {
@@ -30,6 +46,8 @@ export const PostContent = styled.div`
   ol {
     padding-left: 20px;
   }
+  /* li { 들여쓰기 } */
+  /* 글자수 제한, 용량 제한에 따른 css 적용 */
 
   blockquote {
     margin: 10px 0;
@@ -39,7 +57,7 @@ export const PostContent = styled.div`
 `;
 
 export const Container = styled.div`
-  width: 600px;
+  width: 100%;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -65,7 +83,7 @@ export const Subtitle = styled.p`
 export const Form = styled.div`
   display: flex;
   flex-direction: column;
-  width: 100%;
+  width: 50%;
 `;
 
 export const Label = styled.label`

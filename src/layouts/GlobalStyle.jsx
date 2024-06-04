@@ -16,6 +16,7 @@ ${reset}
     display: flex;
     flex-direction: column;
     align-items: center;
+    overflow-x: hidden;
   }
 `;
 export default GlobalStyle;

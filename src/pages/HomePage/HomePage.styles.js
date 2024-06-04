@@ -2,28 +2,36 @@ import styled from 'styled-components';
 
 export const PostList = styled.ul`
   list-style-type: none;
-  padding: 20px;
+  padding: 0px 20px;
   width: 1320px;
   margin: 0 auto;
-  display: flex;
-  justify-content: start;
+  margin-bottom: 20px;
+  display: grid;
+  grid-template-columns: repeat(4, auto);
   gap: 20px;
   flex-wrap: wrap;
+  box-sizing: border-box;
 `;
 
 export const PostItem = styled.li`
   cursor: pointer;
   border: 1px solid black;
-  margin: auto;
-  margin-bottom: 30px;
-  border-radius: 7px;
-  width: 300px;
+  border-radius: 15px;
   height: 400px;
-
+  overflow: hidden;
   &:hover {
     background-color: #dcdcdc;
   }
-
+  & > .post-img {
+    width: 100%;
+    height: 150px;
+    margin-bottom: 20px;
+  }
+  & > .post-img > img {
+    width: 100%;
+    height: 100%;
+    display: block;
+  }
   line-height: 1.3;
 `;
 
@@ -99,16 +107,16 @@ export const Section = styled.section`
 export const PostImage = styled.img`
   width: 250px;
   height: 150px;
-  margin: 25px;
 `;
 
-export const SearchInput = styled.div`
-  padding: 20px;
+export const SearchInput = styled.form`
+  padding: 0px 20px;
   width: 1320px;
-  margin: 0 auto;
+  margin: 20px auto;
   display: flex;
   justify-content: flex-end;
   gap: 20px;
+  box-sizing: border-box;
 `;
 
 export const SearchBtn = styled.button`
