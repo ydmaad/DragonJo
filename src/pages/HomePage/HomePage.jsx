@@ -3,11 +3,11 @@
 import { useEffect, useState } from 'react';
 import 'react-quill/dist/quill.snow.css';
 import { useDispatch, useSelector } from 'react-redux';
-import { useNavigate } from 'react-router-dom';
+import { Swiper, SwiperSlide } from 'swiper/react';
 import 'swiper/css';
 import 'swiper/css/navigation';
 import { Navigation } from 'swiper/modules';
-import { Swiper, SwiperSlide } from 'swiper/react';
+import { useNavigate } from 'react-router-dom';
 import postImg from '../../assets/diablo.jpg';
 import { fetchPosts } from '../../redux/slices/postSlice';
 import {
@@ -118,7 +118,7 @@ function HomePage() {
       {/* 슬라이드 추가한 부분 */}
       {/* {images.length > 0 && ( */}
       <SwiperContainer>
-        <Swiper {...params} navigation={true} modules={Navigation}>
+        <Swiper {...params} navigation={true} modules={[Navigation]}>
           {[postImg, postImg, postImg, postImg].map((image, index) => (
             <SwiperSlide key={index}>
               <img src={image} alt={image} />
