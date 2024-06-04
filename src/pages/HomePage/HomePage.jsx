@@ -89,6 +89,7 @@ function HomePage() {
           <PostItem
             key={post.id}
             onClick={() => {
+              
               navigate(`detail/${post.id}`);
             }}
           >

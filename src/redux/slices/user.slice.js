@@ -1,5 +1,4 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { supabase } from '../../service/supabase';
 
 const initialState = {
   userInfo: {
@@ -34,7 +33,7 @@ const userSlice = createSlice({
       state.userInfo = initialState;
     },
     updateUserInfo(state, action) {
-      state.userInfo.user.username = action.payload.user.user_metadata.username;
+      state.userInfo.session.user.user_metadata.user_name = action.payload.user.user_metadata.user_name;
     }
   }
 });
