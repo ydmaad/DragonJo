@@ -1,8 +1,7 @@
-import React from 'react';
 import diablo from '../../assets/diablo.jpg';
 import comments from '../../assets/comments.png';
 import ddabong from '../../assets/ddabong.png';
-import star from '../../assets/star.png';
+// import star from '../../assets/star.png';
 import * as S from '../../styledComponents/Mypost';
 import { useNavigate } from 'react-router-dom';
 const MypostListItem = (props) => {
@@ -18,7 +17,7 @@ const MypostListItem = (props) => {
       </div>
       <div className="mypost-content">
         <h3>{props.title}</h3>
-        <p>{props.contents}</p>
+        <p dangerouslySetInnerHTML={{ __html: props.content }}></p>
         <div className="showDetailBtn-box">
           <S.CommentsIconBox className="comments-box">
             <div>

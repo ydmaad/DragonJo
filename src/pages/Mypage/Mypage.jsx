@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import * as S from '../../styledComponents/MyProfile';
 import { useDispatch, useSelector } from 'react-redux';
 import Mypost from './Mypost';
@@ -21,6 +21,7 @@ const Mypage = () => {
       setProfileUrl(data.publicUrl);
     }
   };
+
   const handleEditToggle = () => {
     setIsEditing((prev) => !prev);
   };

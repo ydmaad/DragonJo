@@ -50,7 +50,6 @@ export const PostTitle = styled.h2`
 export const PostContent = styled.div`
   color: black;
   white-space: pre-wrap;
-  font-size: 18px;
   margin: 0 25px;
   width: 250px;
   display: -webkit-box;
@@ -59,18 +58,18 @@ export const PostContent = styled.div`
   -webkit-line-clamp: 5;
   text-overflow: ellipsis;
 
-  h1,
+  img {
+    max-width: 100%;
+    height: auto;
+  }
+
+  /* h1,
   h2,
   h3,
   h4,
   h5,
   h6 {
     font-weight: bold;
-  }
-
-  img {
-    max-width: 100%;
-    height: auto;
   }
 
   ul,
@@ -82,7 +81,7 @@ export const PostContent = styled.div`
     margin: 10px 0;
     padding-left: 20px;
     border-left: 5px solid #ccc;
-  }
+  } */
 `;
 
 export const Button = styled.button`
