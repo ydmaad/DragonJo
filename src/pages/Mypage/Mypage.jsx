@@ -2,20 +2,23 @@ import { useState } from 'react';
 import * as S from '../../styledComponents/MyProfile';
 import { useDispatch, useSelector } from 'react-redux';
 import Mypost from './Mypost';
-import { supabase } from '../../service/supabase';
+import { adminAuthClient, supabase } from '../../service/supabase';
 import { useEffect } from 'react';
-import { updateUserInfo } from '../../redux/slices/user.slice';
+import { updateUserInfo, uploadUserAvatar } from '../../redux/slices/user.slice';
+import { useRef } from 'react';
 
 const Mypage = () => {
   const { isLoggedIn, session } = useSelector((state) => state.user.userInfo);
-
   const [isEditing, setIsEditing] = useState(false);
   const [newUsername, setNewUsername] = useState('');
   const [profileUrl, setProfileUrl] = useState('');
+  const [avatarsURL, setAvatarsURL] = useState('');
+  const avatarUploadRef = useRef(null);
+
   const checkProfile = () => {
     const { data, error } = supabase.storage.from('avatars').getPublicUrl('profileIcon.png');
     if (error) {
-      console.error('error=>', error);
+      // console.error('error=>', error);
     } else {
       // console.log('data=>', data.publicUrl);
       setProfileUrl(data.publicUrl);
@@ -27,6 +30,55 @@ const Mypage = () => {
   };
 
   const dispatch = useDispatch();
+  const updateUseravatar = async (avatarUrl) => {
+    const { data, error } = await supabase.auth.updateUser({
+      data: { avatar_url: avatarUrl }
+    });
+    if (error) {
+      console.log('error', error);
+    } else {
+      console.log('성공', data);
+      dispatch(uploadUserAvatar(data));
+      setAvatarsURL(avatarUrl);
+    }
+  };
+  const upLoadAvatarsBtn = async (files) => {
+    if (!files || files.length === 0) {
+      console.error('No files to upload');
+      return;
+    }
+    const [file] = files;
+    if (!file) {
+      // alert('업로드할 이미지 파일이 업단다.');
+      return;
+    }
+    const { data, error } = await supabase.storage.from('avatars').upload(`avatar_${Date.now()}.png`, file, {
+      cacheControl: '3600',
+      upsert: true
+    });
+    if (error) {
+      console.log('error=>', error);
+    } else {
+      console.log('성공', data);
+      const imgURL = `https://dkodekduyiphnphkezzv.supabase.co/storage/v1/object/public/avatars/${data.path}`;
+      // dispatch(uploadUserAvatar(avatarURL));
+      setAvatarsURL(imgURL);
+      await updateUseravatar(imgURL);
+    }
+  };
+
+  useEffect(() => {
+    checkProfile();
+  }, []);
+
+  const handleFileInputChange = (e) => {
+    upLoadAvatarsBtn(e.target.files);
+  };
+
+  const handleUploadButtonClick = () => {
+    avatarUploadRef.current.click();
+  };
+
   const handleSaveClick = async () => {
     const { data, error } = await supabase.auth.updateUser({
       data: { user_name: newUsername }
@@ -40,22 +92,19 @@ const Mypage = () => {
     }
   };
 
-  // const withDrawal = async () => {
-  //   console.log(session.user.id);
-  //   if (confirm('정말로 삭제하겠는가?')) {
-  //     const { data, error } = await supabase.auth.admin.deleteUser(session.user.id);
-  //     if(error){
-  //       console.log('error=>',error)
-  //     }else{
-  //       console.log('data=>',data)
-  //     }
-  //   }
-  //   return;
-  // };
-
-  useEffect(() => {
-    checkProfile();
-  }, []);
+  //회원탈퇴 로직임
+  const withDrawal = async () => {
+    console.log(session.user.id);
+    if (confirm('정말로 삭제하겠는가?')) {
+      const { data, error } = await adminAuthClient.deleteUser(session.user.id);
+      if (error) {
+        console.log('error=>', error);
+      } else {
+        console.log('data=>', data);
+      }
+    }
+    return;
+  };
 
   return (
     <>
@@ -65,11 +114,13 @@ const Mypage = () => {
             <div className="profile-photo">
               <S.profileId>
                 <div className="profile-box">
-                  <img src={profileUrl} alt="profileIcon" />
+                  <img src={avatarsURL || session.user.user_metadata?.avatar_url} alt="profileIcon" />
                 </div>
-                <div>
+                <div className="avatars-upload">
                   <h3>{session.user.user_metadata.user_name}님</h3>
                   <p>환영합니다!</p>
+                  <input type="file" ref={avatarUploadRef} onChange={handleFileInputChange} />
+                  <button onClick={handleUploadButtonClick}>아바타 업로드</button>
                 </div>
               </S.profileId>
             </div>
@@ -128,7 +179,7 @@ const Mypage = () => {
                     <S.MypagetdTitle>탈퇴신청</S.MypagetdTitle>
                     <S.MypageContents>
                       <div>
-                        <button>탈퇴</button>
+                        <button onClick={withDrawal}>탈퇴</button>
                       </div>
                     </S.MypageContents>
                   </tr>

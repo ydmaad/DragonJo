@@ -38,9 +38,15 @@ const userSlice = createSlice({
     },
     updateUserInfo(state, action) {
       state.userInfo.session.user.user_metadata.user_name = action.payload.user.user_metadata.user_name;
+    },
+    uploadUserAvatar(state, action) {
+      const imgURL = action.payload.user.user_metadata.avatar_url;
+      if (!imgURL === '') {
+        state.userInfo.session.user.user_metadata.avatar_url = imgURL;
+      }
     }
   }
 });
 
-export const { setUser, clearUser, updateUserInfo } = userSlice.actions;
+export const { setUser, clearUser, updateUserInfo, uploadUserAvatar } = userSlice.actions;
 export default userSlice.reducer;
