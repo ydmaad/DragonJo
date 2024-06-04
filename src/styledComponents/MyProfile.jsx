@@ -85,6 +85,20 @@ export const profileId = styled.div`
     font-size: 24px;
     font-weight: bold;
   }
+  & .avatars-upload input {
+    display:none;
+  }
+  & .avatars-upload button {
+    background: #fff;
+    font-weight: bold;
+    font-size: 14px;
+    padding: 10px 30px;
+    box-sizing: border-box;
+    margin-top:20px;
+    outline:none;
+    border:none;
+    border-radius:5px;
+  }
 `;
 
 export const Mypagetable = styled.table`
