@@ -16,8 +16,13 @@ import {
   PostList,
   PostTitle,
   SearchBtn,
-  SearchInput
+  SearchInput,
+  SwiperContainer
 } from './HomePage.styles';
+import { Swiper, SwiperSlide } from 'swiper/react';
+import 'swiper/css';
+import 'swiper/css/navigation';
+import { Navigation } from 'swiper/modules';
 
 function HomePage() {
   const dispatch = useDispatch();
@@ -26,10 +31,12 @@ function HomePage() {
   const posts = useSelector((state) => state.posts.posts);
   const status = useSelector((state) => state.posts.status);
   const error = useSelector((state) => state.posts.error);
-  
+
   const [search, setSearch] = useState('');
   const [searchPost, setSearchPost] = useState([]);
   // const [signIn, setSignIn] = useState(false);
+
+  const [images, setImages] = useState([]);
 
   const handleSearchChange = (e) => {
     e.preventDefault();
@@ -63,6 +70,34 @@ function HomePage() {
   //   checkSignIn();
   // }, []);
 
+  // 슬라이드 추가한 부분
+  // useEffect(() => {
+  //   const fetchImages = async () => {
+  //     const { data, error } = await supabase.from('images').select('*');
+
+  //     if (error) {
+  //       console.error('Error fetching images:', error);
+  //     } else {
+  //       setImages(data);
+  //     }
+  //   };
+
+  //   fetchImages();
+  // }, []);
+
+  // 슬라이드 추가한 부분
+  const params = {
+    pagination: {
+      clickable: true
+    },
+    spaceBetween: 30,
+    centeredSlides: true,
+    autoplay: {
+      delay: 2500,
+      disableOnInteraction: false
+    }
+  };
+
   useEffect(() => {
     if (status === 'idle') {
       dispatch(fetchPosts());
@@ -83,7 +118,18 @@ function HomePage() {
         <input type="text" placeholder="검색하시오" value={search} onChange={(e) => setSearch(e.target.value)} />
         <SearchBtn>검색</SearchBtn>
       </SearchInput>
-
+      {/* 슬라이드 추가한 부분 */}
+      {/* {images.length > 0 && ( */}
+      <SwiperContainer>
+        <Swiper {...params} navigation={true} modules={Navigation}>
+          {[postImg, postImg, postImg, postImg].map((image, index) => (
+            <SwiperSlide key={index}>
+              <img src={image} alt={image} />
+            </SwiperSlide>
+          ))}
+        </Swiper>
+      </SwiperContainer>
+      {/* )} */}
       <PostList>
         {searchPost.map((post) => (
           <PostItem
@@ -92,7 +138,7 @@ function HomePage() {
               navigate(`detail/${post.id}`);
             }}
           >
-            <div className='post-img'>
+            <div className="post-img">
               <PostImage src={postImg} />
             </div>
             <PostTitle>{post.title}</PostTitle>

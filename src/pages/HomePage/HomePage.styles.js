@@ -130,3 +130,25 @@ export const SearchBtn = styled.button`
     background-color: #006633;
   }
 `;
+
+export const SwiperContainer = styled.div`
+  width: 100%;
+  max-width: 600px;
+  margin: 20px auto;
+
+  .swiper-container {
+    width: 100%;
+    height: 300px;
+  }
+
+  .swiper-slide {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: #fff;
+  }
+
+  .swiper-pagination {
+    bottom: 10px !important;
+  }
+`;
