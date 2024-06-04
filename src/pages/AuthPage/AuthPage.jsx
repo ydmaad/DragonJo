@@ -192,7 +192,7 @@ function AuthPage() {
     }
 
     const response = isLoginForm ? await logInUser(userInfo) : await registerUser(userInfo);
-    console.log(response);
+    // console.log(response);
     if (response.error) {
       //TODO 에러처리 생각하기
       console.log('response.error!!', response.error);
