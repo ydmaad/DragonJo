@@ -9,8 +9,8 @@ import { Pagination } from 'swiper/modules';
 import { Navigation } from 'swiper/modules';
 import { useNavigate } from 'react-router-dom';
 import postImg from '../../assets/diablo.jpg';
-import { fetchPosts } from '../../redux/slices/postSlice';
-import { supabase } from '../../service/supabase';
+import { fetchPosts, likePost } from '../../redux/slices/postSlice';
+// import { supabase } from '../../service/supabase';
 import {
   PostContent,
   PostImage,
@@ -19,7 +19,8 @@ import {
   PostTitle,
   SearchBtn,
   SearchInput,
-  SwiperContainer
+  SwiperContainer,
+  LikeButton
 } from './HomePage.styles';
 
 function HomePage() {
@@ -30,21 +31,21 @@ function HomePage() {
   const status = useSelector((state) => state.posts.status);
   const error = useSelector((state) => state.posts.error);
 
-//   useEffect(() => {
-//     const getUserData = async () => {
-      
-// const { data: { user } } = await supabase.auth.getUser(jwt)
-//       console.log(user);
-//     };
-//     getUserData();
-//     console.log();
-//   }, []);
+  //   useEffect(() => {
+  //     const getUserData = async () => {
+
+  // const { data: { user } } = await supabase.auth.getUser(jwt)
+  //       console.log(user);
+  //     };
+  //     getUserData();
+  //     console.log();
+  //   }, []);
   // console.log(posts[0].user_id)
 
   const [search, setSearch] = useState('');
   const [searchPost, setSearchPost] = useState([]);
 
-  const [images, setImages] = useState([]);
+  // const [images, setImages] = useState([]);
 
   const handleSearchChange = (e) => {
     e.preventDefault();
@@ -82,6 +83,11 @@ function HomePage() {
       delay: 2500,
       disableOnInteraction: false
     }
+  };
+
+  const handleLike = (e, id) => {
+    e.stopPropagation();
+    dispatch(likePost(id));
   };
 
   useEffect(() => {
@@ -131,6 +137,11 @@ function HomePage() {
             <br />
             <PostContent dangerouslySetInnerHTML={{ __html: post.content }} />
             <br />
+            <div className="like-button-container">
+              <LikeButton data-id={post.id} onClick={handleLike}>
+                👍 {post.likes}
+              </LikeButton>
+            </div>
           </PostItem>
         ))}
       </PostList>

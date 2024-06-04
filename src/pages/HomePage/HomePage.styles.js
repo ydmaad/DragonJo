@@ -130,6 +130,19 @@ export const SearchBtn = styled.button`
   }
 `;
 
+export const LikeButton = styled.button`
+  padding: 5px 10px;
+  font-size: 16px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  background-color: #ff4757;
+  color: white;
+  &:hover {
+    background-color: #e84118;
+  }
+`;
+
 export const SwiperContainer = styled.div`
   width: 100%;
   max-width: 1000px;
