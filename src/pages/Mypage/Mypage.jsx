@@ -40,6 +40,19 @@ const Mypage = () => {
     }
   };
 
+  // const withDrawal = async () => {
+  //   console.log(session.user.id);
+  //   if (confirm('정말로 삭제하겠는가?')) {
+  //     const { data, error } = await supabase.auth.admin.deleteUser(session.user.id);
+  //     if(error){
+  //       console.log('error=>',error)
+  //     }else{
+  //       console.log('data=>',data)
+  //     }
+  //   }
+  //   return;
+  // };
+
   useEffect(() => {
     checkProfile();
   }, []);

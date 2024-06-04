@@ -1,7 +1,6 @@
 import diablo from '../../assets/diablo.jpg';
 import comments from '../../assets/comments.png';
 import ddabong from '../../assets/ddabong.png';
-// import star from '../../assets/star.png';
 import * as S from '../../styledComponents/Mypost';
 import { useNavigate } from 'react-router-dom';
 const MypostListItem = (props) => {

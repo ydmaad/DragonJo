@@ -40,7 +40,6 @@ const Mypost = () => {
               title={item.title}
               content={item.content}
               contentsId={item.id}
-              onClick={() => {}}
             />
           ))}
         </S.MypostListBox>
