@@ -250,6 +250,11 @@ function AuthPage() {
     }
   };
 
+  const resetPasswordHandler = () => {
+    console.log('RESET PASSWORD');
+    nav('/forgot-password');
+  };
+
   return (
     <LoginMainDiv>
       <Abc>
@@ -354,10 +359,16 @@ function AuthPage() {
             </LoginFormButton>
           </LoginForm>
 
-          <LoginLink>
-            <p>처음왔는가?</p>
-            <LoginSignup onClick={toggleAuthForm}>{isLoginForm ? '회원가입' : '로그인'}</LoginSignup>
-          </LoginLink>
+          <AuthLinkBox>
+            <LoginLink>
+              <p>비밀번호를 잊으셨나요?</p>
+              <LoginSignup onClick={resetPasswordHandler}>비밀번호 찾기</LoginSignup>
+            </LoginLink>
+            <LoginLink>
+              <p>처음왔는가?</p>
+              <LoginSignup onClick={toggleAuthForm}>{isLoginForm ? '회원가입' : '로그인'}</LoginSignup>
+            </LoginLink>
+          </AuthLinkBox>
         </LoginFormDiv>
       </Abc>
     </LoginMainDiv>
@@ -365,6 +376,14 @@ function AuthPage() {
 }
 
 export default AuthPage;
+
+const AuthLinkBox = styled.div`
+  display: flex;
+  gap: 8px;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+`;
 
 const OAuthIconsDiv = styled.div`
   display: flex;
