@@ -20,6 +20,7 @@ import {
   SearchInput,
   SwiperContainer
 } from './HomePage.styles';
+import { supabase } from '../../service/supabase';
 
 function HomePage() {
   const dispatch = useDispatch();
@@ -45,19 +46,19 @@ function HomePage() {
   }, [posts]);
 
   // 슬라이드 추가한 부분
-  // useEffect(() => {
-  //   const fetchImages = async () => {
-  //     const { data, error } = await supabase.from('images').select('*');
+  useEffect(() => {
+    const fetchImages = async () => {
+      const { data, error } = await supabase.from('images').select('*');
 
-  //     if (error) {
-  //       console.error('Error fetching images:', error);
-  //     } else {
-  //       setImages(data);
-  //     }
-  //   };
+      if (error) {
+        console.error('이미지 가져오기 에러:', error);
+      } else {
+        setImages(data);
+      }
+    };
 
-  //   fetchImages();
-  // }, []);
+    fetchImages();
+  }, []);
 
   // 슬라이드 추가한 부분
   const params = {
@@ -93,17 +94,17 @@ function HomePage() {
         <SearchBtn>검색</SearchBtn>
       </SearchInput>
       {/* 슬라이드 추가한 부분 */}
-      {/* {images.length > 0 && ( */}
-      <SwiperContainer>
-        <Swiper {...params} navigation={true} modules={[Navigation, Pagination]} pagination={true}>
-          {[postImg, postImg, postImg, postImg].map((image, index) => (
-            <SwiperSlide key={index}>
-              <img src={image} alt={image} />
-            </SwiperSlide>
-          ))}
-        </Swiper>
-      </SwiperContainer>
-      {/* )} */}
+      {images.length > 0 && (
+        <SwiperContainer>
+          <Swiper {...params} navigation={true} modules={[Navigation, Pagination]} pagination={true}>
+            {images.map((image, index) => (
+              <SwiperSlide key={index}>
+                <img src={image.url} alt={`slide-${index}`} />
+              </SwiperSlide>
+            ))}
+          </Swiper>
+        </SwiperContainer>
+      )}
       <PostList>
         {searchPost.map((post) => (
           <PostItem
