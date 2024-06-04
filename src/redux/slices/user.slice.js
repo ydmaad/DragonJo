@@ -42,6 +42,7 @@ const userSlice = createSlice({
     uploadUserAvatar(state, action) {
       console.log(action.payload);
       state.userInfo.session.user.user_metadata.avatar_url = action.payload;
+      console.log(state.userInfo.session.user.user_metadata.avatar_url)
     }
   }
 });

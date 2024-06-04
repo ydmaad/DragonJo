@@ -52,6 +52,7 @@ const Mypage = () => {
     } else {
       console.log('성공', data);
       const avatarURL = `https://supabase.com/dashboard/project/dkodekduyiphnphkezzv/storage/buckets/avatars/${data.path}`;
+      console.log(avatarURL)
       setAvatarsURL(avatarURL);
 
       dispatch(uploadUserAvatar(avatarURL));
@@ -66,7 +67,7 @@ const Mypage = () => {
     avatarUploadRef.current.click();
   };
 
-  console.log(avatarsURL);
+
   const handleSaveClick = async () => {
     const { data, error } = await supabase.auth.updateUser({
       data: { user_name: newUsername }
