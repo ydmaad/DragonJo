@@ -6,7 +6,7 @@ export const PostList = styled.ul`
   width: 1320px;
   margin: 0 auto;
   margin-bottom: 20px;
-  display: grid;
+  display: flex;
   grid-template-columns: repeat(4, auto);
   gap: 20px;
   flex-wrap: wrap;
