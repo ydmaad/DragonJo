@@ -16,8 +16,8 @@ export const deletePost = createAsyncThunk('posts/deletePost', async (id) => {
   return data[0];
 });
 
-export const updatePost = createAsyncThunk('posts/updatePost', async ({ id, title, content }) => {
-  const { data } = await supabase.from('posts').update({ title, content }).eq('id', id).select();
+export const updatePost = createAsyncThunk('posts/updatePost', async ({ id, title, content, imageURL }) => {
+  const { data } = await supabase.from('posts').update({ title, content, image: imageURL }).eq('id', id).select();
   return data[0];
 });
 

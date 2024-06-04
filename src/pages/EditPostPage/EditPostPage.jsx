@@ -2,6 +2,7 @@ import { useState, useEffect, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams, useNavigate } from 'react-router-dom';
 import { fetchPosts, deletePost, updatePost } from '../../redux/slices/postSlice';
+import { supabase } from '../../service/supabase';
 import {
   Wrapper,
   Container,
@@ -25,12 +26,15 @@ const EditPostPage = () => {
   const post = useSelector((state) => state.posts.posts.find((post) => post.id === postId));
   const [title, setTitle] = useState('');
   const [content, setContent] = useState('');
+  const [imageURL, setImageURL] = useState('');
+  const [previewImageURL, setPreviewImageURL] = useState(null);
 
   const quillRef = useRef(null);
+  const imageInputRef = useRef(null);
 
   const handleUpdatePost = () => {
     if (title && content) {
-      dispatch(updatePost({ id: postId, title, content }));
+      dispatch(updatePost({ id: postId, title, content, imageURL: imageURL }));
       navigate('/');
     } else {
       alert('제목과 내용을 입력해주세요.');
@@ -43,6 +47,27 @@ const EditPostPage = () => {
       dispatch(deletePost(postId));
       navigate('/');
     }
+  };
+
+  async function handleImageInputChange(files) {
+    const [file] = files;
+
+    if (!file) {
+      setPreviewImageURL(null);
+      return;
+    }
+
+    const previewURL = URL.createObjectURL(file);
+    setPreviewImageURL(previewURL);
+
+    const { data } = await supabase.storage.from('avatars').upload(`avatar_${Date.now()}.png`, file);
+    const imageURL = `https://supabase.com/dashboard/project/dkodekduyiphnphkezzv/storage/buckets/avatars/${data.path}`;
+    setImageURL(imageURL);
+  }
+
+  const handleImageButtonClick = (e) => {
+    e.preventDefault();
+    imageInputRef.current.click();
   };
 
   const modules = {
@@ -68,8 +93,9 @@ const EditPostPage = () => {
     <Wrapper>
       <Container>
         <Header>
-          <Title>게시글 수정</Title>
-          <Subtitle>게시글을 수정하고 업로드하세요</Subtitle>
+          <Title>메인 이미지 미리보기</Title>
+          <br />
+          {previewImageURL && <img src={previewImageURL} alt="Preview" style={{ maxWidth: '200px' }} />}
         </Header>
         <Form>
           <Label>게시글 제목</Label>
@@ -78,6 +104,13 @@ const EditPostPage = () => {
           <StyledReactQuill ref={quillRef} value={content} onChange={setContent} modules={modules} />
           <ButtonContainer>
             <Button onClick={handleUpdatePost}>수정</Button>
+            <Button onClick={handleImageButtonClick}>메인 이미지 업로드</Button>
+            <input
+              onChange={(e) => handleImageInputChange(e.target.files)}
+              type="file"
+              ref={imageInputRef}
+              style={{ display: 'none' }}
+            />
             <Button onClick={handleDeletePost}>삭제</Button>
             <Button onClick={() => navigate('/')}>돌아가기</Button>
           </ButtonContainer>
