@@ -4,24 +4,25 @@ import { useSelector } from 'react-redux';
 import { useEffect } from 'react';
 import { supabase } from '../../service/supabase';
 import { useState } from 'react';
+
 const Mypost = () => {
-  const { user } = useSelector((state) => state.user.userInfo);
+  const { session } = useSelector((state) => state.user.userInfo);
   const [mypost, setMypost] = useState([]);
 
   useEffect(() => {
     const myPosts = async () => {
-      const { data, error } = await supabase.from('posts').select('*').eq('user_id', user.id);
+      const { data, error } = await supabase.from('posts').select('*').eq('user_id', session.user.id);
       if (error) {
         console.log('error=>', error);
       } else {
-        console.log('data=>', data);
+        // console.log('data=>', data);
         setMypost(data);
       }
     };
 
     myPosts();
-  }, [user]);
-
+  }, [session]);
+  console.log(mypost);
   return (
     <>
       <S.MypostBox>
@@ -33,8 +34,14 @@ const Mypost = () => {
           </ul>
         </S.Mypost>
         <S.MypostListBox>
-          {mypost.map((item, index) => (
-            <MypostListItem key={index} title={item.title} content={item.content} />
+          {mypost.map((item) => (
+            <MypostListItem
+              key={item.id}
+              title={item.title}
+              content={item.content}
+              contentsId={item.id}
+              onClick={() => {}}
+            />
           ))}
         </S.MypostListBox>
       </S.MypostBox>
