@@ -3,6 +3,7 @@ import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { createPost } from '../../redux/slices/postSlice';
 import { Quill } from 'react-quill';
+import 'react-quill/dist/quill.snow.css';
 import {
   Wrapper,
   Container,
@@ -69,20 +70,25 @@ const WritePostPage = () => {
     const formData = new FormData();
     formData.append('image', file);
 
-    const response = await fetch('YOUR_IMAGE_UPLOAD_ENDPOINT', {
-      method: 'POST',
-      body: formData
-    });
+    try {
+      const response = await fetch('YOUR_IMAGE_UPLOAD_ENDPOINT', {
+        method: 'POST',
+        body: formData
+      });
 
-    if (!response.ok) {
-      throw new Error('Image upload failed');
+      if (!response.ok) {
+        throw new Error('Image upload failed');
+      }
+
+      const data = await response.json();
+      const imageUrl = data.url; // 서버에서 반환된 이미지 URL
+
+      const quill = quillRef.current.getEditor();
+      quill.insertEmbed(cursorPosition, 'image', imageUrl); // 이미지 URL을 Quill 에디터에 삽입
+    } catch (error) {
+      console.error('Image upload error:', error);
+      alert('이미지 업로드에 실패했습니다.');
     }
-
-    const data = await response.json();
-    const imageUrl = data.url;
-
-    const quill = quillRef.current.getEditor();
-    quill.insertEmbed(cursorPosition, 'image', imageUrl);
   };
 
   const modules = {

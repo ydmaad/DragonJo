@@ -4,6 +4,8 @@ export const Footer = styled.footer`
   width: 100%;
   background-image: linear-gradient(to bottom, #ffffff, #cccccc);
   border-top: 1px solid rgba(0, 0, 0, 0.2);
+  padding-top: 10px;
+  box-sizing: border-box;
   & .contents {
     width: 1320px;
     margin: 0px auto;
@@ -33,12 +35,32 @@ export const FlexBox = styled.div`
   display: flex;
   align-items: center;
   font-size: 20px;
+
+  & > a {
+    width: 64px;
+    height: 64px;
+    display: block;
+  }
+  & > a > img {
+    width: 100%;
+    height: 100%;
+    display: block;
+  }
+  & > .right-margin {
+    margin-right: 10px;
+  }
+  & > p {
+    font-size: 18px;
+    font-weight: bold;
+    margin-top:4px;
+    margin-left:5px;
+  }
 `;
 export const FooterTeamInfo = styled(FlexBox)`
   display: flex;
   align-items: center;
   gap: 16px;
-  margin-bottom: 20px;
+  margin-bottom: 5px;
 `;
 
 export const FooterSpartaInfo = styled.div`
@@ -51,12 +73,14 @@ export const FooterSpartaInfo = styled.div`
   & ul {
     display: flex;
     flex-wrap: wrap;
+    gap: 10px;
     font-size: 18px;
     font-weight: light;
+    gap: 8px;
+    margin: 20px 0px;
   }
-  & address {
-    margin-bottom: 18px;
-    font-size: 20px;
-    font-weight: light;
+  & .copyright {
+    margin-top: 10px;
+    font-weight: bold;
   }
 `;
