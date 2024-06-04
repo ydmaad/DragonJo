@@ -14,7 +14,7 @@ function App() {
   useEffect(() => {
     const data = JSON.parse(localStorage.getItem(getLocalStorageKey()));
     // console.log('userInfo', data);
-
+    if (!data) return;
     const session = {
       access_token: data.access_token,
       expires_at: data.expires_at,
