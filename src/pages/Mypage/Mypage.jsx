@@ -1,11 +1,50 @@
-import React from 'react';
+import React, { useState } from 'react';
 import * as S from '../../styledComponents/MyProfile';
-import profileIcon from '../../assets/profileIcon.png';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import Mypost from './Mypost';
+import { supabase } from '../../service/supabase';
+import { useEffect } from 'react';
+import { updateUserInfo } from '../../redux/slices/user.slice';
 
 const Mypage = () => {
   const { isLoggedIn, user } = useSelector((state) => state.user.userInfo);
+  const [isEditing, setIsEditing] = useState(false);
+  const [newUsername, setNewUsername] = useState('');
+
+  const [profileUrl, setProfileUrl] = useState('');
+
+  const checkProfile = () => {
+    const { data, error } = supabase.storage.from('avatars').getPublicUrl('profileIcon.png');
+    if (error) {
+      console.error('error=>', error);
+    } else {
+      // console.log('data=>', data.publicUrl);
+      setProfileUrl(data.publicUrl);
+    }
+  };
+  const handleEditToggle = () => {
+    setIsEditing((prev) => !prev);
+  };
+
+  const dispatch = useDispatch();
+
+  const handleSaveClick = async () => {
+    const { data, error } = await supabase.auth.updateUser({
+      data: { username: newUsername }
+    });
+
+    if (error) {
+      console.log('error=>', error);
+    } else {
+      console.log('data=', data);
+      dispatch(updateUserInfo(data));
+      setIsEditing(false);
+    }
+  };
+
+  useEffect(() => {
+    checkProfile();
+  }, []);
 
   return (
     <>
@@ -15,7 +54,7 @@ const Mypage = () => {
             <div className="profile-photo">
               <S.profileId>
                 <div className="profile-box">
-                  <img src={profileIcon} alt="profileIcon" />
+                  <img src={profileUrl} alt="profileIcon" />
                 </div>
                 <div>
                   <h3>{user.username}님</h3>
@@ -56,10 +95,22 @@ const Mypage = () => {
                   <tr>
                     <S.MypagetdTitle>닉네임</S.MypagetdTitle>
                     <S.MypageContents>
-                      <div>
-                        <h3>{user.username}</h3>
-                        <button>변경</button>
-                      </div>
+                      {isEditing ? (
+                        <div>
+                          <input type="text" value={newUsername} onChange={(e) => setNewUsername(e.target.value)} />
+                          <div className="user-confirm">
+                            <button onClick={handleSaveClick}>확인</button>
+                            <button className="cancel-btn" onClick={handleEditToggle}>
+                              취소
+                            </button>
+                          </div>
+                        </div>
+                      ) : (
+                        <div>
+                          <h3>{user.username}</h3>
+                          <button onClick={handleEditToggle}>변경</button>
+                        </div>
+                      )}
                     </S.MypageContents>
                   </tr>
                   <tr>

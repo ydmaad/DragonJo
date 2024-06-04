@@ -115,30 +115,43 @@ export const MypageContents = styled.td`
   border: 1px solid #fff;
   box-sizing: border-box;
   border-right: none;
-  & div {
+  &>div {
     display: flex;
     justify-content: space-between;
     padding: 0px 20px;
     align-items: center;
     & button {
-      font-size: 12px;
+      font-size: 14px;
       font-weight: bold;
       background: #fff;
       color: red;
       border: none;
       outline: none;
-      width: 44px;
-      height: 25px;
+      height: 30px;
+      padding:0px 15px;
+      box-sizing: border-box;
       border-radius: 5px;
       cursor: pointer;
+    }
+    & .cancel-btn{
+      margin-left:15px;
     }
     & button:active {
       box-shadow: inset 1px 1px 4px #6e6e6e;
     }
+    & input {
+      width: 50%;
+      height: 30px;
+      border-radius: 5px;
+      outline:none;
+      border:none;
+      padding-left:10px;
+      box-sizing: border-box;
+    }
   }
 `;
-export const UnloginNotice=styled.h1`
+export const UnloginNotice = styled.h1`
   text-align: center;
-  font-size:40px;
-  font-weight:bold;
-`
+  font-size: 40px;
+  font-weight: bold;
+`;
