@@ -192,7 +192,7 @@ function AuthPage() {
     }
 
     const response = isLoginForm ? await logInUser(userInfo) : await registerUser(userInfo);
-    // console.log(response);
+    // console.log('AUTH PAGE', response);
     if (response.error) {
       //TODO 에러처리 생각하기
       console.log('response.error!!', response.error);
@@ -200,8 +200,7 @@ function AuthPage() {
     }
 
     if (isLoginForm) {
-      dispatch(setUser({ userInfo: response.data }));
-      //TODO login 후 refresh token 함수 만들기
+      dispatch(setUser({ session: response.data }));
       nav('/', { replace: true });
     } else {
       resetInputRef();
@@ -217,9 +216,14 @@ function AuthPage() {
 
   const githubLoginHandler = async () => {
     console.log('GITHUB LOGIN');
-    const { data, error } = await supabase.auth.signInWithOAuth({
+    const { error } = await supabase.auth.signInWithOAuth({
       provider: 'github'
     });
+
+    if (error) {
+      console.log('login error', error);
+      return;
+    }
   };
 
   const googleLoginHandler = async () => {
