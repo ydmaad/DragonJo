@@ -15,11 +15,11 @@ function Header() {
   const dispatch = useDispatch();
 
   const localData = JSON.parse(localStorage.getItem(getLocalStorageKey())) || {};
-  console.log(localData);
+  // console.log(localData);
   const localUsername = localData?.user?.user_metadata?.user_name || '';
   const { session } = useSelector((state) => state.user.userInfo);
   const [username, setUsername] = useState(localUsername);
-  console.log('HEADER USERNAME', localUsername);
+  // console.log('HEADER USERNAME', localUsername);
 
   const path = location.pathname.split('/');
   const [profileUrl, setProfileUrl] = useState('');
