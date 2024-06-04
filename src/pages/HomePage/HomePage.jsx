@@ -6,6 +6,8 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import 'swiper/css';
 import 'swiper/css/navigation';
+import 'swiper/css/pagination';
+import { Pagination } from 'swiper/modules';
 import { Navigation } from 'swiper/modules';
 import { useNavigate } from 'react-router-dom';
 import postImg from '../../assets/diablo.jpg';
@@ -118,7 +120,7 @@ function HomePage() {
       {/* 슬라이드 추가한 부분 */}
       {/* {images.length > 0 && ( */}
       <SwiperContainer>
-        <Swiper {...params} navigation={true} modules={[Navigation]}>
+        <Swiper {...params} navigation={true} modules={[Navigation, Pagination]} pagination={true}>
           {[postImg, postImg, postImg, postImg].map((image, index) => (
             <SwiperSlide key={index}>
               <img src={image} alt={image} />
