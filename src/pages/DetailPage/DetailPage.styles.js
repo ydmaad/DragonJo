@@ -12,7 +12,7 @@ export const PostContent = styled.div`
   -webkit-line-clamp: 5;
   text-overflow: ellipsis; */
 
-  h1 {
+  /* h1 {
     font-size: 36px;
     font-weight: 900;
   }
@@ -35,25 +35,26 @@ export const PostContent = styled.div`
   h6 {
     font-size: 16px;
     font-weight: 500;
-  }
+  } */
 
   img {
     max-width: 100%;
+    /* 최소크기 */
     height: auto;
   }
 
-  ul,
+  /* ul,
   ol {
     padding-left: 20px;
-  }
+  } */
   /* li { 들여쓰기 } */
   /* 글자수 제한, 용량 제한에 따른 css 적용 */
 
-  blockquote {
+  /* blockquote {
     margin: 10px 0;
     padding-left: 20px;
     border-left: 5px solid #ccc;
-  }
+  } */
 `;
 
 export const Container = styled.div`
