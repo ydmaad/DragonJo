@@ -33,7 +33,7 @@ function HomePage() {
   const [searchPost, setSearchPost] = useState([]);
   // const [signIn, setSignIn] = useState(false);
 
-  // const [images, setImages] = useState([]);
+  const [images, setImages] = useState([]);
 
   const handleSearchChange = (e) => {
     e.preventDefault();

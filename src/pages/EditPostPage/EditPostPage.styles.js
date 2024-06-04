@@ -3,7 +3,6 @@ import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
 
 export const Wrapper = styled.div`
-  font-family: Axiforma;
   display: flex;
   justify-content: center;
   align-items: center;
