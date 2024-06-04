@@ -1,5 +1,3 @@
-// import { supabase } from '../../service/supabase';
-// import { useState } from 'react';
 import { useEffect, useState } from 'react';
 import 'react-quill/dist/quill.snow.css';
 import { useDispatch, useSelector } from 'react-redux';
@@ -33,7 +31,6 @@ function HomePage() {
 
   const [search, setSearch] = useState('');
   const [searchPost, setSearchPost] = useState([]);
-  // const [signIn, setSignIn] = useState(false);
 
   const [images, setImages] = useState([]);
 
@@ -46,28 +43,6 @@ function HomePage() {
   useEffect(() => {
     setSearchPost(posts.filter((post) => post.title.toLowerCase().includes(search.toLowerCase())));
   }, [posts]);
-
-  // async function checkSignIn() {
-  //   const session = await supabase.auth.getSession();
-  //   const isSignIn = !!session.data.session;
-
-  //   setSignIn(isSignIn);
-  // }
-
-  // async function signInWithGithub() {
-  //   await supabase.auth.signInWithOAuth({
-  //     provider: 'github'
-  //   });
-  // }
-
-  // async function signOut() {
-  //   await supabase.auth.signOut();
-  //   checkSignIn();
-  // }
-
-  // useEffect(() => {
-  //   checkSignIn();
-  // }, []);
 
   // 슬라이드 추가한 부분
   // useEffect(() => {
