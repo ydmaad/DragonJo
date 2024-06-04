@@ -29,22 +29,22 @@ const WritePostPage = () => {
 
   const [title, setTitle] = useState('');
   const [content, setContent] = useState('');
-  const [profileURL, setProfileURL] = useState('');
+  const [imageURL, setImageURL] = useState('');
   const [previewImageURL, setPreviewImageURL] = useState(null);
 
   const quillRef = useRef(null);
-  const fileInputRef = useRef(null);
+  const imageInputRef = useRef(null);
 
   const handleCreatePost = () => {
     if (title && content) {
-      dispatch(createPost({ title, content, imageURL: profileURL }));
+      dispatch(createPost({ title, content, imageURL: imageURL }));
       navigate('/');
     } else {
       alert('제목과 내용을 입력해주세요.');
     }
   };
 
-  async function handleFileInputChange(files) {
+  async function handleImageInputChange(files) {
     const [file] = files;
 
     if (!file) {
@@ -57,8 +57,13 @@ const WritePostPage = () => {
 
     const { data } = await supabase.storage.from('avatars').upload(`avatar_${Date.now()}.png`, file);
     const imageURL = `https://supabase.com/dashboard/project/dkodekduyiphnphkezzv/storage/buckets/avatars/${data.path}`;
-    setProfileURL(imageURL);
+    setImageURL(imageURL);
   }
+
+  const handleImageButtonClick = (e) => {
+    e.preventDefault();
+    imageInputRef.current.click();
+  };
 
   const modules = {
     toolbar: [
@@ -73,10 +78,10 @@ const WritePostPage = () => {
   return (
     <Wrapper>
       <Container>
-        {previewImageURL && <img src={previewImageURL} alt="Preview" style={{ maxWidth: '200px' }} />}
         <Header>
-          <Title>게시글 작성</Title>
-          <Subtitle>게시글을 작성하고 업로드하세요</Subtitle>
+          <Title>메인 이미지 미리보기</Title>
+          <br />
+          {previewImageURL && <img src={previewImageURL} alt="Preview" style={{ maxWidth: '200px' }} />}
         </Header>
         <Form>
           <Label>게시글 제목</Label>
@@ -86,11 +91,12 @@ const WritePostPage = () => {
           <StyledReactQuill ref={quillRef} value={content} onChange={setContent} modules={modules} />
           <ButtonContainer>
             <Button onClick={handleCreatePost}>업로드</Button>
+            <Button onClick={handleImageButtonClick}>메인 이미지 업로드</Button>
             <input
-              onChange={(e) => handleFileInputChange(e.target.files)}
+              onChange={(e) => handleImageInputChange(e.target.files)}
               type="file"
-              ref={fileInputRef}
-              className="hidden"
+              ref={imageInputRef}
+              style={{ display: 'none' }}
             />
             <Button onClick={() => navigate('/')}>뒤로가기</Button>
           </ButtonContainer>
