@@ -10,6 +10,7 @@ import { Navigation } from 'swiper/modules';
 import { useNavigate } from 'react-router-dom';
 import postImg from '../../assets/diablo.jpg';
 import { fetchPosts } from '../../redux/slices/postSlice';
+import { supabase } from '../../service/supabase';
 import {
   PostContent,
   PostImage,
@@ -28,6 +29,17 @@ function HomePage() {
   const posts = useSelector((state) => state.posts.posts);
   const status = useSelector((state) => state.posts.status);
   const error = useSelector((state) => state.posts.error);
+
+//   useEffect(() => {
+//     const getUserData = async () => {
+      
+// const { data: { user } } = await supabase.auth.getUser(jwt)
+//       console.log(user);
+//     };
+//     getUserData();
+//     console.log();
+//   }, []);
+  // console.log(posts[0].user_id)
 
   const [search, setSearch] = useState('');
   const [searchPost, setSearchPost] = useState([]);
