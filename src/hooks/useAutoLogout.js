@@ -5,12 +5,12 @@ import { logOutUser } from '../service/user';
 
 export const useAutoLogout = () => {
   const dispatch = useDispatch();
-  const data = useSelector((state) => state.user.userInfo);
+  const { session, isLoggedIn } = useSelector((state) => state.user.userInfo);
 
   useEffect(() => {
-    if (!data.isLoggedIn) return;
+    if (isLoggedIn || !session) return;
 
-    const { expires_at } = data.token;
+    const { expires_at } = session;
     const currentTime = new Date().getTime();
     const remainingTime = expires_at * 1000 - currentTime;
 
@@ -22,5 +22,5 @@ export const useAutoLogout = () => {
     return () => {
       clearTimeout(logoutTimer);
     };
-  }, [dispatch, data]);
+  }, [dispatch, isLoggedIn, session]);
 };
