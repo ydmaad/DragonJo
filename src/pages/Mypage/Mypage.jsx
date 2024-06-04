@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import * as S from '../../styledComponents/MyProfile';
 import { useDispatch, useSelector } from 'react-redux';
 import Mypost from './Mypost';
@@ -7,12 +7,11 @@ import { useEffect } from 'react';
 import { updateUserInfo } from '../../redux/slices/user.slice';
 
 const Mypage = () => {
-  const { isLoggedIn, user } = useSelector((state) => state.user.userInfo);
+  const { isLoggedIn, session } = useSelector((state) => state.user.userInfo);
+
   const [isEditing, setIsEditing] = useState(false);
   const [newUsername, setNewUsername] = useState('');
-
   const [profileUrl, setProfileUrl] = useState('');
-
   const checkProfile = () => {
     const { data, error } = supabase.storage.from('avatars').getPublicUrl('profileIcon.png');
     if (error) {
@@ -22,25 +21,37 @@ const Mypage = () => {
       setProfileUrl(data.publicUrl);
     }
   };
+
   const handleEditToggle = () => {
     setIsEditing((prev) => !prev);
   };
 
   const dispatch = useDispatch();
-
   const handleSaveClick = async () => {
     const { data, error } = await supabase.auth.updateUser({
-      data: { username: newUsername }
+      data: { user_name: newUsername }
     });
-
     if (error) {
       console.log('error=>', error);
     } else {
-      console.log('data=', data);
+      // console.log('data=', data);
       dispatch(updateUserInfo(data));
-      setIsEditing(false);
+      setIsEditing((prev) => !prev);
     }
   };
+
+  // const withDrawal = async () => {
+  //   console.log(session.user.id);
+  //   if (confirm('정말로 삭제하겠는가?')) {
+  //     const { data, error } = await supabase.auth.admin.deleteUser(session.user.id);
+  //     if(error){
+  //       console.log('error=>',error)
+  //     }else{
+  //       console.log('data=>',data)
+  //     }
+  //   }
+  //   return;
+  // };
 
   useEffect(() => {
     checkProfile();
@@ -57,7 +68,7 @@ const Mypage = () => {
                   <img src={profileUrl} alt="profileIcon" />
                 </div>
                 <div>
-                  <h3>{user.username}님</h3>
+                  <h3>{session.user.user_metadata.user_name}님</h3>
                   <p>환영합니다!</p>
                 </div>
               </S.profileId>
@@ -71,7 +82,7 @@ const Mypage = () => {
                     <S.MypagetdTitle>회원번호</S.MypagetdTitle>
                     <S.MypageContents>
                       <div>
-                        <h3>{user.id.split('-').join('').slice(0, 10)}</h3>
+                        <h3>{session.user.id.split('-').join('').slice(0, 10)}</h3>
                       </div>
                     </S.MypageContents>
                   </tr>
@@ -79,7 +90,7 @@ const Mypage = () => {
                     <S.MypagetdTitle>아이디</S.MypagetdTitle>
                     <S.MypageContents>
                       <div>
-                        <h3>{user.email}</h3>
+                        <h3>{session.user.user_metadata.email}</h3>
                       </div>
                     </S.MypageContents>
                   </tr>
@@ -107,7 +118,7 @@ const Mypage = () => {
                         </div>
                       ) : (
                         <div>
-                          <h3>{user.username}</h3>
+                          <h3>{session.user.user_metadata.user_name}</h3>
                           <button onClick={handleEditToggle}>변경</button>
                         </div>
                       )}

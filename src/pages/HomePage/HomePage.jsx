@@ -1,15 +1,16 @@
-// import { supabase } from '../../service/supabase';
-// import { useState } from 'react';
 import { useEffect, useState } from 'react';
 import 'react-quill/dist/quill.snow.css';
 import { useDispatch, useSelector } from 'react-redux';
-import { useNavigate } from 'react-router-dom';
+import { Swiper, SwiperSlide } from 'swiper/react';
 import 'swiper/css';
 import 'swiper/css/navigation';
+import 'swiper/css/pagination';
+import { Pagination } from 'swiper/modules';
 import { Navigation } from 'swiper/modules';
-import { Swiper, SwiperSlide } from 'swiper/react';
+import { useNavigate } from 'react-router-dom';
 import postImg from '../../assets/diablo.jpg';
 import { fetchPosts } from '../../redux/slices/postSlice';
+import { supabase } from '../../service/supabase';
 import {
   PostContent,
   PostImage,
@@ -29,9 +30,19 @@ function HomePage() {
   const status = useSelector((state) => state.posts.status);
   const error = useSelector((state) => state.posts.error);
 
+//   useEffect(() => {
+//     const getUserData = async () => {
+      
+// const { data: { user } } = await supabase.auth.getUser(jwt)
+//       console.log(user);
+//     };
+//     getUserData();
+//     console.log();
+//   }, []);
+  // console.log(posts[0].user_id)
+
   const [search, setSearch] = useState('');
   const [searchPost, setSearchPost] = useState([]);
-  // const [signIn, setSignIn] = useState(false);
 
   const [images, setImages] = useState([]);
 
@@ -44,28 +55,6 @@ function HomePage() {
   useEffect(() => {
     setSearchPost(posts.filter((post) => post.title.toLowerCase().includes(search.toLowerCase())));
   }, [posts]);
-
-  // async function checkSignIn() {
-  //   const session = await supabase.auth.getSession();
-  //   const isSignIn = !!session.data.session;
-
-  //   setSignIn(isSignIn);
-  // }
-
-  // async function signInWithGithub() {
-  //   await supabase.auth.signInWithOAuth({
-  //     provider: 'github'
-  //   });
-  // }
-
-  // async function signOut() {
-  //   await supabase.auth.signOut();
-  //   checkSignIn();
-  // }
-
-  // useEffect(() => {
-  //   checkSignIn();
-  // }, []);
 
   // 슬라이드 추가한 부분
   // useEffect(() => {
@@ -118,7 +107,7 @@ function HomePage() {
       {/* 슬라이드 추가한 부분 */}
       {/* {images.length > 0 && ( */}
       <SwiperContainer>
-        <Swiper {...params} navigation={true} modules={Navigation}>
+        <Swiper {...params} navigation={true} modules={[Navigation, Pagination]} pagination={true}>
           {[postImg, postImg, postImg, postImg].map((image, index) => (
             <SwiperSlide key={index}>
               <img src={image} alt={image} />

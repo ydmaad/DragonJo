@@ -1,8 +1,10 @@
-import { useState, useRef, useEffect } from 'react';
+import { useState, useRef } from 'react';
 import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { createPost } from '../../redux/slices/postSlice';
+import { supabase } from '../../service/supabase';
 import { Quill } from 'react-quill';
+import 'react-quill/dist/quill.snow.css';
 import {
   Wrapper,
   Container,
@@ -27,105 +29,75 @@ const WritePostPage = () => {
 
   const [title, setTitle] = useState('');
   const [content, setContent] = useState('');
+  const [imageURL, setImageURL] = useState('');
+  const [previewImageURL, setPreviewImageURL] = useState(null);
 
   const quillRef = useRef(null);
+  const imageInputRef = useRef(null);
 
   const handleCreatePost = () => {
     if (title && content) {
-      dispatch(createPost({ title, content }));
+      dispatch(createPost({ title, content, imageURL: imageURL }));
       navigate('/');
     } else {
       alert('제목과 내용을 입력해주세요.');
     }
   };
 
-  const handleDrop = (event) => {
-    event.preventDefault();
-    const quill = quillRef.current.getEditor();
-    const cursorPosition = quill.getSelection().index;
-    const files = event.dataTransfer.files;
+  async function handleImageInputChange(files) {
+    const [file] = files;
 
-    if (files && files.length > 0) {
-      const file = files[0];
-      uploadImage(file, cursorPosition);
-    }
-  };
-
-  const handlePaste = (event) => {
-    const quill = quillRef.current.getEditor();
-    const cursorPosition = quill.getSelection().index;
-    const clipboard = event.clipboardData;
-    const items = clipboard.items;
-
-    for (let i = 0; i < items.length; i++) {
-      if (items[i].type.indexOf('image') !== -1) {
-        const file = items[i].getAsFile();
-        uploadImage(file, cursorPosition);
-      }
-    }
-  };
-
-  const uploadImage = async (file, cursorPosition) => {
-    const formData = new FormData();
-    formData.append('image', file);
-
-    const response = await fetch('YOUR_IMAGE_UPLOAD_ENDPOINT', {
-      method: 'POST',
-      body: formData
-    });
-
-    if (!response.ok) {
-      throw new Error('Image upload failed');
+    if (!file) {
+      setPreviewImageURL(null);
+      return;
     }
 
-    const data = await response.json();
-    const imageUrl = data.url;
+    const previewURL = URL.createObjectURL(file);
+    setPreviewImageURL(previewURL);
 
-    const quill = quillRef.current.getEditor();
-    quill.insertEmbed(cursorPosition, 'image', imageUrl);
+    const { data } = await supabase.storage.from('avatars').upload(`avatar_${Date.now()}.png`, file);
+    const imageURL = `https://supabase.com/dashboard/project/dkodekduyiphnphkezzv/storage/buckets/avatars/${data.path}`;
+    setImageURL(imageURL);
+  }
+
+  const handleImageButtonClick = (e) => {
+    e.preventDefault();
+    imageInputRef.current.click();
   };
 
   const modules = {
     toolbar: [
       [{ header: '1' }, { header: '2' }, { font: [] }],
       [{ size: [] }],
-      ['bold', 'italic', 'underline', 'strike', 'blockquote', 'code-block'],
-      [{ list: 'ordered' }, { list: 'bullet' }],
-      [{ script: 'sub' }, { script: 'super' }],
-      [{ indent: '-1' }, { indent: '+1' }, { direction: 'rtl' }],
+      ['underline', 'strike', 'blockquote', 'code-block'],
       [{ color: [] }, { background: [] }],
-      [{ align: [] }],
-      ['link', 'image', 'video'],
-      ['clean']
+      ['image']
     ]
   };
-
-  useEffect(() => {
-    const quill = quillRef.current.getEditor();
-
-    quill.root.addEventListener('drop', handleDrop, false);
-    quill.root.addEventListener('paste', handlePaste, false);
-
-    return () => {
-      quill.root.removeEventListener('drop', handleDrop);
-      quill.root.removeEventListener('paste', handlePaste);
-    };
-  }, []);
 
   return (
     <Wrapper>
       <Container>
         <Header>
-          <Title>게시글 작성</Title>
-          <Subtitle>게시글을 작성하고 업로드하세요</Subtitle>
+          <Title>메인 이미지 미리보기</Title>
+          <br />
+          {previewImageURL && <img src={previewImageURL} alt="Preview" style={{ maxWidth: '200px' }} />}
         </Header>
         <Form>
           <Label>게시글 제목</Label>
           <Input type="text" value={title} onChange={(e) => setTitle(e.target.value)} />
+
           <Label>게시글 내용</Label>
           <StyledReactQuill ref={quillRef} value={content} onChange={setContent} modules={modules} />
           <ButtonContainer>
             <Button onClick={handleCreatePost}>업로드</Button>
+            <Button onClick={handleImageButtonClick}>메인 이미지 업로드</Button>
+            <input
+              onChange={(e) => handleImageInputChange(e.target.files)}
+              type="file"
+              ref={imageInputRef}
+              style={{ display: 'none' }}
+            />
             <Button onClick={() => navigate('/')}>뒤로가기</Button>
           </ButtonContainer>
         </Form>

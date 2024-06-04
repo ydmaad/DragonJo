@@ -50,7 +50,6 @@ export const PostTitle = styled.h2`
 export const PostContent = styled.div`
   color: black;
   white-space: pre-wrap;
-  font-size: 18px;
   margin: 0 25px;
   width: 250px;
   display: -webkit-box;
@@ -59,18 +58,18 @@ export const PostContent = styled.div`
   -webkit-line-clamp: 5;
   text-overflow: ellipsis;
 
-  h1,
+  img {
+    max-width: 100%;
+    height: auto;
+  }
+
+  /* h1,
   h2,
   h3,
   h4,
   h5,
   h6 {
     font-weight: bold;
-  }
-
-  img {
-    max-width: 100%;
-    height: auto;
   }
 
   ul,
@@ -82,7 +81,7 @@ export const PostContent = styled.div`
     margin: 10px 0;
     padding-left: 20px;
     border-left: 5px solid #ccc;
-  }
+  } */
 `;
 
 export const Button = styled.button`
@@ -133,7 +132,7 @@ export const SearchBtn = styled.button`
 
 export const SwiperContainer = styled.div`
   width: 100%;
-  max-width: 600px;
+  max-width: 1000px;
   margin: 20px auto;
 
   .swiper-container {
@@ -146,9 +145,43 @@ export const SwiperContainer = styled.div`
     justify-content: center;
     align-items: center;
     background: #fff;
+    overflow: hidden;
+  }
+
+  .swiper-slide img {
+    width: 100%;
+    height: auto;
+    object-fit: cover;
   }
 
   .swiper-pagination {
-    bottom: 10px !important;
+    /* bottom: 10px !important; */
+    position: absolute;
+    bottom: 10px;
+    left: 50%;
+    transform: translateX(-50%);
+  }
+
+  .swiper-button-prev,
+  .swiper-button-next {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 30px;
+    height: 30px;
+    border-radius: 100%;
+    color: #fff;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+  }
+
+  .swiper-button-prev {
+    left: 10px;
+  }
+
+  .swiper-button-next {
+    right: 10px;
   }
 `;

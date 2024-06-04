@@ -13,7 +13,7 @@ export const Mypost = styled.nav`
   margin-bottom: 50px;
   & > ul {
     display: flex;
-    border-bottom: 1px solid #000;
+    border-bottom: 2px solid #000;
     padding: 0px 20px 10px 20px;
     box-sizing: border-box;
     justify-content: space-between;
@@ -31,9 +31,11 @@ export const MypostListBox = styled.ul`
   gap: 33px;
 `;
 export const MypostListItem = styled.li`
+  
   background: #d9d9d9;
   border-radius: 15px;
   overflow: hidden;
+  cursor: pointer;
   & > .mypost-img {
     width: 100%;
     height: 150px;
@@ -46,19 +48,23 @@ export const MypostListItem = styled.li`
   & > .mypost-content {
     padding: 20px;
     box-sizing: border-box;
+    overflow:hidden;
     & > h3 {
       font-size: 20px;
       font-weight: bold;
     }
     & > p {
       height: 120px;
-      margin-top: 20px;
-
+      margin-top: 10px;
+      padding-top:20px;
+      box-sizing:border-box;
       overflow: hidden;
       display: -webkit-box;
       -webkit-box-orient: vertical;
       -webkit-line-clamp: 6;
-      line-height: 1.3em;
+      &:nth-child(even){
+        margin-top:5px;
+      }
     }
     & > .showDetailBtn-box {
       margin-top: 20px;
@@ -96,12 +102,4 @@ export const CommentsIconBox = styled.div`
       align-items: center;
     }
   }
-`;
-
-export const StarBox = styled.ul`
-  margin-top: 20px;
-  width: 180px;
-  height: 30px;
-  display: flex;
-  gap: 10px;
 `;
