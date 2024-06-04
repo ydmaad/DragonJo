@@ -41,7 +41,7 @@ const DetailPage = () => {
         <Title>{title}</Title>
       </Header>
       <Form ref={ref}>
-        <div dangerouslySetInnerHTML={{ __html: content }} />
+        <PostContent dangerouslySetInnerHTML={{ __html: content }} />
         {/* {content} */}
         <ButtonContainer>
           <Button onClick={handleUpdatePost}>수정</Button>
