@@ -32,11 +32,20 @@ const DetailPage = () => {
   }, [dispatch, post]);
 
   const handleUpdatePost = () => {
-    if (title && content) {
-      dispatch(updatePost({ id: postId, title, content }));
-      navigate(`/edit/${id}`);
+    if (writerId === userId) {
+      if (title && content) {
+        dispatch(updatePost({ id: postId, title, content }));
+        navigate(`/edit/${id}`);
+      } else {
+        Swal.fire(`제목과 내용을 모두 입력해주세요.`);
+      }
     } else {
-      Swal.fire('권한 사용자만 수정가능합니다');
+      Swal.fire({
+        icon: `error`,
+        title: `권한 없음`,
+        text: `수정 권한이 없습니다.`,
+        confirmButtonText: `확인`
+      });
     }
   };
 
@@ -49,7 +58,8 @@ const DetailPage = () => {
         <PostContent dangerouslySetInnerHTML={{ __html: content }} />
         {/* {content} */}
         <ButtonContainer>
-          {writerId === userId && <Button onClick={handleUpdatePost}>수정</Button>}
+          <Button onClick={handleUpdatePost}>수정</Button>
+          {/* {writerId === userId && <Button onClick={handleUpdatePost}>수정</Button>} */}
           <Button onClick={() => navigate('/')}>돌아가기</Button>
         </ButtonContainer>
       </Form>
