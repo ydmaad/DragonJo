@@ -60,6 +60,11 @@ const WritePostPage = () => {
     setImageURL(imageURL);
   }
 
+  const handleImageButtonClick = (e) => {
+    e.preventDefault();
+    imageInputRef.current.click();
+  };
+
   const modules = {
     toolbar: [
       [{ header: '1' }, { header: '2' }, { font: [] }],
@@ -73,10 +78,10 @@ const WritePostPage = () => {
   return (
     <Wrapper>
       <Container>
-        {previewImageURL && <img src={previewImageURL} alt="Preview" style={{ maxWidth: '200px' }} />}
         <Header>
-          <Title>게시글 작성</Title>
-          <Subtitle>게시글을 작성하고 업로드하세요</Subtitle>
+          <Title>메인 이미지 미리보기</Title>
+          <br />
+          {previewImageURL && <img src={previewImageURL} alt="Preview" style={{ maxWidth: '200px' }} />}
         </Header>
         <Form>
           <Label>게시글 제목</Label>
@@ -86,11 +91,12 @@ const WritePostPage = () => {
           <StyledReactQuill ref={quillRef} value={content} onChange={setContent} modules={modules} />
           <ButtonContainer>
             <Button onClick={handleCreatePost}>업로드</Button>
+            <Button onClick={handleImageButtonClick}>메인 이미지 업로드</Button>
             <input
               onChange={(e) => handleImageInputChange(e.target.files)}
               type="file"
               ref={imageInputRef}
-              className="hidden"
+              style={{ display: 'none' }}
             />
             <Button onClick={() => navigate('/')}>뒤로가기</Button>
           </ButtonContainer>
