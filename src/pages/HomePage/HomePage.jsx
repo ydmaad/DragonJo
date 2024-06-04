@@ -1,15 +1,16 @@
 // import { supabase } from '../../service/supabase';
 // import { useState } from 'react';
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useState } from 'react';
+import 'react-quill/dist/quill.snow.css';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
+import 'swiper/css';
+import 'swiper/css/navigation';
+import { Navigation } from 'swiper/modules';
+import { Swiper, SwiperSlide } from 'swiper/react';
 import postImg from '../../assets/diablo.jpg';
 import { fetchPosts } from '../../redux/slices/postSlice';
-import { supabase } from '../../service/supabase';
-import ReactQuill from 'react-quill';
-import 'react-quill/dist/quill.snow.css';
 import {
-  Button,
   PostContent,
   PostImage,
   PostItem,
@@ -19,10 +20,6 @@ import {
   SearchInput,
   SwiperContainer
 } from './HomePage.styles';
-import { Swiper, SwiperSlide } from 'swiper/react';
-import 'swiper/css';
-import 'swiper/css/navigation';
-import { Navigation } from 'swiper/modules';
 
 function HomePage() {
   const dispatch = useDispatch();

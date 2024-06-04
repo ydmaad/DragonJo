@@ -1,5 +1,4 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { supabase } from '../../service/supabase';
 
 const initialState = {
   userInfo: {
