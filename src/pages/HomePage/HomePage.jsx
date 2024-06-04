@@ -21,25 +21,25 @@ import {
   SearchInput,
   SwiperContainer
 } from './HomePage.styles';
-import { supabase } from '../../service/supabase';
 
 function HomePage() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
   const posts = useSelector((state) => state.posts.posts);
+  console.log(posts);
   const status = useSelector((state) => state.posts.status);
   const error = useSelector((state) => state.posts.error);
 
-//   useEffect(() => {
-//     const getUserData = async () => {
-      
-// const { data: { user } } = await supabase.auth.getUser(jwt)
-//       console.log(user);
-//     };
-//     getUserData();
-//     console.log();
-//   }, []);
+  //   useEffect(() => {
+  //     const getUserData = async () => {
+
+  // const { data: { user } } = await supabase.auth.getUser(jwt)
+  //       console.log(user);
+  //     };
+  //     getUserData();
+  //     console.log();
+  //   }, []);
   // console.log(posts[0].user_id)
 
   const [search, setSearch] = useState('');
@@ -58,6 +58,23 @@ function HomePage() {
   }, [posts]);
 
   // 슬라이드 추가한 부분
+  // useEffect(() => {
+  //   const fetchImages = async () => {
+  //     // const images = posts.map((post) => post.images);
+  //     // setImages(images);
+  //     const { data, error } = await posts.from('images').select('*');
+  //     console.log(supabase);
+
+  //     if (error) {
+  //       console.error('이미지 가져오기 에러:', error);
+  //     } else {
+  //       setImages(data);
+  //     }
+  //   };
+
+  //   fetchImages();
+  // }, []);
+
   useEffect(() => {
     const fetchImages = async () => {
       const { data, error } = await supabase.from('images').select('*');
@@ -65,7 +82,11 @@ function HomePage() {
       if (error) {
         console.error('이미지 가져오기 에러:', error);
       } else {
-        setImages(data);
+        // 데이터를 updatedAt 기준으로 내림차순 정렬
+        const sortedImages = data.sort((a, b) => new Date(b.updatedAt) - new Date(a.updatedAt));
+        // 상위 5개의 이미지만 선택
+        const topImages = sortedImages.slice(0, 5);
+        setImages(topImages);
       }
     };
 
