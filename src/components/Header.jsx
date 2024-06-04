@@ -20,8 +20,12 @@ function Header() {
   const localUsername = localData?.user?.user_metadata?.user_name || '';
   const googleUsername = localData?.user?.user_metadata?.name || '';
   const { session } = useSelector((state) => state.user.userInfo);
+  // console.log('HEADER USERNAME', localData, aud, localUsername, googleUsername, session);
+  const localUserProfile = localData?.user?.user_metadata?.avatar_url || '';
+
   const [username, setUsername] = useState(aud === 'email' ? localUsername : googleUsername);
-  console.log('HEADER USERNAME', aud, localUsername, googleUsername, session);
+  const [userProfile, setUserProfile] = useState(localUserProfile);
+  // console.log('HEADER', userProfile, localData?.user?.user_metadata?.avatar_url);
 
   const path = location.pathname.split('/');
   const [profileUrl, setProfileUrl] = useState('');
@@ -47,13 +51,9 @@ function Header() {
 
   useEffect(() => {
     checkProfile();
-    if (
-      session &&
-      session.user &&
-      session.user.user_metadata &&
-      (session.user.user_metadata.user_name || session.user.user_metadata.name)
-    ) {
+    if (session && (session?.user?.user_metadata?.user_name || session?.user?.user_metadata?.name)) {
       setUsername(session.user.user_metadata.user_name || session.user.user_metadata.name);
+      setUserProfile(session.user.user_metadata.avatar_url);
     }
   }, [session]);
 
@@ -80,7 +80,17 @@ function Header() {
             <div className="auth-div">
               {username && <p>{username}</p>}
               {username ? (
-                <Link onClick={logOutHandler}>로그아웃</Link>
+                <>
+                  <Link onClick={logOutHandler}>로그아웃</Link>
+
+                  <S.ProfileImage
+                    src={userProfile || 'http://via.placeholder.com/640x240'}
+                    alt="profile"
+                    onClick={() => {
+                      navigate('mypage');
+                    }}
+                  />
+                </>
               ) : (
                 <Link className="new-post-btn" to="/auth">
                   로그인
@@ -94,14 +104,6 @@ function Header() {
               ref={fileInputRef}
               className="hidden"
             /> */}
-            <S.ProfileImage
-              // src={profileUrl}
-              src={'http://via.placeholder.com/640x240'}
-              alt="profile"
-              onClick={() => {
-                navigate('mypage');
-              }}
-            />
           </div>
         </div>
       </S.Header>
