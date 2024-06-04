@@ -22,7 +22,7 @@ function Footer() {
             <p>내일배움캠프 용4조 (A04)</p>
           </S.FlexBox>
           <S.FlexBox>
-            <div>
+            <div className='right-margin'>
               <Link to={'https://github.com/ydmaad/DragonJo'} target="_blank">
                 <img className="github-icon" src={githubIcon} alt="githubIcon" />
               </Link>
@@ -37,13 +37,21 @@ function Footer() {
         <S.FooterSpartaInfo>
           <p>팀스파르타(주) 사업자 정보</p>
           <ul>
-            <li>대표자:이범규|</li>
-            <li>사업자 등록번호:783-86-01715|</li>
-            <li>통신판매업 신고번호:2020-서울강남-02300|</li>
+            <li>대표자:이범규 </li>
+            <li>|</li>
+            <li>사업자 등록번호:783-86-01715</li>
+            <li>|</li>
+            <li>통신판매업 신고번호:2020-서울강남-02300</li>
+            <li>|</li>
             <li>평생교육시설 신고번호:제661호</li>
+            <li>|</li>
+            <li>주소:서울특별시 강남구 테헤란노44길 8 12층</li>
+            <li>|</li>
+            <li>이메일:contact@teamsparta.co</li>
+            <li>|</li>
+            <li>전화:1522-8016</li>
           </ul>
-          <address>주소:서울특별시 강남구 테헤란노44길 8 12층 | 이메일:contact@teamsparta.co|전화:1522-8016</address>
-          <div>Copyright © 2024 TEAMSPARTA. All rights reserved.</div>
+          <div className='copyright'>Copyright © 2024 TEAMSPARTA. All rights reserved.</div>
         </S.FooterSpartaInfo>
       </div>
     </S.Footer>

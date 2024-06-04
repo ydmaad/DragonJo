@@ -2,7 +2,7 @@ import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import { supabase } from '../../service/supabase';
 
 export const fetchPosts = createAsyncThunk('posts/fetchPosts', async () => {
-  const { data } = await supabase.from('posts').select();
+  const { data } = await supabase.from('posts').select('*').order('id', { ascending: false });
   return data;
 });
 
@@ -43,7 +43,7 @@ const postsSlice = createSlice({
         state.error = action.error.message;
       })
       .addCase(createPost.fulfilled, (state, action) => {
-        state.posts.push(action.payload);
+        state.posts.unshift(action.payload);
       })
       .addCase(deletePost.fulfilled, (state, action) => {
         state.posts = state.posts.filter((post) => post.id !== action.payload.id);

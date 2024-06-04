@@ -57,7 +57,7 @@ function Header() {
 
           <div className="post-login-box">
             <Link className="new-post-btn" to="/write">
-              <button>새 게시글</button>
+              <S.NewPostBtn>새 게시글</S.NewPostBtn>
             </Link>
 
             <div className="auth-div">

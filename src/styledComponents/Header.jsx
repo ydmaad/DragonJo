@@ -4,7 +4,7 @@ export const Header = styled.header`
   width: 100%;
   background-image: linear-gradient(to top, #ffffff, #cccccc);
   border-bottom: 1px solid rgba(0, 0, 0, 0.2);
-
+  box-sizing: border-box;
   & .contents {
     align-items: center;
     display: flex;
@@ -12,8 +12,18 @@ export const Header = styled.header`
     width: 1320px;
     margin: 0px auto;
     box-sizing: border-box;
-    height: 80px;
     padding: 0px 20px;
+
+    & > a {
+      display: block;
+      width: 64px;
+      height: 64px;
+    }
+    & > a > img {
+      display: block;
+      width: 64px;
+      height: 64px;
+    }
 
     & .post-login-box {
       display: flex;
@@ -23,30 +33,37 @@ export const Header = styled.header`
     & .auth-div {
       display: flex;
       align-items: center;
-      gap: 4px;
+      gap: 10px;
     }
     & .auth-div > a {
       text-decoration: none;
-      font-size: 14px;
+      font-size: 16px;
       background: none;
       border: 2px solid gray;
-      padding: 5px;
       border-radius: 5px;
+      padding: 5px 10px;
+      box-sizing: border-box;
+      font-weight:bold;
       cursor: pointer;
 
       &:visited {
         color: black;
       }
     }
-    & .new-post-btn {
-      font-size: 20px;
-      background: none;
-      border-radius: 5px;
-      text-align: center;
-      font-weight: bold;
-      cursor: pointer;
-    }
   }
+`;
+
+export const NewPostBtn = styled.button`
+  font-size: 16px;
+  background: none;
+  border-radius: 5px;
+  text-align: center;
+  font-weight: bold;
+  padding: 5px 10px;
+  box-sizing: border-box;
+  cursor: pointer;
+  transition:0.3s all;
+  &:hover{background:#000;color:#fff;}
 `;
 
 export const Nav = styled.nav`
