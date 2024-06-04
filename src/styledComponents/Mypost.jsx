@@ -31,9 +31,11 @@ export const MypostListBox = styled.ul`
   gap: 33px;
 `;
 export const MypostListItem = styled.li`
+  
   background: #d9d9d9;
   border-radius: 15px;
   overflow: hidden;
+  cursor: pointer;
   & > .mypost-img {
     width: 100%;
     height: 150px;
@@ -96,12 +98,4 @@ export const CommentsIconBox = styled.div`
       align-items: center;
     }
   }
-`;
-
-export const StarBox = styled.ul`
-  margin-top: 20px;
-  width: 180px;
-  height: 30px;
-  display: flex;
-  gap: 10px;
 `;
