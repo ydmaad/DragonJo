@@ -33,8 +33,8 @@ const Mypost = () => {
           </ul>
         </S.Mypost>
         <S.MypostListBox>
-          {mypost.map((item) => (
-            <MypostListItem title={item.title} content={item.content} />
+          {mypost.map((item, index) => (
+            <MypostListItem key={index} title={item.title} content={item.content} />
           ))}
         </S.MypostListBox>
       </S.MypostBox>

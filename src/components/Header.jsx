@@ -7,16 +7,21 @@ import { clearUser } from '../redux/slices/user.slice';
 import { supabase } from '../service/supabase';
 import { logOutUser } from '../service/user';
 import * as S from '../styledComponents/Header';
+import { getLocalStorageKey } from '../utils/localStorage';
 
 function Header() {
   const location = useLocation();
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
-  const { isLoggedIn, user } = useSelector((state) => state.user.userInfo);
+  const localData = JSON.parse(localStorage.getItem(getLocalStorageKey())) || {};
+  // console.log(localData);
+  const localUsername = localData?.user?.user_metadata?.user_name || '';
+  const { session } = useSelector((state) => state.user.userInfo);
+  const [username, setUsername] = useState(localUsername);
+  // console.log('HEADER USERNAME', localUsername);
 
   const path = location.pathname.split('/');
-
   const [profileUrl, setProfileUrl] = useState('');
 
   // const fileInputRef = useRef(null);
@@ -40,13 +45,18 @@ function Header() {
 
   useEffect(() => {
     checkProfile();
-  }, []);
+    if (session && session.user && session.user.user_metadata && session.user.user_metadata.user_name) {
+      setUsername(session.user.user_metadata.user_name);
+    }
+  }, [session]);
 
   const logOutHandler = () => {
     logOutUser();
     dispatch(clearUser());
+    setUsername('');
     navigate('/', { replace: true });
   };
+
   return (
     <>
       <S.Header>
@@ -61,8 +71,8 @@ function Header() {
             </Link>
 
             <div className="auth-div">
-              {isLoggedIn && <p>{user.username}</p>}
-              {isLoggedIn ? (
+              {username && <p>{username}</p>}
+              {username ? (
                 <Link onClick={logOutHandler}>로그아웃</Link>
               ) : (
                 <Link className="new-post-btn" to="/auth">

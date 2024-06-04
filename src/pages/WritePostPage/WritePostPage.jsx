@@ -95,14 +95,12 @@ const WritePostPage = () => {
     toolbar: [
       [{ header: '1' }, { header: '2' }, { font: [] }],
       [{ size: [] }],
-      ['bold', 'italic', 'underline', 'strike', 'blockquote', 'code-block'],
+      ['underline', 'strike', 'blockquote', 'code-block'],
       [{ list: 'ordered' }, { list: 'bullet' }],
-      [{ script: 'sub' }, { script: 'super' }],
       [{ indent: '-1' }, { indent: '+1' }, { direction: 'rtl' }],
       [{ color: [] }, { background: [] }],
       [{ align: [] }],
-      ['link', 'image', 'video'],
-      ['clean']
+      ['image']
     ]
   };
 

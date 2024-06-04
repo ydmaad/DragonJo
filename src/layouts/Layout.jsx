@@ -1,3 +1,4 @@
+import { Outlet } from 'react-router-dom';
 import styled from 'styled-components';
 import Footer from '../components/Footer';
 import Header from '../components/Header';
@@ -8,12 +9,14 @@ const Main = styled.main`
   flex: 1;
 `;
 
-function Layout({ children }) {
+function Layout() {
   return (
     <>
       <GlobalStyle />
       <Header />
-      <Main>{children}</Main>
+      <Main>
+        <Outlet />
+      </Main>
       <Footer />
     </>
   );
