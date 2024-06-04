@@ -29,22 +29,22 @@ const WritePostPage = () => {
 
   const [title, setTitle] = useState('');
   const [content, setContent] = useState('');
-  const [profileURL, setProfileURL] = useState('');
+  const [imageURL, setImageURL] = useState('');
   const [previewImageURL, setPreviewImageURL] = useState(null);
 
   const quillRef = useRef(null);
-  const fileInputRef = useRef(null);
+  const imageInputRef = useRef(null);
 
   const handleCreatePost = () => {
     if (title && content) {
-      dispatch(createPost({ title, content, imageURL: profileURL }));
+      dispatch(createPost({ title, content, imageURL: imageURL }));
       navigate('/');
     } else {
       alert('제목과 내용을 입력해주세요.');
     }
   };
 
-  async function handleFileInputChange(files) {
+  async function handleImageInputChange(files) {
     const [file] = files;
 
     if (!file) {
@@ -57,7 +57,7 @@ const WritePostPage = () => {
 
     const { data } = await supabase.storage.from('avatars').upload(`avatar_${Date.now()}.png`, file);
     const imageURL = `https://supabase.com/dashboard/project/dkodekduyiphnphkezzv/storage/buckets/avatars/${data.path}`;
-    setProfileURL(imageURL);
+    setImageURL(imageURL);
   }
 
   const modules = {
@@ -87,9 +87,9 @@ const WritePostPage = () => {
           <ButtonContainer>
             <Button onClick={handleCreatePost}>업로드</Button>
             <input
-              onChange={(e) => handleFileInputChange(e.target.files)}
+              onChange={(e) => handleImageInputChange(e.target.files)}
               type="file"
-              ref={fileInputRef}
+              ref={imageInputRef}
               className="hidden"
             />
             <Button onClick={() => navigate('/')}>뒤로가기</Button>
