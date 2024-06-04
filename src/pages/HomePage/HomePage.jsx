@@ -10,7 +10,7 @@ import { Navigation } from 'swiper/modules';
 import { useNavigate } from 'react-router-dom';
 import postImg from '../../assets/diablo.jpg';
 import { fetchPosts, likePost } from '../../redux/slices/postSlice';
-// import { supabase } from '../../service/supabase';
+import { supabase } from '../../service/supabase';
 import {
   PostContent,
   PostImage,
@@ -85,9 +85,21 @@ function HomePage() {
     }
   };
 
-  const handleLike = (e, id) => {
+  const handleLike = async (e, postId) => {
     e.stopPropagation();
-    dispatch(likePost(id));
+    const {
+      data: { user },
+      error
+    } = await supabase.auth.getUser();
+
+    if (error) {
+      console.error('Error fetching user:', error);
+      return;
+    }
+
+    if (user) {
+      dispatch(likePost({ userId: user.id, postId }));
+    }
   };
 
   useEffect(() => {
@@ -138,7 +150,7 @@ function HomePage() {
             <PostContent dangerouslySetInnerHTML={{ __html: post.content }} />
             <br />
             <div className="like-button-container">
-              <LikeButton data-id={post.id} onClick={handleLike}>
+              <LikeButton data-id={post.id} onClick={(e) => handleLike(e, post.id)}>
                 👍 {post.likes}
               </LikeButton>
             </div>
