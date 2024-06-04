@@ -19,7 +19,6 @@ function App() {
         return;
       }
 
-      // console.log('APP', session);
       dispatch(setUser({ session }));
     };
     getSession();

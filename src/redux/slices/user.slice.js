@@ -27,6 +27,10 @@ const userSlice = createSlice({
       const { session } = action.payload;
       // console.log('USER.SLICE', session);
       state.userInfo.session = session;
+      if (session.user.app_metadata.provider !== 'email') {
+        // github, google 로그인 시
+        state.userInfo.session.user.user_metadata.user_name = session.user.user_metadata.name;
+      }
       state.userInfo.isLoggedIn = true;
     },
     clearUser(state) {

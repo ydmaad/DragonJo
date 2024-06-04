@@ -16,10 +16,12 @@ function Header() {
 
   const localData = JSON.parse(localStorage.getItem(getLocalStorageKey())) || {};
   // console.log(localData);
+  const aud = localData?.user?.app_metadata?.provider;
   const localUsername = localData?.user?.user_metadata?.user_name || '';
+  const googleUsername = localData?.user?.user_metadata?.name || '';
   const { session } = useSelector((state) => state.user.userInfo);
-  const [username, setUsername] = useState(localUsername);
-  // console.log('HEADER USERNAME', localUsername);
+  const [username, setUsername] = useState(aud === 'email' ? localUsername : googleUsername);
+  console.log('HEADER USERNAME', aud, localUsername, googleUsername, session);
 
   const path = location.pathname.split('/');
   const [profileUrl, setProfileUrl] = useState('');
@@ -45,8 +47,13 @@ function Header() {
 
   useEffect(() => {
     checkProfile();
-    if (session && session.user && session.user.user_metadata && session.user.user_metadata.user_name) {
-      setUsername(session.user.user_metadata.user_name);
+    if (
+      session &&
+      session.user &&
+      session.user.user_metadata &&
+      (session.user.user_metadata.user_name || session.user.user_metadata.name)
+    ) {
+      setUsername(session.user.user_metadata.user_name || session.user.user_metadata.name);
     }
   }, [session]);
 
