@@ -10,7 +10,7 @@ import {
   Container,
   Header,
   Title,
-  Subtitle,
+  // Subtitle,
   Form,
   Label,
   Input,
@@ -86,7 +86,6 @@ const WritePostPage = () => {
         <Form>
           <Label>게시글 제목</Label>
           <Input type="text" value={title} onChange={(e) => setTitle(e.target.value)} />
-
           <Label>게시글 내용</Label>
           <StyledReactQuill ref={quillRef} value={content} onChange={setContent} modules={modules} />
           <ButtonContainer>

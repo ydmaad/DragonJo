@@ -7,7 +7,7 @@ export const fetchPosts = createAsyncThunk('posts/fetchPosts', async () => {
 });
 
 export const createPost = createAsyncThunk('posts/createPost', async ({ title, content, imageURL }) => {
-  const { data } = await supabase.from('posts').insert({ title, content, image: imageURL }).select();
+  const { data } = await supabase.from('posts').insert({ title, content, images: imageURL }).select();
   return data[0];
 });
 
@@ -17,8 +17,13 @@ export const deletePost = createAsyncThunk('posts/deletePost', async (id) => {
 });
 
 export const updatePost = createAsyncThunk('posts/updatePost', async ({ id, title, content, imageURL }) => {
-  const { data } = await supabase.from('posts').update({ title, content, image: imageURL }).eq('id', id).select();
+  const { data } = await supabase.from('posts').update({ title, content, images: imageURL }).eq('id', id).select();
   return data[0];
+});
+
+export const likePost = createAsyncThunk('posts/likePost', async (id) => {
+  const { data } = await supabase.rpc('increment_like', { post_id: id });
+  return { id, likes: data[0].likes };
 });
 
 const postsSlice = createSlice({
@@ -52,6 +57,12 @@ const postsSlice = createSlice({
         const index = state.posts.findIndex((post) => post.id === action.payload.id);
         if (index !== -1) {
           state.posts[index] = action.payload;
+        }
+      })
+      .addCase(likePost.fulfilled, (state, action) => {
+        const index = state.posts.findIndex((post) => post.id === action.payload.id);
+        if (index !== -1) {
+          state.posts[index].likes = action.payload.likes;
         }
       });
   }

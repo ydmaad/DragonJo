@@ -22,7 +22,6 @@ const Mypost = () => {
 
     myPosts();
   }, [session]);
-  console.log(mypost);
   return (
     <>
       <S.MypostBox>
