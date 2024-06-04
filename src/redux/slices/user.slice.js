@@ -40,9 +40,10 @@ const userSlice = createSlice({
       state.userInfo.session.user.user_metadata.user_name = action.payload.user.user_metadata.user_name;
     },
     uploadUserAvatar(state, action) {
-      console.log(action.payload);
-      state.userInfo.session.user.user_metadata.avatar_url = action.payload;
-      console.log(state.userInfo.session.user.user_metadata.avatar_url)
+      const imgURL = action.payload.user.user_metadata.avatar_url;
+      if (!imgURL === '') {
+        state.userInfo.session.user.user_metadata.avatar_url = imgURL;
+      }
     }
   }
 });
