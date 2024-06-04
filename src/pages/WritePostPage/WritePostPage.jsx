@@ -22,6 +22,10 @@ const ImageBlot = Quill.import('formats/image');
 ImageBlot.className = 'custom-image';
 Quill.register(ImageBlot, true);
 
+const font = Quill.import('attributors/style/font');
+font.whitelist = ['asap', 'podkova'];
+Quill.register(font, true);
+
 const WritePostPage = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -81,10 +85,10 @@ const WritePostPage = () => {
       }
 
       const data = await response.json();
-      const imageUrl = data.url; // 서버에서 반환된 이미지 URL
+      const imageUrl = data.url;
 
       const quill = quillRef.current.getEditor();
-      quill.insertEmbed(cursorPosition, 'image', imageUrl); // 이미지 URL을 Quill 에디터에 삽입
+      quill.insertEmbed(cursorPosition, 'image', imageUrl);
     } catch (error) {
       console.error('Image upload error:', error);
       alert('이미지 업로드에 실패했습니다.');
@@ -96,10 +100,7 @@ const WritePostPage = () => {
       [{ header: '1' }, { header: '2' }, { font: [] }],
       [{ size: [] }],
       ['underline', 'strike', 'blockquote', 'code-block'],
-      [{ list: 'ordered' }, { list: 'bullet' }],
-      [{ indent: '-1' }, { indent: '+1' }, { direction: 'rtl' }],
       [{ color: [] }, { background: [] }],
-      [{ align: [] }],
       ['image']
     ]
   };

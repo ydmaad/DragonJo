@@ -2,9 +2,12 @@ import { createGlobalStyle } from 'styled-components';
 import { reset } from 'styled-reset';
 
 const GlobalStyle = createGlobalStyle`
-${reset}
   * {
-    font-family: "Axiforma", sans-serif;
+    margin:0;
+    padding:0;
+    list-style:none;
+    & a {text-decoration:none};
+    font-family: “Noto Sans KR”, sans-serif;
   }
 
   html,body{
