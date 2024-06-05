@@ -22,6 +22,7 @@ import {
   SwiperContainer,
   LikeButton
 } from './HomePage.styles';
+// import { supabase } from '../../service/supabase';
 
 function HomePage() {
   const dispatch = useDispatch();
@@ -45,7 +46,7 @@ function HomePage() {
   const [search, setSearch] = useState('');
   const [searchPost, setSearchPost] = useState([]);
 
-  // const [images, setImages] = useState([]);
+  const [images, setImages] = useState([]);
 
   const handleSearchChange = (e) => {
     e.preventDefault();
@@ -57,22 +58,26 @@ function HomePage() {
     setSearchPost(posts.filter((post) => post.title.toLowerCase().includes(search.toLowerCase())));
   }, [posts]);
 
-  // 슬라이드 추가한 부분
-  // useEffect(() => {
-  //   const fetchImages = async () => {
-  //     const { data, error } = await supabase.from('images').select('*');
+  useEffect(() => {
+    const fetchImages = async () => {
+      const { data, error } = await supabase.from('posts').select('images');
 
-  //     if (error) {
-  //       console.error('Error fetching images:', error);
-  //     } else {
-  //       setImages(data);
-  //     }
-  //   };
+      if (error) {
+        console.error('이미지 가져오기 에러:', error);
+      } else {
+        // 이미지가 있는 항목만 선택
+        const filteredData = data.filter((item) => item.images && item.images.length > 0);
+        // 데이터를 created_at 기준으로 내림차순 정렬
+        const sortedImages = filteredData.sort((a, b) => new Date(b.created_at) - new Date(a.created_at));
+        // 상위 5개의 이미지만 선택
+        const topImages = sortedImages.slice(0, 5);
+        setImages(topImages.map((item) => item.images));
+      }
+    };
 
-  //   fetchImages();
-  // }, []);
+    fetchImages();
+  }, []);
 
-  // 슬라이드 추가한 부분
   const params = {
     pagination: {
       clickable: true
@@ -123,17 +128,17 @@ function HomePage() {
         <SearchBtn>검색</SearchBtn>
       </SearchInput>
       {/* 슬라이드 추가한 부분 */}
-      {/* {images.length > 0 && ( */}
-      <SwiperContainer>
-        <Swiper {...params} navigation={true} modules={[Navigation, Pagination]} pagination={true}>
-          {[postImg, postImg, postImg, postImg].map((image, index) => (
-            <SwiperSlide key={index}>
-              <img src={image} alt={image} />
-            </SwiperSlide>
-          ))}
-        </Swiper>
-      </SwiperContainer>
-      {/* )} */}
+      {images.length > 0 && (
+        <SwiperContainer>
+          <Swiper {...params} navigation={true} modules={[Navigation, Pagination]} pagination={true}>
+            {images.map((image) => (
+              <SwiperSlide key={image}>
+                <img src={image} alt={`slide`} />
+              </SwiperSlide>
+            ))}
+          </Swiper>
+        </SwiperContainer>
+      )}
       <PostList>
         {searchPost.map((post) => (
           <PostItem
@@ -143,7 +148,7 @@ function HomePage() {
             }}
           >
             <div className="post-img">
-              <PostImage src={postImg} />
+              <PostImage src={post.images} />
             </div>
             <PostTitle>{post.title}</PostTitle>
             <br />

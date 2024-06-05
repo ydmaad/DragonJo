@@ -163,7 +163,8 @@ export const SwiperContainer = styled.div`
 
   .swiper-slide img {
     width: 100%;
-    height: auto;
+    height: 50%;
+    display: block;
     object-fit: cover;
   }
 
