@@ -26,7 +26,7 @@ function Header() {
   const [username, setUsername] = useState(aud === 'email' ? localUsername : googleUsername);
   const [userProfile, setUserProfile] = useState(localUserProfile);
   // console.log('HEADER', userProfile, localData?.user?.user_metadata?.avatar_url);
-
+  console.log(session)
   const path = location.pathname.split('/');
   const [profileUrl, setProfileUrl] = useState('');
 
