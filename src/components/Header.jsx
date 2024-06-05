@@ -26,7 +26,7 @@ function Header() {
   const [username, setUsername] = useState(aud === 'email' ? localUsername : googleUsername);
   const [userProfile, setUserProfile] = useState(localUserProfile);
   // console.log('HEADER', userProfile, localData?.user?.user_metadata?.avatar_url);
-  console.log(session)
+  // console.log(session);
   const path = location.pathname.split('/');
   const [profileUrl, setProfileUrl] = useState('');
 
@@ -54,6 +54,8 @@ function Header() {
     if (session && (session?.user?.user_metadata?.user_name || session?.user?.user_metadata?.name)) {
       setUsername(session.user.user_metadata.user_name || session.user.user_metadata.name);
       setUserProfile(session.user.user_metadata.avatar_url);
+    } else {
+      setUsername('');
     }
   }, [session]);
 

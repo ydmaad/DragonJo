@@ -44,6 +44,15 @@ const WritePostPage = () => {
     }
   };
 
+  const handleGoBack = (e) => {
+    const confirmGoBack = window.confirm('변경 사항이 저장되지 않을 수 있습니다. 페이지를 나가시겠습니까?');
+    if (confirmGoBack) {
+      navigate('/');
+    } else {
+      e.preventDefault();
+    }
+  };
+
   async function handleImageInputChange(files) {
     const [file] = files;
 
@@ -97,7 +106,13 @@ const WritePostPage = () => {
               ref={imageInputRef}
               style={{ display: 'none' }}
             />
-            <Button onClick={() => navigate('/')}>뒤로가기</Button>
+            <Button
+              onClick={(e) => {
+                handleGoBack(e);
+              }}
+            >
+              뒤로가기
+            </Button>
           </ButtonContainer>
         </Form>
       </Container>
