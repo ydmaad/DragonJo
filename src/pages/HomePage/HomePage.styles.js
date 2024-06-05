@@ -17,6 +17,7 @@ export const PostItem = styled.li`
   cursor: pointer;
   border: 1px solid black;
   border-radius: 15px;
+  width: 300px;
   height: 400px;
   width: 300px;
   overflow: hidden;
@@ -63,26 +64,6 @@ export const PostContent = styled.div`
     max-width: 100%;
     height: auto;
   }
-
-  /* h1,
-  h2,
-  h3,
-  h4,
-  h5,
-  h6 {
-    font-weight: bold;
-  }
-
-  ul,
-  ol {
-    padding-left: 20px;
-  }
-
-  blockquote {
-    margin: 10px 0;
-    padding-left: 20px;
-    border-left: 5px solid #ccc;
-  } */
 `;
 
 export const Button = styled.button`
@@ -174,7 +155,6 @@ export const SwiperContainer = styled.div`
 
   .swiper-pagination {
     position: absolute;
-    bottom: 10px;
     left: 50%;
     transform: translateX(-50%);
   }
