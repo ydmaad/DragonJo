@@ -13,6 +13,29 @@ export const PostList = styled.ul`
   box-sizing: border-box;
 `;
 
+export const NoSearchResults = styled.div`
+  height: 500px;
+  font-weight: bold;
+  font-size: 30px;
+  margin-top: 50px;
+`;
+
+export const ReturnAllResult = styled.button`
+  background: #17876d;
+  width: 150px;
+  height: 40px;
+  color: #fff;
+  font-weight: bold;
+  font-size: 18px;
+  border: none;
+  border-radius: 5px;
+  margin-top: 20px;
+  cursor: pointer;
+  &:active {
+    box-shadow: inset 1px 1px 8px #006633;
+  }
+`;
+
 export const PostItem = styled.li`
   cursor: pointer;
   border: 1px solid black;
@@ -109,6 +132,12 @@ export const SearchInput = styled.form`
   justify-content: flex-end;
   gap: 20px;
   box-sizing: border-box;
+  & > input {
+    width: 200px;
+    padding-left: 10px;
+    box-sizing: border-box;
+    outline: none;
+  }
 `;
 
 export const SearchBtn = styled.button`

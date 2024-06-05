@@ -20,7 +20,9 @@ import {
   SearchBtn,
   SearchInput,
   SwiperContainer,
-  UserName
+  UserName,
+  NoSearchResults,
+  ReturnAllResult
 } from './HomePage.styles';
 
 function HomePage() {
@@ -141,7 +143,7 @@ function HomePage() {
   if (status === 'failed') {
     return <div>Error: {error}</div>;
   }
-
+  console.log(posts);
   return (
     <main>
       <SearchInput onSubmit={handleSearchChange}>
@@ -169,31 +171,44 @@ function HomePage() {
         </SwiperContainer>
       )}
       <PostList>
-        {searchPost.map((post) => (
-          <PostItem
-            key={post.id}
-            onClick={() => {
-              navigate(`detail/${post.id}`);
-            }}
-          >
-            <div className="post-img">
-              <PostImage src={post.images || no_img} />
-            </div>
-            <PostTitle>{post.title}</PostTitle>
-            <br />
+        {searchPost.length > 0 ? (
+          searchPost.map((post) => (
+            <PostItem
+              key={post.id}
+              onClick={() => {
+                navigate(`detail/${post.id}`);
+              }}
+            >
+              <div className="post-img">
+                <PostImage src={post.images || no_img} />
+              </div>
+              <PostTitle>{post.title}</PostTitle>
+              <br />
 
-            <PostContent dangerouslySetInnerHTML={{ __html: post.content }} />
-            <br />
-            <div className="like-button-container">
-              <LikeButton data-id={post.id} onClick={(e) => handleLike(e, post.id)}>
-                👍 {post.likes}
-              </LikeButton>
-              <UserName>
-                <p>{post.name || 'unknow'}</p>
-              </UserName>
-            </div>
-          </PostItem>
-        ))}
+              <PostContent dangerouslySetInnerHTML={{ __html: post.content }} />
+              <br />
+              <div className="like-button-container">
+                <LikeButton data-id={post.id} onClick={(e) => handleLike(e, post.id)}>
+                  👍 {post.likes}
+                </LikeButton>
+                <UserName>
+                  <p>{post.name || 'unknow'}</p>
+                </UserName>
+              </div>
+            </PostItem>
+          ))
+        ) : (
+          <NoSearchResults>
+            <h3>검색결과가 없습니다.</h3>
+            <ReturnAllResult
+              onClick={() => {
+                setSearchPost(posts);
+              }}
+            >
+              전체 보기
+            </ReturnAllResult>
+          </NoSearchResults>
+        )}
       </PostList>
     </main>
   );
