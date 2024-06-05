@@ -1,7 +1,8 @@
-import { useRef } from 'react';
+import { useRef, useState } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import styled from 'styled-components';
 import { supabase } from '../../service/supabase';
+import validation from '../../utils/validation';
 
 const LoginMainDiv = styled.div`
   margin: 0 auto;
@@ -132,7 +133,8 @@ const LoginButtonText = styled.p`
 
 function ForgotPage() {
   const nav = useNavigate();
-  const [searchParams, setSearchParams] = useSearchParams();
+  const [authError, setAuthError] = useState({});
+  const [searchParams] = useSearchParams();
   const message = searchParams.get('message');
   const code = searchParams.get('code');
   // console.log(message, code);
@@ -141,20 +143,26 @@ function ForgotPage() {
   const onSubmitHandler = async (e) => {
     e.preventDefault();
 
-    const email = inputRef.current[0].value;
-    console.log(email);
+    const userInfo = inputRef.current;
+    const validationError = validation('forgot', userInfo);
 
-    const { error } = await supabase.auth.resetPasswordForEmail(email, {
-      redirectTo: 'http://localhost:5174/reset-password'
-    });
-
-    if (error) {
-      // console.log(error, '있음');
-      nav('/forgot-password?message=이메일을 확인 해주세요&code=404');
+    if (Object.keys(validationError).length) {
+      setAuthError(validationError);
       return;
     }
 
-    nav('/forgot-password?message=메일 확인 부탁드려요~&code=200');
+    const email = userInfo[0].value;
+    const { error } = await supabase.auth.resetPasswordForEmail(email, {
+      redirectTo: 'http://localhost:5173/reset-password'
+    });
+
+    if (error) {
+      console.log(error);
+      setAuthError({ email: '이메일을 확인 해주세요' });
+      return;
+    }
+
+    nav('/forgot-password?message=메일을 확인 해주세요&code=200', { replace: true });
   };
 
   return (
@@ -169,7 +177,7 @@ function ForgotPage() {
               <LoginFormInputBox>
                 <LoginTextBox>
                   <LoginFormLabel htmlFor="email">이메일</LoginFormLabel>
-                  {message && <LoginErrorText>{message}</LoginErrorText>}
+                  {authError.email && <LoginErrorText>{authError.email}</LoginErrorText>}
                 </LoginTextBox>
                 <LoginFormInput
                   ref={(e) => (inputRef.current[0] = e)}

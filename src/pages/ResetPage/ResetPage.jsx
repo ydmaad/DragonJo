@@ -1,10 +1,11 @@
 import { useEffect, useRef, useState } from 'react';
-import { useLocation, useNavigate, useSearchParams } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import ToggleIcon from '../../components/ToggleIcon';
 import PasswordEyeIcon from '../../components/icons/PasswordEyeIcon';
 import PasswordEyeOffIcon from '../../components/icons/PasswrodEyeOffIcon';
 import { supabase } from '../../service/supabase';
+import validation from '../../utils/validation';
 
 const LoginMainDiv = styled.div`
   margin: 0 auto;
@@ -142,27 +143,35 @@ function ResetPage() {
   const inputRef = useRef([]);
   const location = useLocation();
   const nav = useNavigate();
-  const [searchParams, setSearchParams] = useSearchParams();
-  const message = searchParams.get('message');
+  const [authError, setAuthError] = useState({});
 
   const [passwordVisible, setPasswordVisible] = useState(false);
   const [passwordConfirmVisible, setPasswordConfirmVisible] = useState(false);
   const onSubmitHandler = async (e) => {
     e.preventDefault();
 
-    const [pw, pwConfirm] = inputRef.current;
-    console.log(pw, pwConfirm);
+    const userInfo = inputRef.current;
 
+    const validationError = validation('reset', userInfo);
+
+    if (Object.keys(validationError).length) {
+      setAuthError(validationError);
+      return;
+    }
+
+    const password = userInfo[0].value;
     const { error } = await supabase.auth.updateUser({
-      password: pw.value
+      password
     });
 
     if (error) {
-      console.log(error);
-      nav(`/reset-password?message=Unable to reset Password. Try again!`);
+      console.log('REAET PASSWORD', error);
+
+      setAuthError({ paassword: '비밀번호 재설정에 실패했습니다. 다시 시도해 주세요' });
+      return;
     }
 
-    nav(`/auth`);
+    nav(`/auth`, { replace: true });
   };
 
   useEffect(() => {
@@ -178,13 +187,12 @@ function ResetPage() {
       <Abc>
         <LoginFormDiv>
           <LoginFormH1>비밀번호 재설정</LoginFormH1>
-          {message && <LoginFormH1>{message}</LoginFormH1>}
 
           <LoginForm onSubmit={(e) => onSubmitHandler(e)}>
             <LoginFormInputBox>
               <LoginTextBox>
                 <LoginFormLabel htmlFor="password">비밀번호</LoginFormLabel>
-                {/* {authError.password && <LoginErrorText>{authError.password}</LoginErrorText>} */}
+                {authError.password && <LoginErrorText>{authError.password}</LoginErrorText>}
               </LoginTextBox>
               <LoginFormInput
                 ref={(e) => (inputRef.current[0] = e)}
@@ -206,7 +214,7 @@ function ResetPage() {
             <LoginFormInputBox>
               <LoginTextBox>
                 <LoginFormLabel htmlFor="passwordConfirm">비밀번호 확인</LoginFormLabel>
-                {/* {authError.passwordConfirm && <LoginErrorText>{authError.passwordConfirm}</LoginErrorText>} */}
+                {authError.passwordConfirm && <LoginErrorText>{authError.passwordConfirm}</LoginErrorText>}
               </LoginTextBox>
               <LoginFormInput
                 ref={(e) => (inputRef.current[1] = e)}
