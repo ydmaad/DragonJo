@@ -216,7 +216,7 @@ function AuthPage() {
   };
 
   const githubLoginHandler = async () => {
-    console.log('GITHUB LOGIN');
+    // console.log('GITHUB LOGIN');
     const { error } = await supabase.auth.signInWithOAuth({
       provider: 'github',
       options: {
@@ -234,7 +234,7 @@ function AuthPage() {
   };
 
   const googleLoginHandler = async () => {
-    console.log('GOOGLE LOGIN');
+    // console.log('GOOGLE LOGIN');
     const { error } = await supabase.auth.signInWithOAuth({
       provider: 'google',
       options: {
@@ -252,7 +252,7 @@ function AuthPage() {
   };
 
   const resetPasswordHandler = () => {
-    console.log('RESET PASSWORD');
+    // console.log('RESET PASSWORD');
     nav('/forgot-password');
   };
 

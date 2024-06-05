@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react';
+import { useLayoutEffect, useRef, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import ToggleIcon from '../../components/ToggleIcon';
@@ -143,6 +143,7 @@ function ResetPage() {
   const inputRef = useRef([]);
   const location = useLocation();
   const nav = useNavigate();
+  const [visible, setVisible] = useState(false);
   const [authError, setAuthError] = useState({});
 
   const [passwordVisible, setPasswordVisible] = useState(false);
@@ -160,21 +161,30 @@ function ResetPage() {
     }
 
     const password = userInfo[0].value;
-    const { error } = await supabase.auth.updateUser({
+    const { data, error } = await supabase.auth.updateUser({
       password
     });
 
-    if (error) {
-      console.log('REAET PASSWORD', error);
-
-      setAuthError({ paassword: '비밀번호 재설정에 실패했습니다. 다시 시도해 주세요' });
-      return;
+    if (data) {
+      alert('비밀번호를 성공적으로 변경하였습니다.');
+      localStorage.clear();
+      nav('/auth', { replace: true });
     }
 
-    nav(`/auth`, { replace: true });
+    if (error) {
+      console.log('REAET PAGE ERROR', error);
+      alert('비밀번호 변경에 실패했습니다. 다시 시도해 주세요.');
+      nav('/forgot-password');
+    }
   };
 
-  useEffect(() => {
+  useLayoutEffect(() => {
+    supabase.auth.onAuthStateChange(async (event) => {
+      if (event == 'PASSWORD_RECOVERY') {
+        setVisible(true);
+      }
+    });
+
     const searchParams = new URLSearchParams(location.hash.substring(1));
     if (searchParams.get('error_code')) {
       alert(`${searchParams.get('error_description')}`);
@@ -186,57 +196,61 @@ function ResetPage() {
     <LoginMainDiv>
       <Abc>
         <LoginFormDiv>
-          <LoginFormH1>비밀번호 재설정</LoginFormH1>
+          {!visible && <LoginFormH1>이미 만료된 페이지입니다.</LoginFormH1>}
+          {visible && (
+            <>
+              <LoginFormH1>비밀번호 재설정</LoginFormH1>
+              <LoginForm onSubmit={(e) => onSubmitHandler(e)}>
+                <LoginFormInputBox>
+                  <LoginTextBox>
+                    <LoginFormLabel htmlFor="password">비밀번호</LoginFormLabel>
+                    {authError.password && <LoginErrorText>{authError.password}</LoginErrorText>}
+                  </LoginTextBox>
+                  <LoginFormInput
+                    ref={(e) => (inputRef.current[0] = e)}
+                    id="password"
+                    type={passwordVisible ? 'text' : 'password'}
+                    placeholder="비밀번호를 입력하세요"
+                    minLength={6}
+                  />
+                  <IconDiv>
+                    <ToggleIcon
+                      toggled={passwordVisible}
+                      onToggle={setPasswordVisible}
+                      onIcon={<PasswordEyeIcon />}
+                      offIcon={<PasswordEyeOffIcon />}
+                    />
+                  </IconDiv>
+                </LoginFormInputBox>
 
-          <LoginForm onSubmit={(e) => onSubmitHandler(e)}>
-            <LoginFormInputBox>
-              <LoginTextBox>
-                <LoginFormLabel htmlFor="password">비밀번호</LoginFormLabel>
-                {authError.password && <LoginErrorText>{authError.password}</LoginErrorText>}
-              </LoginTextBox>
-              <LoginFormInput
-                ref={(e) => (inputRef.current[0] = e)}
-                id="password"
-                type={passwordVisible ? 'text' : 'password'}
-                placeholder="비밀번호를 입력하세요"
-                minLength={6}
-              />
-              <IconDiv>
-                <ToggleIcon
-                  toggled={passwordVisible}
-                  onToggle={setPasswordVisible}
-                  onIcon={<PasswordEyeIcon />}
-                  offIcon={<PasswordEyeOffIcon />}
-                />
-              </IconDiv>
-            </LoginFormInputBox>
+                <LoginFormInputBox>
+                  <LoginTextBox>
+                    <LoginFormLabel htmlFor="passwordConfirm">비밀번호 확인</LoginFormLabel>
+                    {authError.passwordConfirm && <LoginErrorText>{authError.passwordConfirm}</LoginErrorText>}
+                  </LoginTextBox>
+                  <LoginFormInput
+                    ref={(e) => (inputRef.current[1] = e)}
+                    id="passwordConfirm"
+                    type={passwordConfirmVisible ? 'text' : 'password'}
+                    placeholder="비밀번호를 다시 입력하세요"
+                    minLength={6}
+                  />
+                  <IconDiv>
+                    <ToggleIcon
+                      toggled={passwordConfirmVisible}
+                      onToggle={setPasswordConfirmVisible}
+                      onIcon={<PasswordEyeIcon />}
+                      offIcon={<PasswordEyeOffIcon />}
+                    />
+                  </IconDiv>
+                </LoginFormInputBox>
 
-            <LoginFormInputBox>
-              <LoginTextBox>
-                <LoginFormLabel htmlFor="passwordConfirm">비밀번호 확인</LoginFormLabel>
-                {authError.passwordConfirm && <LoginErrorText>{authError.passwordConfirm}</LoginErrorText>}
-              </LoginTextBox>
-              <LoginFormInput
-                ref={(e) => (inputRef.current[1] = e)}
-                id="passwordConfirm"
-                type={passwordConfirmVisible ? 'text' : 'password'}
-                placeholder="비밀번호를 다시 입력하세요"
-                minLength={6}
-              />
-              <IconDiv>
-                <ToggleIcon
-                  toggled={passwordConfirmVisible}
-                  onToggle={setPasswordConfirmVisible}
-                  onIcon={<PasswordEyeIcon />}
-                  offIcon={<PasswordEyeOffIcon />}
-                />
-              </IconDiv>
-            </LoginFormInputBox>
-
-            <LoginFormButton>
-              <LoginButtonText>비밀번호 재설정</LoginButtonText>
-            </LoginFormButton>
-          </LoginForm>
+                <LoginFormButton>
+                  <LoginButtonText>비밀번호 재설정</LoginButtonText>
+                </LoginFormButton>
+              </LoginForm>
+            </>
+          )}
         </LoginFormDiv>
       </Abc>
     </LoginMainDiv>
@@ -244,3 +258,8 @@ function ResetPage() {
 }
 
 export default ResetPage;
+
+/**
+ *
+ * http://localhost:5173/reset-password#access_token={token}&token_type=bearer&type=recovery
+ */
