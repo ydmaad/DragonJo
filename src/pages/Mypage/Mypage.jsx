@@ -65,7 +65,7 @@ const Mypage = () => {
   };
   const handleSaveClick = async () => {
     const { data, error } = await supabase.auth.updateUser({
-      data: { user_name: newUsername }
+      data: { name: newUsername }
     });
     if (error) {
       console.log('error=>', error);
