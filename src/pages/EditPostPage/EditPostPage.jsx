@@ -93,7 +93,7 @@ const EditPostPage = () => {
     <Wrapper>
       <Container>
         <Header>
-          <Title>메인 이미지 미리보기</Title>
+          <Title>썸네일 이미지 미리보기</Title>
           <br />
           {previewImageURL ? (
             <img src={previewImageURL} alt="Preview" style={{ maxWidth: '500px' }} />
@@ -108,7 +108,7 @@ const EditPostPage = () => {
           <StyledReactQuill ref={quillRef} value={content} onChange={setContent} modules={modules} />
           <ButtonContainer>
             <Button onClick={handleUpdatePost}>수정</Button>
-            <Button onClick={handleImageButtonClick}>메인 이미지 업로드</Button>
+            <Button onClick={handleImageButtonClick}>썸네일 이미지 업로드</Button>
             <input
               onChange={(e) => handleImageInputChange(e.target.files)}
               type="file"
