@@ -9,7 +9,7 @@ import * as S from '../../styledComponents/MyProfile';
 import Mypost from './Mypost';
 
 const Mypage = () => {
-  const { isLoggedIn, session } = useSelector((state) => state.user.userInfo);
+  const { isLoggedIn, user } = useSelector((state) => state.user.userInfo);
   const [isEditing, setIsEditing] = useState(false);
   const [newUsername, setNewUsername] = useState('');
   const [avatarsURL, setAvatarsURL] = useState('');
@@ -57,9 +57,7 @@ const Mypage = () => {
     }
   };
   const avatarDownloadBtn = async () => {
-    const { data, error } = await supabase.storage
-      .from('avatars')
-      .download(session.user.user_metadata.avatar_url.slice(-24));
+    const { data, error } = await supabase.storage.from('avatars').download(user.avatar_url.slice(-24));
     if (error) {
       console.log('실패=>', error);
     } else {
@@ -88,7 +86,7 @@ const Mypage = () => {
   // console.log(session.user.id);
   //회원탈퇴 로직임
   const withDrawal = async () => {
-    const userId = session.user.id;
+    const userId = user.id;
     if (confirm('정말로 삭제하겠는가?')) {
       const { data, error } = await supabase.rpc('delete_user', { user_id: userId });
       if (error) {
@@ -110,10 +108,10 @@ const Mypage = () => {
             <div className="profile-photo">
               <S.profileId>
                 <div className="profile-box">
-                  <img src={avatarsURL || session.user.user_metadata?.avatar_url || noimg} alt="profileIcon" />
+                  <img src={avatarsURL || user.avatar_url || noimg} alt="profileIcon" />
                 </div>
                 <div className="avatars-upload">
-                  <h3>{session.user.user_metadata.user_name}님</h3>
+                  <h3>{user.name}님</h3>
                   <p>환영합니다!</p>
                   <input type="file" ref={avatarUploadRef} onChange={handleFileInputChange} />
                   <button onClick={handleUploadButtonClick}>아바타 업로드</button>
@@ -135,7 +133,7 @@ const Mypage = () => {
                     <S.MypagetdTitle>회원번호</S.MypagetdTitle>
                     <S.MypageContents>
                       <div>
-                        <h3>{session.user.id.split('-').join('').slice(0, 10)}</h3>
+                        <h3>{user.id.split('-').join('').slice(0, 10)}</h3>
                       </div>
                     </S.MypageContents>
                   </tr>
@@ -143,7 +141,7 @@ const Mypage = () => {
                     <S.MypagetdTitle>아이디</S.MypagetdTitle>
                     <S.MypageContents>
                       <div>
-                        <h3>{session.user.user_metadata.email}</h3>
+                        <h3>{user.email}</h3>
                       </div>
                     </S.MypageContents>
                   </tr>
@@ -171,7 +169,7 @@ const Mypage = () => {
                         </div>
                       ) : (
                         <div>
-                          <h3>{session.user.user_metadata.user_name}</h3>
+                          <h3>{user.name}</h3>
                           <button onClick={handleEditToggle}>변경</button>
                         </div>
                       )}

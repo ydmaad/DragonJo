@@ -7,26 +7,15 @@ import { clearUser } from '../redux/slices/user.slice';
 import { supabase } from '../service/supabase';
 import { logOutUser } from '../service/user';
 import * as S from '../styledComponents/Header';
-import { getLocalStorageKey } from '../utils/localStorage';
 
 function Header() {
   const location = useLocation();
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
-  const localData = JSON.parse(localStorage.getItem(getLocalStorageKey())) || {};
-  // console.log(localData);
-  const aud = localData?.user?.app_metadata?.provider;
-  const localUsername = localData?.user?.user_metadata?.user_name || '';
-  const googleUsername = localData?.user?.user_metadata?.name || '';
-  const { session } = useSelector((state) => state.user.userInfo);
-  // console.log('HEADER USERNAME', localData, aud, localUsername, googleUsername, session);
-  const localUserProfile = localData?.user?.user_metadata?.avatar_url || '';
+  const { isLoggedIn, user } = useSelector((state) => state.user.userInfo);
+  // console.log('HEADER user', user);
 
-  const [username, setUsername] = useState(aud === 'email' ? localUsername : googleUsername);
-  const [userProfile, setUserProfile] = useState(localUserProfile);
-  // console.log('HEADER', userProfile, localData?.user?.user_metadata?.avatar_url);
-  // console.log(session);
   const path = location.pathname.split('/');
   const [profileUrl, setProfileUrl] = useState('');
 
@@ -51,18 +40,11 @@ function Header() {
 
   useEffect(() => {
     checkProfile();
-    if (session && (session?.user?.user_metadata?.user_name || session?.user?.user_metadata?.name)) {
-      setUsername(session.user.user_metadata.user_name || session.user.user_metadata.name);
-      setUserProfile(session.user.user_metadata.avatar_url);
-    } else {
-      setUsername('');
-    }
-  }, [session]);
+  }, []);
 
   const logOutHandler = () => {
     logOutUser();
     dispatch(clearUser());
-    setUsername('');
     navigate('/', { replace: true });
   };
 
@@ -80,13 +62,13 @@ function Header() {
             </Link>
 
             <div className="auth-div">
-              {username && <p>{username}</p>}
-              {username ? (
+              {isLoggedIn && <p>{user.name}</p>}
+              {isLoggedIn ? (
                 <>
                   <Link onClick={logOutHandler}>로그아웃</Link>
 
                   <S.ProfileImage
-                    src={userProfile || 'http://via.placeholder.com/640x240'}
+                    src={user.avatar_url || 'http://via.placeholder.com/640x240'}
                     alt="profile"
                     onClick={() => {
                       navigate('mypage');

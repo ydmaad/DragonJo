@@ -201,6 +201,7 @@ function AuthPage() {
     }
 
     if (isLoginForm) {
+      // console.log('LOGIN', response.data.user);
       dispatch(setUser({ session: response.data }));
       nav('/', { replace: true });
     } else {
@@ -268,12 +269,12 @@ function AuthPage() {
             {!isLoginForm && (
               <LoginFormInputBox>
                 <LoginTextBox>
-                  <LoginFormLabel htmlFor="user_name">유저명</LoginFormLabel>
-                  {authError.user_name && <LoginErrorText>{authError.user_name}</LoginErrorText>}
+                  <LoginFormLabel htmlFor="name">유저명</LoginFormLabel>
+                  {authError.name && <LoginErrorText>{authError.name}</LoginErrorText>}
                 </LoginTextBox>
                 <LoginFormInput
                   ref={(e) => (inputRef.current[3] = e)}
-                  id="user_name"
+                  id="name"
                   type="text"
                   placeholder="닉네임을 입력하세요"
                 />
