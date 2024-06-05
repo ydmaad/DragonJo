@@ -3,7 +3,6 @@ import * as S from '../../styledComponents/MyProfile';
 import { useDispatch, useSelector } from 'react-redux';
 import Mypost from './Mypost';
 import { supabase } from '../../service/supabase';
-import { useEffect } from 'react';
 import { clearUser, updateUserInfo, uploadUserAvatar } from '../../redux/slices/user.slice';
 import { useRef } from 'react';
 import noimg from '../../assets/no_img.jpg';
@@ -18,7 +17,7 @@ const Mypage = () => {
   const avatarUploadRef = useRef(null);
   const dispatch = useDispatch();
   const navigate = useNavigate();
-
+  console.log(isLoggedIn)
   const handleEditToggle = () => {
     setIsEditing((prev) => !prev);
   };
@@ -58,23 +57,12 @@ const Mypage = () => {
       await updateUseravatar(imgURL);
     }
   };
-  const avatarDownloadBtn = async () => {
-    const { data, error } = await supabase.storage
-      .from('avatars')
-      .download(session.user.user_metadata.avatar_url.slice(-24));
-    if (error) {
-      console.log('실패=>', error);
-    } else {
-      console.log('성공=>', data);
-    }
-  };
   const handleFileInputChange = (e) => {
     upLoadAvatarsBtn(e.target.files);
   };
   const handleUploadButtonClick = () => {
     avatarUploadRef.current.click();
   };
-
   const handleSaveClick = async () => {
     const { data, error } = await supabase.auth.updateUser({
       data: { user_name: newUsername }
@@ -87,8 +75,11 @@ const Mypage = () => {
       setIsEditing((prev) => !prev);
     }
   };
-  // console.log(session.user.id);
-  //회원탈퇴 로직임
+  const resetUserPassword = ()=>{
+    if(confirm('진짜로 변경할겨?')){
+      navigate('/forgot-password')
+    }
+  }
   const withDrawal = async () => {
     const userId = session.user.id;
     if (confirm('정말로 삭제하겠는가?')) {
@@ -119,12 +110,6 @@ const Mypage = () => {
                   <p>환영합니다!</p>
                   <input type="file" ref={avatarUploadRef} onChange={handleFileInputChange} />
                   <button onClick={handleUploadButtonClick}>아바타 업로드</button>
-                  <button
-                    style={{ display: 'block', margin: '20px auto 0px', cursor: 'pointer' }}
-                    onClick={avatarDownloadBtn}
-                  >
-                    아바타 다운로드
-                  </button>
                 </div>
               </S.profileId>
             </div>
@@ -154,7 +139,7 @@ const Mypage = () => {
                     <S.MypageContents>
                       <div>
                         <h3>pass******</h3>
-                        <button>변경</button>
+                        <button onClick={resetUserPassword}>변경</button>
                       </div>
                     </S.MypageContents>
                   </tr>
