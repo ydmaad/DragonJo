@@ -115,7 +115,9 @@ const EditPostPage = () => {
               ref={imageInputRef}
               style={{ display: 'none' }}
             />
-            <Button onClick={handleDeletePost}>삭제</Button>
+            <Button onClick={handleDeletePost} isRed>
+              삭제
+            </Button>
             <Button onClick={() => navigate('/')}>돌아가기</Button>
           </ButtonContainer>
         </Form>

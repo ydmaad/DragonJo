@@ -1,4 +1,4 @@
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
 
@@ -81,4 +81,9 @@ export const Button = styled.button`
   &:hover {
     background-color: #0056b3;
   }
+  ${({ isRed }) =>
+    isRed &&
+    css`
+      background-color: red;
+    `}
 `;
