@@ -17,12 +17,14 @@ export const Mypost = styled.nav`
     padding: 0px 20px 10px 20px;
     box-sizing: border-box;
     justify-content: space-between;
-    & > li {
-      font-size: 20px;
-      font-weight: bold;
-      cursor: pointer;
-    }
   }
+`;
+export const Menuitem = styled.li`
+  color: ${(props) => (props.$active ? '#000' : '#ccc')};
+  font-size: 20px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: 0.3s all;
 `;
 
 export const MypostListBox = styled.ul`
@@ -31,14 +33,14 @@ export const MypostListBox = styled.ul`
   gap: 33px;
 `;
 export const MypostListItem = styled.li`
-  
+  box-shadow: 0px 0px 5px #ccc;
   background: #d9d9d9;
   border-radius: 15px;
   overflow: hidden;
   cursor: pointer;
   & > .mypost-img {
     width: 100%;
-    height: 150px;
+    height: 200px;
     & > img {
       width: 100%;
       height: 100%;
@@ -48,7 +50,7 @@ export const MypostListItem = styled.li`
   & > .mypost-content {
     padding: 20px;
     box-sizing: border-box;
-    overflow:hidden;
+    overflow: hidden;
     & > h3 {
       font-size: 20px;
       font-weight: bold;
@@ -56,14 +58,14 @@ export const MypostListItem = styled.li`
     & > p {
       height: 120px;
       margin-top: 10px;
-      padding-top:20px;
-      box-sizing:border-box;
+      padding-top: 20px;
+      box-sizing: border-box;
       overflow: hidden;
       display: -webkit-box;
       -webkit-box-orient: vertical;
       -webkit-line-clamp: 6;
-      &:nth-child(even){
-        margin-top:5px;
+      &:nth-child(even) {
+        margin-top: 5px;
       }
     }
     & > .showDetailBtn-box {
@@ -102,4 +104,12 @@ export const CommentsIconBox = styled.div`
       align-items: center;
     }
   }
+`;
+
+export const Notification = styled.div`
+  margin: 0px auto;
+  font-size: 30px;
+  font-weight: bold;
+  width: 1280px;
+  height: 428px;
 `;
