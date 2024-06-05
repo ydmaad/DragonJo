@@ -22,14 +22,13 @@ import {
   SwiperContainer,
   LikeButton
 } from './HomePage.styles';
-import { supabase } from '../../service/supabase';
+// import { supabase } from '../../service/supabase';
 
 function HomePage() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
   const posts = useSelector((state) => state.posts.posts);
-  console.log(posts);
   const status = useSelector((state) => state.posts.status);
   const error = useSelector((state) => state.posts.error);
 
@@ -78,8 +77,6 @@ function HomePage() {
 
     fetchImages();
   }, []);
-
-  console.log(images);
 
   const params = {
     pagination: {
