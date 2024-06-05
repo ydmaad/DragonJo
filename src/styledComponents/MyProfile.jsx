@@ -86,7 +86,7 @@ export const profileId = styled.div`
     font-weight: bold;
   }
   & .avatars-upload input {
-    display:none;
+    display: none;
   }
   & .avatars-upload button {
     background: #fff;
@@ -94,10 +94,13 @@ export const profileId = styled.div`
     font-size: 14px;
     padding: 10px 30px;
     box-sizing: border-box;
-    margin-top:20px;
-    outline:none;
-    border:none;
-    border-radius:5px;
+    margin-top: 20px;
+    outline: none;
+    border: none;
+    border-radius: 5px;
+  }
+  & button:active {
+    box-shadow: inset 1px 1px 4px #6e6e6e;
   }
 `;
 
