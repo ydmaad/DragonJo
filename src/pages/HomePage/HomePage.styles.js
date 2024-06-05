@@ -17,6 +17,7 @@ export const PostItem = styled.li`
   cursor: pointer;
   border: 1px solid black;
   border-radius: 15px;
+  width: 300px;
   height: 400px;
   overflow: hidden;
   &:hover {
@@ -62,26 +63,6 @@ export const PostContent = styled.div`
     max-width: 100%;
     height: auto;
   }
-
-  /* h1,
-  h2,
-  h3,
-  h4,
-  h5,
-  h6 {
-    font-weight: bold;
-  }
-
-  ul,
-  ol {
-    padding-left: 20px;
-  }
-
-  blockquote {
-    margin: 10px 0;
-    padding-left: 20px;
-    border-left: 5px solid #ccc;
-  } */
 `;
 
 export const Button = styled.button`
@@ -162,16 +143,31 @@ export const SwiperContainer = styled.div`
   }
 
   .swiper-slide img {
-    width: 100%;
-    height: auto;
-    display: block;
-    object-fit: cover;
+    cursor: pointer;
+    border: 1px solid black;
+    border-radius: 15px;
+    width: 1000px;
+    height: 500px;
+    overflow: hidden;
+    &:hover {
+      background-color: #dcdcdc;
+    }
+    & > .post-img {
+      width: 100%;
+      height: 200px;
+      margin-bottom: 20px;
+    }
+    & > .post-img > img {
+      width: 100%;
+      height: 100%;
+      display: block;
+    }
+    line-height: 1.3;
   }
 
   .swiper-pagination {
     /* bottom: 10px !important; */
     position: absolute;
-    bottom: 10px;
     left: 50%;
     transform: translateX(-50%);
   }

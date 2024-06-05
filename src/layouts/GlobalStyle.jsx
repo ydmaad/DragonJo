@@ -17,7 +17,6 @@ const GlobalStyle = createGlobalStyle`
 
   body > #root {
     height: 100%;
-
     align-items: center;
     overflow-x: hidden;
   }
