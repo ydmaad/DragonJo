@@ -33,6 +33,7 @@ export const MypostListBox = styled.ul`
   gap: 33px;
 `;
 export const MypostListItem = styled.li`
+  
   box-shadow: 0px 0px 5px #ccc;
   background: #d9d9d9;
   border-radius: 15px;
@@ -48,12 +49,15 @@ export const MypostListItem = styled.li`
     }
   }
   & > .mypost-content {
-    padding: 20px;
+    width: 90%;
+    margin: 20px auto;
+    height: 200px;
     box-sizing: border-box;
-    overflow: hidden;
+    overflow-x: hidden;
     & > h3 {
       font-size: 20px;
       font-weight: bold;
+      margin-bottom:20px;
     }
     & > p {
       height: 120px;
@@ -72,6 +76,9 @@ export const MypostListItem = styled.li`
       margin-top: 20px;
       display: flex;
       justify-content: space-between;
+      padding:0px 20px 20px;
+      box-sizing: border-box;
+      height:100px;
       & > button {
         width: 90px;
         height: 30px;
@@ -91,8 +98,12 @@ export const MypostListItem = styled.li`
 
 export const CommentsIconBox = styled.div`
   display: flex;
-  justify-content: space-between;
-  gap: 10px;
+  align-items:center;
+  gap: 20px;
+  width:calc(100% - 40px);
+  margin:0px auto;
+  padding-bottom:20px;
+  box-sizing: border-box;
   & > div {
     display: flex;
     justify-content: space-between;
@@ -111,5 +122,5 @@ export const Notification = styled.div`
   font-size: 30px;
   font-weight: bold;
   width: 1280px;
-  height: 428px;
+  height: 480px;
 `;
