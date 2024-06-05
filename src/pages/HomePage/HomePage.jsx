@@ -46,6 +46,38 @@ function HomePage() {
 
   const [images, setImages] = useState([]);
 
+<<<<<<< HEAD
+=======
+  const handleSearchChange = (e) => {
+    e.preventDefault();
+    const filteredPosts = posts.filter((post) => post.title.includes(search));
+    setSearchPost(filteredPosts);
+  };
+
+  useEffect(() => {
+    setSearchPost(posts.filter((post) => post.title.toLowerCase().includes(search.toLowerCase())));
+  }, [posts]);
+
+  useEffect(() => {
+    const fetchImages = async () => {
+      const { data, error } = await supabase.from('posts').select('*');
+
+      if (error) {
+        console.error('이미지 가져오기 에러:', error);
+      } else {
+        const filteredData = data.filter((item) => item.images && item.images.length > 0);
+
+        const sortedImages = filteredData.sort((a, b) => new Date(b.created_at) - new Date(a.created_at));
+
+        const topImages = sortedImages.slice(0, 5);
+        setImages(topImages.map((item) => item.images));
+      }
+    };
+
+    fetchImages();
+  }, []);
+
+>>>>>>> 39066738108d8eef976599cdf63966d44bd602e2
   const params = {
     pagination: {
       clickable: true

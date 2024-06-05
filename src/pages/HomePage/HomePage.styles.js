@@ -52,7 +52,7 @@ export const PostTitle = styled.h2`
 export const PostContent = styled.div`
   color: black;
   white-space: pre-wrap;
-  margin: 0 25px;
+  margin: 0px auto;
   width: 250px;
   display: -webkit-box;
   -webkit-box-orient: vertical;
@@ -63,6 +63,7 @@ export const PostContent = styled.div`
   img {
     max-width: 100%;
     height: auto;
+    display:block;
   }
 `;
 
