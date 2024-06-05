@@ -41,11 +41,22 @@ const EditPostPage = () => {
     }
   };
 
-  const handleDeletePost = () => {
-    const confirmDelete = confirm('정말 이 글을 삭제하시겠습니까?');
+  const handleDeletePost = (e) => {
+    const confirmDelete = window.confirm('게시글을 삭제하시겠습니까?');
     if (confirmDelete) {
       dispatch(deletePost(postId));
       navigate('/');
+    } else {
+      e.preventDefault();
+    }
+  };
+
+  const handleGoBack = (e) => {
+    const confirmGoBack = window.confirm('변경 사항이 저장되지 않을 수 있습니다. 페이지를 나가시겠습니까?');
+    if (confirmGoBack) {
+      navigate('/');
+    } else {
+      e.preventDefault();
     }
   };
 
@@ -115,10 +126,21 @@ const EditPostPage = () => {
               ref={imageInputRef}
               style={{ display: 'none' }}
             />
-            <Button onClick={handleDeletePost} isRed>
+            <Button
+              onClick={(e) => {
+                handleDeletePost(e);
+              }}
+              isRed
+            >
               삭제
             </Button>
-            <Button onClick={() => navigate('/')}>돌아가기</Button>
+            <Button
+              onClick={(e) => {
+                handleGoBack(e);
+              }}
+            >
+              뒤로가기
+            </Button>
           </ButtonContainer>
         </Form>
       </Container>
