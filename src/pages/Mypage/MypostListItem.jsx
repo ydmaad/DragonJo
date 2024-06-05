@@ -1,4 +1,4 @@
-import diablo from '../../assets/diablo.jpg';
+import noimg from '../../assets/no_img.jpg';
 import comments from '../../assets/comments.png';
 import ddabong from '../../assets/ddabong.png';
 import * as S from '../../styledComponents/Mypost';
@@ -12,7 +12,7 @@ const MypostListItem = (props) => {
       }}
     >
       <div className="mypost-img">
-        <img src={diablo} alt="diablo4" />
+        <img src={props.image? props.image:noimg} alt="mainImage" />
       </div>
       <div className="mypost-content">
         <h3>{props.title}</h3>

@@ -6,6 +6,7 @@ import { adminAuthClient, supabase } from '../../service/supabase';
 import { useEffect } from 'react';
 import { updateUserInfo, uploadUserAvatar } from '../../redux/slices/user.slice';
 import { useRef } from 'react';
+import noimg from '../../assets/no_img.jpg';
 
 const Mypage = () => {
   const { isLoggedIn, session } = useSelector((state) => state.user.userInfo);
@@ -113,7 +114,7 @@ const Mypage = () => {
             <div className="profile-photo">
               <S.profileId>
                 <div className="profile-box">
-                  <img src={avatarsURL || session.user.user_metadata?.avatar_url} alt="profileIcon" />
+                  <img src={avatarsURL || session.user.user_metadata?.avatar_url || noimg} alt="profileIcon" />
                 </div>
                 <div className="avatars-upload">
                   <h3>{session.user.user_metadata.user_name}님</h3>
