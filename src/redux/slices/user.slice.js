@@ -41,7 +41,7 @@ const userSlice = createSlice({
     },
     uploadUserAvatar(state, action) {
       const imgURL = action.payload.user.user_metadata.avatar_url;
-      if (!imgURL === '') {
+      if (imgURL !== '') {
         state.userInfo.session.user.user_metadata.avatar_url = imgURL;
       }
     }
