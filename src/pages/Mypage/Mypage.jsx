@@ -1,36 +1,25 @@
-import { useState } from 'react';
-import * as S from '../../styledComponents/MyProfile';
+import { useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import Mypost from './Mypost';
-import { adminAuthClient, supabase } from '../../service/supabase';
-import { useEffect } from 'react';
-import { updateUserInfo, uploadUserAvatar } from '../../redux/slices/user.slice';
-import { useRef } from 'react';
+import { supabase } from '../../service/supabase';
+import { clearUser, updateUserInfo, uploadUserAvatar } from '../../redux/slices/user.slice';
+import { useNavigate } from 'react-router';
 import noimg from '../../assets/no_img.jpg';
+import { logOutUser } from '../../service/user';
+import * as S from '../../styledComponents/MyProfile';
 
 const Mypage = () => {
   const { isLoggedIn, session } = useSelector((state) => state.user.userInfo);
   const [isEditing, setIsEditing] = useState(false);
   const [newUsername, setNewUsername] = useState('');
-  const [profileUrl, setProfileUrl] = useState('');
   const [avatarsURL, setAvatarsURL] = useState('');
   const avatarUploadRef = useRef(null);
-
-  const checkProfile = () => {
-    const { data, error } = supabase.storage.from('avatars').getPublicUrl('profileIcon.png');
-    if (error) {
-      console.error('error=>', error);
-    } else {
-      // console.log('data=>', data.publicUrl);
-      setProfileUrl(data.publicUrl);
-    }
-  };
-
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  console.log(isLoggedIn)
   const handleEditToggle = () => {
     setIsEditing((prev) => !prev);
   };
-
-  const dispatch = useDispatch();
   const updateUseravatar = async (avatarUrl) => {
     const { data, error } = await supabase.auth.updateUser({
       data: { avatar_url: avatarUrl }
@@ -67,19 +56,12 @@ const Mypage = () => {
       await updateUseravatar(imgURL);
     }
   };
-
-  useEffect(() => {
-    checkProfile();
-  }, []);
-
   const handleFileInputChange = (e) => {
     upLoadAvatarsBtn(e.target.files);
   };
-
   const handleUploadButtonClick = () => {
     avatarUploadRef.current.click();
   };
-
   const handleSaveClick = async () => {
     const { data, error } = await supabase.auth.updateUser({
       data: { user_name: newUsername }
@@ -92,16 +74,22 @@ const Mypage = () => {
       setIsEditing((prev) => !prev);
     }
   };
-
-  //회원탈퇴 로직임
+  const resetUserPassword = ()=>{
+    if(confirm('진짜로 변경할겨?')){
+      navigate('/forgot-password')
+    }
+  }
   const withDrawal = async () => {
-    console.log(session.user.id);
+    const userId = session.user.id;
     if (confirm('정말로 삭제하겠는가?')) {
-      const { data, error } = await adminAuthClient.deleteUser(session.user.id);
+      const { data, error } = await supabase.rpc('delete_user', { user_id: userId });
       if (error) {
-        console.log('error=>', error);
+        console.log('error=>', error.message);
       } else {
-        console.log('data=>', data);
+        // console.log('data=>', data);
+        await logOutUser();
+        dispatch(clearUser());
+        navigate('/');
       }
     }
     return;
@@ -149,8 +137,7 @@ const Mypage = () => {
                     <S.MypagetdTitle>비밀번호</S.MypagetdTitle>
                     <S.MypageContents>
                       <div>
-                        <h3>pass******</h3>
-                        <button>변경</button>
+                        <button onClick={resetUserPassword}>변경</button>
                       </div>
                     </S.MypageContents>
                   </tr>
@@ -176,7 +163,7 @@ const Mypage = () => {
                     </S.MypageContents>
                   </tr>
                   <tr>
-                    <S.MypagetdTitle>탈퇴신청</S.MypagetdTitle>
+                    <S.MypagetdTitle>회원탈퇴</S.MypagetdTitle>
                     <S.MypageContents>
                       <div>
                         <button onClick={withDrawal}>탈퇴</button>

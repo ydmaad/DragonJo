@@ -9,7 +9,7 @@ import PasswordEyeOffIcon from '../../components/icons/PasswrodEyeOffIcon';
 import { setUser } from '../../redux/slices/user.slice';
 import { supabase } from '../../service/supabase';
 import { logInUser, registerUser } from '../../service/user';
-import validationUserInfo from '../../utils/validationUserInfo';
+import validation from '../../utils/validation';
 
 const LoginMainDiv = styled.div`
   margin: 0 auto;
@@ -174,6 +174,7 @@ function AuthPage() {
   const inputRef = useRef([]);
 
   const resetInputRef = () => {
+    console.log(inputRef);
     inputRef.current.forEach((ref) => {
       ref.value = '';
     });
@@ -184,7 +185,8 @@ function AuthPage() {
 
     const userInfo = inputRef.current;
 
-    const error = validationUserInfo(userInfo);
+    const error = validation(isLoginForm ? 'login' : 'register', userInfo);
+
     setAuthError(error);
 
     if (Object.values(error).some((error) => error)) {
@@ -194,8 +196,7 @@ function AuthPage() {
     const response = isLoginForm ? await logInUser(userInfo) : await registerUser(userInfo);
     // console.log('AUTH PAGE', response);
     if (response.error) {
-      //TODO 에러처리 생각하기
-      console.log('response.error!!', response.error);
+      setAuthError({ email: '이메일 혹은 비밀번호를 확인해주세요' });
       return;
     }
 
@@ -215,7 +216,7 @@ function AuthPage() {
   };
 
   const githubLoginHandler = async () => {
-    console.log('GITHUB LOGIN');
+    // console.log('GITHUB LOGIN');
     const { error } = await supabase.auth.signInWithOAuth({
       provider: 'github',
       options: {
@@ -233,7 +234,7 @@ function AuthPage() {
   };
 
   const googleLoginHandler = async () => {
-    console.log('GOOGLE LOGIN');
+    // console.log('GOOGLE LOGIN');
     const { error } = await supabase.auth.signInWithOAuth({
       provider: 'google',
       options: {
@@ -251,7 +252,7 @@ function AuthPage() {
   };
 
   const resetPasswordHandler = () => {
-    console.log('RESET PASSWORD');
+    // console.log('RESET PASSWORD');
     nav('/forgot-password');
   };
 

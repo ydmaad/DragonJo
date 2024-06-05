@@ -12,7 +12,8 @@ function App() {
 
   useEffect(() => {
     const getSession = async () => {
-      const sessionData = await supabase.auth.getSession();
+      // const sessionData = await supabase.auth.getSession();
+      const sessionData = await supabase.auth.getUser();
       const session = sessionData.data.session;
 
       if (!session) {
