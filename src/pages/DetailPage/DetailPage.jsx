@@ -16,11 +16,10 @@ const DetailPage = () => {
 
   const post = useSelector((state) => state.posts.posts.find((post) => post.id === postId));
   const userId = useSelector((state) => state.user.userInfo.session.user.id);
-  console.log(userId);
+
   const [title, setTitle] = useState('');
   const [content, setContent] = useState('');
   const [writerId, setWriterId] = useState('');
-  console.log(post);
 
   useEffect(() => {
     if (!post) {
