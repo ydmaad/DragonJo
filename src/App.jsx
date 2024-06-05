@@ -15,7 +15,7 @@ function App() {
       const data = await supabase.auth.getUser();
       // console.log('APP getUser', data.data);
 
-      if (!data.data) {
+      if (data.data.user === null) {
         return;
       }
 
