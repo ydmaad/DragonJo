@@ -28,7 +28,6 @@ const WritePostPage = () => {
   const navigate = useNavigate();
 
   const { user } = useSelector((state) => state.user.userInfo);
-  console.log(user.name);
   const [title, setTitle] = useState('');
   const [content, setContent] = useState('');
   const [imageURL, setImageURL] = useState('');

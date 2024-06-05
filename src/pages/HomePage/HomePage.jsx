@@ -18,7 +18,8 @@ import {
   PostTitle,
   SearchBtn,
   SearchInput,
-  SwiperContainer
+  SwiperContainer,
+  UserName
 } from './HomePage.styles';
 
 function HomePage() {
@@ -104,6 +105,29 @@ function HomePage() {
   };
 
   useEffect(() => {
+    const fetchImages = async () => {
+      const { data, error } = await supabase.from('posts').select('*');
+
+      if (error) {
+        console.error('이미지 가져오기 에러:', error);
+      } else {
+        const filteredData = data.filter((item) => item.images && item.images.length > 0);
+
+        const sortedImages = filteredData.sort((a, b) => new Date(b.created_at) - new Date(a.created_at));
+
+        const topImages = sortedImages.slice(0, 5);
+        setImages(topImages.map((item) => item.images));
+      }
+    };
+
+    fetchImages();
+  }, []);
+
+  useEffect(() => {
+    setSearchPost(posts.filter((post) => post.title.toLowerCase().includes(search.toLowerCase())));
+  }, [posts]);
+
+  useEffect(() => {
     if (status === 'idle') {
       dispatch(fetchPosts());
     }
@@ -156,13 +180,14 @@ function HomePage() {
             </div>
             <PostTitle>{post.title}</PostTitle>
             <br />
-            <div>{post.name}</div>
+
             <PostContent dangerouslySetInnerHTML={{ __html: post.content }} />
             <br />
-            <div className="like-button-container">
+            <div className="like-button-container" style={{ display: 'flex', justifyContent: 'space-between' }}>
               <LikeButton data-id={post.id} onClick={(e) => handleLike(e, post.id)}>
                 👍 {post.likes}
               </LikeButton>
+              <UserName>{post.name}</UserName>
             </div>
           </PostItem>
         ))}
