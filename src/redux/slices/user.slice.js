@@ -3,18 +3,11 @@ import { createSlice } from '@reduxjs/toolkit';
 const initialState = {
   userInfo: {
     isLoggedIn: false,
-    session: {
-      access_token: '',
-      token_type: 'bearer',
-      expires_in: 0,
-      expires_at: 0,
-      refresh_token: '',
-      user: {
-        id: '',
-        email: '',
-        avatar_url: '',
-        user_name: ''
-      }
+    user: {
+      id: '',
+      email: '',
+      avatar_url: '',
+      name: ''
     }
   }
 };
@@ -25,24 +18,30 @@ const userSlice = createSlice({
   reducers: {
     setUser(state, action) {
       const { session } = action.payload;
-      // console.log('USER.SLICE', session);
-      state.userInfo.session = session;
-      if (session.user.app_metadata.provider !== 'email') {
-        // github, google 로그인 시
-        state.userInfo.session.user.user_metadata.user_name = session.user.user_metadata.name;
-      }
+      const { user } = session;
+      // console.log('USER.SLICE SESSION', session);
+      // console.log('USER.SLICE USER', user.id);
+
+      const newUser = {
+        id: user.id,
+        email: user.email,
+        name: user.user_metadata.name,
+        avatar_url: user.user_metadata.avatar_url
+      };
+      // console.log('USER.SLICE newUser', newUser);
+      state.userInfo.user = newUser;
       state.userInfo.isLoggedIn = true;
     },
     clearUser(state) {
       state.userInfo = initialState;
     },
     updateUserInfo(state, action) {
-      state.userInfo.session.user.user_metadata.user_name = action.payload.user.user_metadata.user_name;
+      state.userInfo.user.name = action.payload.user.user_metadata.name;
     },
     uploadUserAvatar(state, action) {
       const imgURL = action.payload.user.user_metadata.avatar_url;
       if (imgURL !== '') {
-        state.userInfo.session.user.user_metadata.avatar_url = imgURL;
+        state.userInfo.user.avatar_url = imgURL;
       }
     }
   }
