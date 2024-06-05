@@ -4,7 +4,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 import Swal from 'sweetalert2';
 import { fetchPosts, updatePost } from '../../redux/slices/postSlice';
 import { CommentsForm } from './CommentsForm';
-import { Button, ButtonContainer, Container, Form, Header, PostContent, Title } from './DetailPage.styles';
+import { Wrapper, Button, ButtonContainer, Container, Form, Header, PostContent, Title } from './DetailPage.styles';
 
 const DetailPage = () => {
   const { id } = useParams();
@@ -49,23 +49,21 @@ const DetailPage = () => {
   };
 
   return (
-    <>
+    <Wrapper>
       <Container>
         <Header>
           <Title>{title}</Title>
         </Header>
         <Form ref={ref}>
           <PostContent dangerouslySetInnerHTML={{ __html: content }} />
-          {/* {content} */}
           <ButtonContainer>
-            <Button onClick={handleUpdatePost}>수정</Button>
-            {/* {writerId === userId && <Button onClick={handleUpdatePost}>수정</Button>} */}
             <Button onClick={() => navigate('/')}>돌아가기</Button>
+            <Button onClick={handleUpdatePost}>수정</Button>
           </ButtonContainer>
         </Form>
       </Container>
       <CommentsForm postId={postId} />
-    </>
+    </Wrapper>
   );
 };
 
