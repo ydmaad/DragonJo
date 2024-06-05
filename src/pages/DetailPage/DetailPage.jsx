@@ -5,6 +5,7 @@ import { fetchPosts, deletePost, updatePost } from '../../redux/slices/postSlice
 import { Container, Header, Title, Form, PostContent, ButtonContainer, Button } from './DetailPage.styles';
 import { StyledReactQuill } from '../WritePostPage/WritePostPage.styles';
 import Swal from 'sweetalert2';
+import { CommentsForm } from './CommentsForm';
 
 const DetailPage = () => {
   const { id } = useParams();
@@ -50,20 +51,23 @@ const DetailPage = () => {
   };
 
   return (
-    <Container>
-      <Header>
-        <Title>{title}</Title>
-      </Header>
-      <Form ref={ref}>
-        <PostContent dangerouslySetInnerHTML={{ __html: content }} />
-        {/* {content} */}
-        <ButtonContainer>
-          <Button onClick={handleUpdatePost}>수정</Button>
-          {/* {writerId === userId && <Button onClick={handleUpdatePost}>수정</Button>} */}
-          <Button onClick={() => navigate('/')}>돌아가기</Button>
-        </ButtonContainer>
-      </Form>
-    </Container>
+    <>
+      <Container>
+        <Header>
+          <Title>{title}</Title>
+        </Header>
+        <Form ref={ref}>
+          <PostContent dangerouslySetInnerHTML={{ __html: content }} />
+          {/* {content} */}
+          <ButtonContainer>
+            <Button onClick={handleUpdatePost}>수정</Button>
+            {/* {writerId === userId && <Button onClick={handleUpdatePost}>수정</Button>} */}
+            <Button onClick={() => navigate('/')}>돌아가기</Button>
+          </ButtonContainer>
+        </Form>
+      </Container>
+      <CommentsForm postId={postId} />
+    </>
   );
 };
 
