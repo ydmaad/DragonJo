@@ -55,8 +55,6 @@ function HomePage() {
     setSearchPost(posts.filter((post) => post.title.toLowerCase().includes(search.toLowerCase())));
   }, [posts]);
 
-  console.log(posts);
-
   useEffect(() => {
     const fetchImages = async () => {
       const { data, error } = await supabase.from('posts').select('*');
@@ -65,10 +63,8 @@ function HomePage() {
         console.error('이미지 가져오기 에러:', error);
       } else {
         const filteredData = data.filter((item) => item.images && item.images.length > 0);
-        console.log(data);
 
         const sortedImages = filteredData.sort((a, b) => new Date(b.created_at) - new Date(a.created_at));
-        console.log(sortedImages);
 
         const topImages = sortedImages.slice(0, 5);
         setImages(topImages.map((item) => item.images));
