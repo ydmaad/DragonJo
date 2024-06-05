@@ -10,7 +10,7 @@ import { Navigation } from 'swiper/modules';
 import { useNavigate } from 'react-router-dom';
 import postImg from '../../assets/diablo.jpg';
 import { fetchPosts, likePost } from '../../redux/slices/postSlice';
-// import { supabase } from '../../service/supabase';
+import { supabase } from '../../service/supabase';
 import {
   PostContent,
   PostImage,
@@ -45,7 +45,7 @@ function HomePage() {
   const [search, setSearch] = useState('');
   const [searchPost, setSearchPost] = useState([]);
 
-  // const [images, setImages] = useState([]);
+  const [images, setImages] = useState([]);
 
   const handleSearchChange = (e) => {
     e.preventDefault();
@@ -57,22 +57,29 @@ function HomePage() {
     setSearchPost(posts.filter((post) => post.title.toLowerCase().includes(search.toLowerCase())));
   }, [posts]);
 
-  // 슬라이드 추가한 부분
-  // useEffect(() => {
-  //   const fetchImages = async () => {
-  //     const { data, error } = await supabase.from('images').select('*');
+  console.log(posts);
 
-  //     if (error) {
-  //       console.error('Error fetching images:', error);
-  //     } else {
-  //       setImages(data);
-  //     }
-  //   };
+  useEffect(() => {
+    const fetchImages = async () => {
+      const { data, error } = await supabase.from('posts').select('*');
 
-  //   fetchImages();
-  // }, []);
+      if (error) {
+        console.error('이미지 가져오기 에러:', error);
+      } else {
+        const filteredData = data.filter((item) => item.images && item.images.length > 0);
+        console.log(data);
 
-  // 슬라이드 추가한 부분
+        const sortedImages = filteredData.sort((a, b) => new Date(b.created_at) - new Date(a.created_at));
+        console.log(sortedImages);
+
+        const topImages = sortedImages.slice(0, 5);
+        setImages(topImages.map((item) => item.images));
+      }
+    };
+
+    fetchImages();
+  }, []);
+
   const params = {
     pagination: {
       clickable: true
@@ -85,9 +92,21 @@ function HomePage() {
     }
   };
 
-  const handleLike = (e, id) => {
+  const handleLike = async (e, postId) => {
     e.stopPropagation();
-    dispatch(likePost(id));
+    const {
+      data: { user },
+      error
+    } = await supabase.auth.getUser();
+
+    if (error) {
+      console.error('Error fetching user:', error);
+      return;
+    }
+
+    if (user) {
+      dispatch(likePost({ userId: user.id, postId }));
+    }
   };
 
   useEffect(() => {
@@ -111,17 +130,25 @@ function HomePage() {
         <SearchBtn>검색</SearchBtn>
       </SearchInput>
       {/* 슬라이드 추가한 부분 */}
-      {/* {images.length > 0 && ( */}
-      <SwiperContainer>
-        <Swiper {...params} navigation={true} modules={[Navigation, Pagination]} pagination={true}>
-          {[postImg, postImg, postImg, postImg].map((image, index) => (
-            <SwiperSlide key={index}>
-              <img src={image} alt={image} />
-            </SwiperSlide>
-          ))}
-        </Swiper>
-      </SwiperContainer>
-      {/* )} */}
+      {images.length > 0 && (
+        <SwiperContainer>
+          <Swiper
+            {...params}
+            navigation={true}
+            modules={[Navigation, Pagination]}
+            pagination={{ clickable: true }}
+            spaceBetween={30}
+            slidesPerView={1}
+            loop={true}
+          >
+            {images.map((image) => (
+              <SwiperSlide key={image}>
+                <img src={image} alt={`slide`} />
+              </SwiperSlide>
+            ))}
+          </Swiper>
+        </SwiperContainer>
+      )}
       <PostList>
         {searchPost.map((post) => (
           <PostItem
@@ -131,14 +158,14 @@ function HomePage() {
             }}
           >
             <div className="post-img">
-              <PostImage src={postImg} />
+              <PostImage src={post.images} />
             </div>
             <PostTitle>{post.title}</PostTitle>
             <br />
             <PostContent dangerouslySetInnerHTML={{ __html: post.content }} />
             <br />
             <div className="like-button-container">
-              <LikeButton data-id={post.id} onClick={handleLike}>
+              <LikeButton data-id={post.id} onClick={(e) => handleLike(e, post.id)}>
                 👍 {post.likes}
               </LikeButton>
             </div>

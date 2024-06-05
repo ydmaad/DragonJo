@@ -21,9 +21,14 @@ export const updatePost = createAsyncThunk('posts/updatePost', async ({ id, titl
   return data[0];
 });
 
-export const likePost = createAsyncThunk('posts/likePost', async (id) => {
-  const { data } = await supabase.rpc('increment_like', { post_id: id });
-  return { id, likes: data[0].likes };
+export const likePost = createAsyncThunk('posts/likePost', async ({ userId, postId }) => {
+  const { data, error } = await supabase.rpc('toggle_like', { p_user_id: userId, p_post_id: postId });
+
+  if (error) {
+    throw new Error(error.message);
+  }
+
+  return { id: postId, likes: data[0].likes_count, liked: data[0].liked };
 });
 
 const postsSlice = createSlice({

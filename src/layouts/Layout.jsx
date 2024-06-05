@@ -9,15 +9,24 @@ const Main = styled.main`
   flex: 1;
 `;
 
+const StyledDiv = styled.div`
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  justify-content: space-between;
+`;
+
 function Layout() {
   return (
     <>
       <GlobalStyle />
       <Header />
-      <Main>
-        <Outlet />
-      </Main>
-      <Footer />
+      <StyledDiv>
+        <Main>
+          <Outlet />
+        </Main>
+        <Footer />
+      </StyledDiv>
     </>
   );
 }

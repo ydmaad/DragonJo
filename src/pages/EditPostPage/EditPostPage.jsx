@@ -61,7 +61,7 @@ const EditPostPage = () => {
     setPreviewImageURL(previewURL);
 
     const { data } = await supabase.storage.from('avatars').upload(`avatar_${Date.now()}.png`, file);
-    const imageURL = `https://supabase.com/dashboard/project/dkodekduyiphnphkezzv/storage/buckets/avatars/${data.path}`;
+    const imageURL = `https://dkodekduyiphnphkezzv.supabase.co/storage/v1/object/public/avatars/${data.path}`;
     setImageURL(imageURL);
   }
 
@@ -93,9 +93,13 @@ const EditPostPage = () => {
     <Wrapper>
       <Container>
         <Header>
-          <Title>메인 이미지 미리보기</Title>
+          <Title>썸네일 이미지 미리보기</Title>
           <br />
-          {previewImageURL && <img src={previewImageURL} alt="Preview" style={{ maxWidth: '200px' }} />}
+          {previewImageURL ? (
+            <img src={previewImageURL} alt="Preview" style={{ maxWidth: '500px' }} />
+          ) : (
+            post && post.images && <img src={post.images} style={{ maxWidth: '500px' }} />
+          )}
         </Header>
         <Form>
           <Label>게시글 제목</Label>
@@ -104,14 +108,16 @@ const EditPostPage = () => {
           <StyledReactQuill ref={quillRef} value={content} onChange={setContent} modules={modules} />
           <ButtonContainer>
             <Button onClick={handleUpdatePost}>수정</Button>
-            <Button onClick={handleImageButtonClick}>메인 이미지 업로드</Button>
+            <Button onClick={handleImageButtonClick}>썸네일 이미지 업로드</Button>
             <input
               onChange={(e) => handleImageInputChange(e.target.files)}
               type="file"
               ref={imageInputRef}
               style={{ display: 'none' }}
             />
-            <Button onClick={handleDeletePost}>삭제</Button>
+            <Button onClick={handleDeletePost} isRed>
+              삭제
+            </Button>
             <Button onClick={() => navigate('/')}>돌아가기</Button>
           </ButtonContainer>
         </Form>

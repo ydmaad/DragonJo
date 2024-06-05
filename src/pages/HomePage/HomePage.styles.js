@@ -17,14 +17,16 @@ export const PostItem = styled.li`
   cursor: pointer;
   border: 1px solid black;
   border-radius: 15px;
+  width: 300px;
   height: 400px;
+  width: 300px;
   overflow: hidden;
   &:hover {
     background-color: #dcdcdc;
   }
   & > .post-img {
     width: 100%;
-    height: 150px;
+    height: 200px;
     margin-bottom: 20px;
   }
   & > .post-img > img {
@@ -62,26 +64,6 @@ export const PostContent = styled.div`
     max-width: 100%;
     height: auto;
   }
-
-  /* h1,
-  h2,
-  h3,
-  h4,
-  h5,
-  h6 {
-    font-weight: bold;
-  }
-
-  ul,
-  ol {
-    padding-left: 20px;
-  }
-
-  blockquote {
-    margin: 10px 0;
-    padding-left: 20px;
-    border-left: 5px solid #ccc;
-  } */
 `;
 
 export const Button = styled.button`
@@ -111,7 +93,7 @@ export const PostImage = styled.img`
 export const SearchInput = styled.form`
   padding: 0px 20px;
   width: 1320px;
-  margin: 20px auto;
+  margin: 20px auto 0 auto;
   display: flex;
   justify-content: flex-end;
   gap: 20px;
@@ -154,6 +136,7 @@ export const SwiperContainer = styled.div`
   }
 
   .swiper-slide {
+    height: 560px;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -162,15 +145,16 @@ export const SwiperContainer = styled.div`
   }
 
   .swiper-slide img {
-    width: 100%;
-    height: auto;
-    object-fit: cover;
+    cursor: pointer;
+    border: 1px solid black;
+    border-radius: 15px;
+    height: 500px;
+    width: 1000px;
+    overflow: hidden;
   }
 
   .swiper-pagination {
-    /* bottom: 10px !important; */
     position: absolute;
-    bottom: 10px;
     left: 50%;
     transform: translateX(-50%);
   }

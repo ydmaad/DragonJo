@@ -1,5 +1,6 @@
 import { createGlobalStyle } from 'styled-components';
 // import { reset } from 'styled-reset';
+import 'sweetalert2/src/sweetalert2.scss';
 
 const GlobalStyle = createGlobalStyle`
   * {
@@ -16,8 +17,6 @@ const GlobalStyle = createGlobalStyle`
 
   body > #root {
     height: 100%;
-    display: flex;
-    flex-direction: column;
     align-items: center;
     overflow-x: hidden;
   }
