@@ -24,7 +24,7 @@ export const PostItem = styled.li`
   }
   & > .post-img {
     width: 100%;
-    height: 150px;
+    height: 200px;
     margin-bottom: 20px;
   }
   & > .post-img > img {
@@ -163,7 +163,7 @@ export const SwiperContainer = styled.div`
 
   .swiper-slide img {
     width: 100%;
-    height: 50%;
+    height: auto;
     display: block;
     object-fit: cover;
   }

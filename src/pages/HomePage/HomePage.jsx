@@ -60,7 +60,7 @@ function HomePage() {
 
   useEffect(() => {
     const fetchImages = async () => {
-      const { data, error } = await supabase.from('posts').select('images');
+      const { data, error } = await supabase.from('posts').select('*');
 
       if (error) {
         console.error('이미지 가져오기 에러:', error);
