@@ -21,6 +21,7 @@ export const PostItem = styled.li`
   height: 400px;
   width: 300px;
   overflow: hidden;
+  position: relative;
   &:hover {
     background-color: #dcdcdc;
   }
@@ -35,6 +36,15 @@ export const PostItem = styled.li`
     display: block;
   }
   line-height: 1.3;
+  & .like-button-container {
+    width: 100%;
+    position: absolute;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    justify-content: space-between;
+  }
 `;
 
 export const PostTitle = styled.h2`
@@ -63,7 +73,7 @@ export const PostContent = styled.div`
   img {
     max-width: 100%;
     height: auto;
-    display:block;
+    display: block;
   }
 `;
 
@@ -114,13 +124,14 @@ export const SearchBtn = styled.button`
 `;
 
 export const LikeButton = styled.button`
-  padding: 5px 10px;
+  padding: 5px 15px;
   font-size: 16px;
   border: none;
-  border-radius: 5px;
+  border-radius: 0px 5px 5px 0px;
   cursor: pointer;
   background-color: #ff4757;
   color: white;
+  box-sizing: border-box;
   &:hover {
     background-color: #e84118;
   }
@@ -185,8 +196,12 @@ export const SwiperContainer = styled.div`
 `;
 
 export const UserName = styled.div`
-  font-size: 20px;
-  background-color: #2fa93c;
-  color: white;
-  border-radius: 4px;
+  padding: 5px 15px;
+  font-size: 16px;
+  background: #17876d;
+  color: #fff;
+  font-weight: bold;
+  border-radius: 5px 0px 0px 5px;
+  line-height: 25px;
+  text-align: center;
 `;
