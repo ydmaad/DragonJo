@@ -12,15 +12,14 @@ function App() {
 
   useEffect(() => {
     const getSession = async () => {
-      // const sessionData = await supabase.auth.getSession();
-      const sessionData = await supabase.auth.getUser();
-      const session = sessionData.data.session;
+      const data = await supabase.auth.getUser();
+      // console.log('APP getUser', data.data);
 
-      if (!session) {
+      if (data.data.user === null) {
         return;
       }
 
-      dispatch(setUser({ session }));
+      dispatch(setUser({ session: data.data }));
     };
     getSession();
   }, [dispatch]);

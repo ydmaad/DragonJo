@@ -1,11 +1,10 @@
-import { useState, useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { useParams, useNavigate } from 'react-router-dom';
-import { fetchPosts, deletePost, updatePost } from '../../redux/slices/postSlice';
-import { Container, Header, Title, Form, PostContent, ButtonContainer, Button } from './DetailPage.styles';
-import { StyledReactQuill } from '../WritePostPage/WritePostPage.styles';
+import { useNavigate, useParams } from 'react-router-dom';
 import Swal from 'sweetalert2';
+import { fetchPosts, updatePost } from '../../redux/slices/postSlice';
 import { CommentsForm } from './CommentsForm';
+import { Button, ButtonContainer, Container, Form, Header, PostContent, Title } from './DetailPage.styles';
 
 const DetailPage = () => {
   const { id } = useParams();
@@ -15,7 +14,8 @@ const DetailPage = () => {
   const ref = useRef();
 
   const post = useSelector((state) => state.posts.posts.find((post) => post.id === postId));
-  const userId = useSelector((state) => state.user.userInfo.session.user.id);
+  const userId = useSelector((state) => state.user.userInfo.user.id);
+  console.log(userId);
   const [title, setTitle] = useState('');
   const [content, setContent] = useState('');
   const [writerId, setWriterId] = useState('');

@@ -155,7 +155,7 @@ function ForgotPage() {
     const { error } = await supabase.auth.resetPasswordForEmail(email, {
       redirectTo: 'http://localhost:5173/reset-password'
     });
-    console.log(error);
+    // console.log(error);
     if (error) {
       console.log('FORGOT PAGE ERROR', error);
       setAuthError({ email: '이메일을 확인 해주세요' });

@@ -1,22 +1,22 @@
-import { useState, useRef } from 'react';
-import { useDispatch } from 'react-redux';
+import { useRef, useState } from 'react';
+import { Quill } from 'react-quill';
+import 'react-quill/dist/quill.snow.css';
+import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { createPost } from '../../redux/slices/postSlice';
 import { supabase } from '../../service/supabase';
-import { Quill } from 'react-quill';
-import 'react-quill/dist/quill.snow.css';
 import {
-  Wrapper,
+  Button,
+  ButtonContainer,
   Container,
-  Header,
-  Title,
   // Subtitle,
   Form,
-  Label,
+  Header,
   Input,
+  Label,
   StyledReactQuill,
-  ButtonContainer,
-  Button
+  Title,
+  Wrapper
 } from './WritePostPage.styles';
 
 const ImageBlot = Quill.import('formats/image');
@@ -27,6 +27,7 @@ const WritePostPage = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
+  const { user } = useSelector((state) => state.user.userInfo);
   const [title, setTitle] = useState('');
   const [content, setContent] = useState('');
   const [imageURL, setImageURL] = useState('');
@@ -37,7 +38,7 @@ const WritePostPage = () => {
 
   const handleCreatePost = () => {
     if (title && content) {
-      dispatch(createPost({ title, content, imageURL: imageURL }));
+      dispatch(createPost({ title, content, imageURL: imageURL, name: user.name }));
       navigate('/');
     } else {
       alert('제목과 내용을 입력해주세요.');

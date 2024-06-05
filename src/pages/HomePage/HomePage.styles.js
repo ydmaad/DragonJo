@@ -184,7 +184,8 @@ export const SwiperContainer = styled.div`
 `;
 
 export const UserName = styled.div`
-  margin: 5px 25px;
-  font-size: 14px;
-  color: #333;
+  font-size: 20px;
+  background-color: #2fa93c;
+  color: white;
+  border-radius: 4px;
 `;

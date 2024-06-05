@@ -6,8 +6,8 @@ export const fetchPosts = createAsyncThunk('posts/fetchPosts', async () => {
   return data;
 });
 
-export const createPost = createAsyncThunk('posts/createPost', async ({ title, content, imageURL }) => {
-  const { data } = await supabase.from('posts').insert({ title, content, images: imageURL }).select();
+export const createPost = createAsyncThunk('posts/createPost', async ({ title, content, imageURL, name }) => {
+  const { data } = await supabase.from('posts').insert({ title, content, images: imageURL, name }).select();
   return data[0];
 });
 

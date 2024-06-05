@@ -1,22 +1,22 @@
 import { useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import Mypost from './Mypost';
-import { supabase } from '../../service/supabase';
-import { clearUser, updateUserInfo, uploadUserAvatar } from '../../redux/slices/user.slice';
 import { useNavigate } from 'react-router';
 import noimg from '../../assets/no_img.jpg';
+import { clearUser, updateUserInfo, uploadUserAvatar } from '../../redux/slices/user.slice';
+import { supabase } from '../../service/supabase';
 import { logOutUser } from '../../service/user';
 import * as S from '../../styledComponents/MyProfile';
+import Mypost from './Mypost';
 
 const Mypage = () => {
-  const { isLoggedIn, session } = useSelector((state) => state.user.userInfo);
+  const { isLoggedIn, user } = useSelector((state) => state.user.userInfo);
   const [isEditing, setIsEditing] = useState(false);
   const [newUsername, setNewUsername] = useState('');
   const [avatarsURL, setAvatarsURL] = useState('');
   const avatarUploadRef = useRef(null);
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  console.log(isLoggedIn)
+  console.log(isLoggedIn);
   const handleEditToggle = () => {
     setIsEditing((prev) => !prev);
   };
@@ -56,6 +56,7 @@ const Mypage = () => {
       await updateUseravatar(imgURL);
     }
   };
+
   const handleFileInputChange = (e) => {
     upLoadAvatarsBtn(e.target.files);
   };
@@ -64,7 +65,7 @@ const Mypage = () => {
   };
   const handleSaveClick = async () => {
     const { data, error } = await supabase.auth.updateUser({
-      data: { user_name: newUsername }
+      data: { name: newUsername }
     });
     if (error) {
       console.log('error=>', error);
@@ -74,13 +75,13 @@ const Mypage = () => {
       setIsEditing((prev) => !prev);
     }
   };
-  const resetUserPassword = ()=>{
-    if(confirm('진짜로 변경할겨?')){
-      navigate('/forgot-password')
+  const resetUserPassword = () => {
+    if (confirm('진짜로 변경할겨?')) {
+      navigate('/forgot-password');
     }
-  }
+  };
   const withDrawal = async () => {
-    const userId = session.user.id;
+    const userId = user.id;
     if (confirm('정말로 삭제하겠는가?')) {
       const { data, error } = await supabase.rpc('delete_user', { user_id: userId });
       if (error) {
@@ -102,10 +103,10 @@ const Mypage = () => {
             <div className="profile-photo">
               <S.profileId>
                 <div className="profile-box">
-                  <img src={avatarsURL || session.user.user_metadata?.avatar_url || noimg} alt="profileIcon" />
+                  <img src={avatarsURL || user.avatar_url || noimg} alt="profileIcon" />
                 </div>
                 <div className="avatars-upload">
-                  <h3>{session.user.user_metadata.user_name}님</h3>
+                  <h3>{user.name}님</h3>
                   <p>환영합니다!</p>
                   <input type="file" ref={avatarUploadRef} onChange={handleFileInputChange} />
                   <button onClick={handleUploadButtonClick}>아바타 업로드</button>
@@ -121,7 +122,7 @@ const Mypage = () => {
                     <S.MypagetdTitle>회원번호</S.MypagetdTitle>
                     <S.MypageContents>
                       <div>
-                        <h3>{session.user.id.split('-').join('').slice(0, 10)}</h3>
+                        <h3>{user.id.split('-').join('').slice(0, 10)}</h3>
                       </div>
                     </S.MypageContents>
                   </tr>
@@ -129,7 +130,7 @@ const Mypage = () => {
                     <S.MypagetdTitle>아이디</S.MypagetdTitle>
                     <S.MypageContents>
                       <div>
-                        <h3>{session.user.user_metadata.email}</h3>
+                        <h3>{user.email}</h3>
                       </div>
                     </S.MypageContents>
                   </tr>
@@ -156,7 +157,7 @@ const Mypage = () => {
                         </div>
                       ) : (
                         <div>
-                          <h3>{session.user.user_metadata.user_name}</h3>
+                          <h3>{user.name}</h3>
                           <button onClick={handleEditToggle}>변경</button>
                         </div>
                       )}

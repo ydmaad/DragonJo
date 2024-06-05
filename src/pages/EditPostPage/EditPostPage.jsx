@@ -42,7 +42,7 @@ const EditPostPage = () => {
   };
 
   const handleDeletePost = (e) => {
-    const confirmDelete = window.confirm('게시글을 삭제하시겠습니까?');
+    const confirmDelete = confirm('게시글을 삭제하시겠습니까?');
     if (confirmDelete) {
       dispatch(deletePost(postId));
       navigate('/');
@@ -52,7 +52,7 @@ const EditPostPage = () => {
   };
 
   const handleGoBack = (e) => {
-    const confirmGoBack = window.confirm('변경 사항이 저장되지 않을 수 있습니다. 페이지를 나가시겠습니까?');
+    const confirmGoBack = confirm('변경 사항이 저장되지 않을 수 있습니다. 페이지를 나가시겠습니까?');
     if (confirmGoBack) {
       navigate('/');
     } else {
@@ -97,6 +97,8 @@ const EditPostPage = () => {
     } else {
       setTitle(post.title);
       setContent(post.content);
+      setImageURL(post.images || '');
+      setPreviewImageURL(post.images);
     }
   }, [dispatch, post]);
 
