@@ -138,6 +138,8 @@ function HomePage() {
             modules={[Navigation, Pagination]}
             pagination={{ clickable: true }}
             spaceBetween={30}
+            slidesPerView={1}
+            loop={true}
           >
             {images.map((image) => (
               <SwiperSlide key={image}>
