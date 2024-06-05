@@ -98,7 +98,7 @@ const EditPostPage = () => {
           {previewImageURL ? (
             <img src={previewImageURL} alt="Preview" style={{ maxWidth: '500px' }} />
           ) : (
-            <img src={post.images} style={{ maxWidth: '500px' }} />
+            post && post.images && <img src={post.images} style={{ maxWidth: '500px' }} />
           )}
         </Header>
         <Form>
