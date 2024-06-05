@@ -30,35 +30,47 @@ const Mypage = () => {
   };
 
   const dispatch = useDispatch();
-
+  const updateUseravatar = async (avatarUrl) => {
+    const { data, error } = await supabase.auth.updateUser({
+      data: { avatar_url: avatarUrl }
+    });
+    if (error) {
+      console.log('error', error);
+    } else {
+      console.log('성공', data);
+      dispatch(uploadUserAvatar(data));
+      setAvatarsURL(avatarUrl);
+    }
+  };
   const upLoadAvatarsBtn = async (files) => {
-    // avatarUploadRef.current.click();
     if (!files || files.length === 0) {
       console.error('No files to upload');
       return;
     }
     const [file] = files;
-    console.log([file]);
-
     if (!file) {
       // alert('업로드할 이미지 파일이 업단다.');
       return;
     }
-    const { data, error } = await supabase.storage.from('avatars').upload(`avatar_${Date.now()}.png`, file);
-    console.log(data);
-
+    const { data, error } = await supabase.storage.from('avatars').upload(`avatar_${Date.now()}.png`, file, {
+      cacheControl: '3600',
+      upsert: true
+    });
     if (error) {
       console.log('error=>', error);
     } else {
       console.log('성공', data);
-      const avatarURL = `https://supabase.com/dashboard/project/dkodekduyiphnphkezzv/storage/buckets/avatars/${data.path}`;
-      console.log(avatarURL)
-      setAvatarsURL(avatarURL);
-
-      dispatch(uploadUserAvatar(avatarURL));
+      const imgURL = `https://dkodekduyiphnphkezzv.supabase.co/storage/v1/object/public/avatars/${data.path}`;
+      // dispatch(uploadUserAvatar(avatarURL));
+      setAvatarsURL(imgURL);
+      await updateUseravatar(imgURL);
     }
   };
-  console.log(avatarsURL)
+
+  useEffect(() => {
+    checkProfile();
+  }, []);
+
   const handleFileInputChange = (e) => {
     upLoadAvatarsBtn(e.target.files);
   };
@@ -66,7 +78,6 @@ const Mypage = () => {
   const handleUploadButtonClick = () => {
     avatarUploadRef.current.click();
   };
-
 
   const handleSaveClick = async () => {
     const { data, error } = await supabase.auth.updateUser({
@@ -81,6 +92,7 @@ const Mypage = () => {
     }
   };
 
+  //회원탈퇴 로직임
   const withDrawal = async () => {
     console.log(session.user.id);
     if (confirm('정말로 삭제하겠는가?')) {
@@ -94,10 +106,6 @@ const Mypage = () => {
     return;
   };
 
-  useEffect(() => {
-    checkProfile();
-  }, []);
-
   return (
     <>
       {isLoggedIn ? (
@@ -106,7 +114,7 @@ const Mypage = () => {
             <div className="profile-photo">
               <S.profileId>
                 <div className="profile-box">
-                  <img src={avatarsURL} alt="profileIcon" />
+                  <img src={avatarsURL || session.user.user_metadata?.avatar_url} alt="profileIcon" />
                 </div>
                 <div className="avatars-upload">
                   <h3>{session.user.user_metadata.user_name}님</h3>
