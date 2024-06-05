@@ -18,7 +18,7 @@ const Mypage = () => {
   const checkProfile = () => {
     const { data, error } = supabase.storage.from('avatars').getPublicUrl('profileIcon.png');
     if (error) {
-      // console.error('error=>', error);
+      console.error('error=>', error);
     } else {
       // console.log('data=>', data.publicUrl);
       setProfileUrl(data.publicUrl);
@@ -37,7 +37,7 @@ const Mypage = () => {
     if (error) {
       console.log('error', error);
     } else {
-      console.log('성공', data);
+      // console.log('성공', data);
       dispatch(uploadUserAvatar(data));
       setAvatarsURL(avatarUrl);
     }
@@ -59,7 +59,7 @@ const Mypage = () => {
     if (error) {
       console.log('error=>', error);
     } else {
-      console.log('성공', data);
+      // console.log('성공', data);
       const imgURL = `https://dkodekduyiphnphkezzv.supabase.co/storage/v1/object/public/avatars/${data.path}`;
       // dispatch(uploadUserAvatar(avatarURL));
       setAvatarsURL(imgURL);
@@ -105,7 +105,6 @@ const Mypage = () => {
     }
     return;
   };
-
   return (
     <>
       {isLoggedIn ? (
