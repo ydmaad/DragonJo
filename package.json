@@ -15,6 +15,7 @@
     "dompurify": "^3.1.5",
     "i": "^0.3.7",
     "lucide-react": "^0.381.0",
+    "node-sass": "^9.0.0",
     "quill": "^2.0.2",
     "quill-image-drop-module": "^1.0.3",
     "quill-image-resize-module": "^3.0.0",
