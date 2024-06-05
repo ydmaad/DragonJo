@@ -143,7 +143,6 @@ function HomePage() {
   if (status === 'failed') {
     return <div>Error: {error}</div>;
   }
-  console.log(posts);
   return (
     <main>
       <SearchInput onSubmit={handleSearchChange}>
