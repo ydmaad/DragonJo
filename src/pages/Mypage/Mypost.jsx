@@ -1,18 +1,17 @@
+import { useEffect, useState } from 'react';
+import { useSelector } from 'react-redux';
+import { supabase } from '../../service/supabase';
 import * as S from '../../styledComponents/Mypost';
 import MypostListItem from './MypostListItem';
-import { useSelector } from 'react-redux';
-import { useEffect } from 'react';
-import { supabase } from '../../service/supabase';
-import { useState } from 'react';
 
 const Mypost = () => {
-  const { session } = useSelector((state) => state.user.userInfo);
+  const { user } = useSelector((state) => state.user.userInfo);
   const [mypost, setMypost] = useState([]);
   const [activeIndex, setActiveIndex] = useState(0);
   const menuItems = ['내 게시글', '팔로워', '찜목록'];
   useEffect(() => {
     const myPosts = async () => {
-      const { data, error } = await supabase.from('posts').select('*', 'images').eq('user_id', session.user.id);
+      const { data, error } = await supabase.from('posts').select('*', 'images').eq('user_id', user.id);
       if (error) {
         console.log('error=>', error);
       } else {
@@ -22,7 +21,7 @@ const Mypost = () => {
     };
 
     myPosts();
-  }, [session]);
+  }, [user]);
   return (
     <>
       <S.MypostBox>
