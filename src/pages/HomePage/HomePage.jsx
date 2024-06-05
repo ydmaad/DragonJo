@@ -22,7 +22,6 @@ import {
   SwiperContainer,
   LikeButton
 } from './HomePage.styles';
-// import { supabase } from '../../service/supabase';
 
 function HomePage() {
   const dispatch = useDispatch();
@@ -58,18 +57,21 @@ function HomePage() {
     setSearchPost(posts.filter((post) => post.title.toLowerCase().includes(search.toLowerCase())));
   }, [posts]);
 
+  console.log(posts);
+
   useEffect(() => {
     const fetchImages = async () => {
-      const { data, error } = await supabase.from('posts').select('images');
+      const { data, error } = await supabase.from('posts').select('*');
 
       if (error) {
         console.error('이미지 가져오기 에러:', error);
       } else {
-        // 이미지가 있는 항목만 선택
         const filteredData = data.filter((item) => item.images && item.images.length > 0);
-        // 데이터를 created_at 기준으로 내림차순 정렬
+        console.log(data);
+
         const sortedImages = filteredData.sort((a, b) => new Date(b.created_at) - new Date(a.created_at));
-        // 상위 5개의 이미지만 선택
+        console.log(sortedImages);
+
         const topImages = sortedImages.slice(0, 5);
         setImages(topImages.map((item) => item.images));
       }
@@ -130,7 +132,13 @@ function HomePage() {
       {/* 슬라이드 추가한 부분 */}
       {images.length > 0 && (
         <SwiperContainer>
-          <Swiper {...params} navigation={true} modules={[Navigation, Pagination]} pagination={true}>
+          <Swiper
+            {...params}
+            navigation={true}
+            modules={[Navigation, Pagination]}
+            pagination={{ clickable: true }}
+            spaceBetween={30}
+          >
             {images.map((image) => (
               <SwiperSlide key={image}>
                 <img src={image} alt={`slide`} />
