@@ -56,7 +56,7 @@ const WritePostPage = () => {
     setPreviewImageURL(previewURL);
 
     const { data } = await supabase.storage.from('avatars').upload(`avatar_${Date.now()}.png`, file);
-    const imageURL = `https://supabase.com/dashboard/project/dkodekduyiphnphkezzv/storage/buckets/avatars/${data.path}`;
+    const imageURL = `https://dkodekduyiphnphkezzv.supabase.co/storage/v1/object/public/avatars/${data.path}`;
     setImageURL(imageURL);
   }
 
