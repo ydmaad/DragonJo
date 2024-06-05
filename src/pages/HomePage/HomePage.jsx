@@ -9,6 +9,7 @@ import { Navigation, Pagination } from 'swiper/modules';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { fetchPosts, likePost } from '../../redux/slices/postSlice';
 import { supabase } from '../../service/supabase';
+import no_img from '../../assets/no_img.jpg';
 import {
   LikeButton,
   PostContent,
@@ -176,18 +177,20 @@ function HomePage() {
             }}
           >
             <div className="post-img">
-              <PostImage src={post.images} />
+              <PostImage src={post.images || no_img} />
             </div>
             <PostTitle>{post.title}</PostTitle>
             <br />
 
             <PostContent dangerouslySetInnerHTML={{ __html: post.content }} />
             <br />
-            <div className="like-button-container" style={{ display: 'flex', justifyContent: 'space-between' }}>
+            <div className="like-button-container">
               <LikeButton data-id={post.id} onClick={(e) => handleLike(e, post.id)}>
                 👍 {post.likes}
               </LikeButton>
-              <UserName>{post.name}</UserName>
+              <UserName>
+                <p>{post.name || 'unknow'}</p>
+              </UserName>
             </div>
           </PostItem>
         ))}
