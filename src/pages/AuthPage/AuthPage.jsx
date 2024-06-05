@@ -174,7 +174,7 @@ function AuthPage() {
   const inputRef = useRef([]);
 
   const resetInputRef = () => {
-    console.log(inputRef);
+    // console.log(inputRef);
     inputRef.current.forEach((ref) => {
       ref.value = '';
     });
