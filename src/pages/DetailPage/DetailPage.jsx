@@ -19,7 +19,6 @@ const DetailPage = () => {
   const [title, setTitle] = useState('');
   const [content, setContent] = useState('');
   const [writerId, setWriterId] = useState('');
-  console.log(post);
 
   useEffect(() => {
     if (!post) {
