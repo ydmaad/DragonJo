@@ -1,5 +1,6 @@
 import { createGlobalStyle } from 'styled-components';
 // import { reset } from 'styled-reset';
+import 'sweetalert2/src/sweetalert2.scss';
 
 const GlobalStyle = createGlobalStyle`
   * {
