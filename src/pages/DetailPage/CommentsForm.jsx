@@ -57,9 +57,6 @@ export const CommentsForm = ({ postId }) => {
 
   useEffect(() => {
     const getComments = async () => {
-<<<<<<< HEAD
-      const { data, error } = await supabase.from('comments').select('*').eq('post_id', postId);
-=======
       try {
         const { data, error } = await supabase.from('comments').select('*').eq('post_id', postId);
         if (error) {
@@ -70,7 +67,6 @@ export const CommentsForm = ({ postId }) => {
       } catch (error) {
         console.error('Error fetching comments:', error.message);
       }
->>>>>>> 39066738108d8eef976599cdf63966d44bd602e2
     };
     getComments(); // postId가 변경될 때마다 실행될 비동기 작업
   }, [postId]); // postId가 변경될 때마다 useEffect가 실행됩니다.

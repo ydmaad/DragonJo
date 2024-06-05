@@ -46,8 +46,6 @@ function HomePage() {
 
   const [images, setImages] = useState([]);
 
-<<<<<<< HEAD
-=======
   const handleSearchChange = (e) => {
     e.preventDefault();
     const filteredPosts = posts.filter((post) => post.title.includes(search));
@@ -77,7 +75,6 @@ function HomePage() {
     fetchImages();
   }, []);
 
->>>>>>> 39066738108d8eef976599cdf63966d44bd602e2
   const params = {
     pagination: {
       clickable: true
@@ -88,12 +85,6 @@ function HomePage() {
       delay: 2500,
       disableOnInteraction: false
     }
-  };
-
-  const handleSearchChange = (e) => {
-    e.preventDefault();
-    const filteredPosts = posts.filter((post) => post.title.includes(search));
-    setSearchPost(filteredPosts);
   };
 
   const handleLike = async (e, postId) => {
