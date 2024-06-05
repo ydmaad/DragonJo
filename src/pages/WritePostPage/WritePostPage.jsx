@@ -91,7 +91,9 @@ const WritePostPage = () => {
         <Header>
           <Title>썸네일 이미지 미리보기</Title>
           <br />
-          {previewImageURL && <img src={previewImageURL} alt="Preview" style={{ maxWidth: '500px' }} />}
+          {previewImageURL && (
+            <img src={previewImageURL} alt="Preview" style={{ maxWidth: '500px', maxHeight: '300px' }} />
+          )}
         </Header>
         <Form>
           <Label>게시글 제목</Label>
