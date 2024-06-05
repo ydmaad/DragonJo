@@ -16,7 +16,6 @@ const Mypage = () => {
   const avatarUploadRef = useRef(null);
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  console.log(isLoggedIn);
   const handleEditToggle = () => {
     setIsEditing((prev) => !prev);
   };
@@ -63,9 +62,10 @@ const Mypage = () => {
   const handleUploadButtonClick = () => {
     avatarUploadRef.current.click();
   };
+
   const handleSaveClick = async () => {
     const { data, error } = await supabase.auth.updateUser({
-      data: { name: newUsername }
+      data: { name: newUsername.trim() }
     });
     if (error) {
       console.log('error=>', error);
@@ -147,7 +147,12 @@ const Mypage = () => {
                     <S.MypageContents>
                       {isEditing ? (
                         <div>
-                          <input type="text" value={newUsername} onChange={(e) => setNewUsername(e.target.value)} />
+                          <input
+                            type="text"
+                            value={newUsername}
+                            onChange={(e) => setNewUsername(e.target.value)}
+                            maxLength="10"
+                          />
                           <div className="user-confirm">
                             <button onClick={handleSaveClick}>확인</button>
                             <button className="cancel-btn" onClick={handleEditToggle}>
