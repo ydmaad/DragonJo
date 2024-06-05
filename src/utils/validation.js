@@ -3,7 +3,6 @@ const usernameRegex = /^[가-힣a-zA-Z0-9]{2,10}$/;
 const passwordRegex = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[!@#$%^&*])[A-Za-z\d!@#$%^&*]{8,}$/;
 
 function validateUsername(username) {
-  console.log(username);
   if (!usernameRegex.test(username)) {
     return '2~10자 사이의 한글, 알파벳, 숫자만 가능합니다!';
   }

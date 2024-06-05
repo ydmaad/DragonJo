@@ -1,14 +1,12 @@
-import { useState } from 'react';
-import * as S from '../../styledComponents/MyProfile';
+import { useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import Mypost from './Mypost';
-import { supabase } from '../../service/supabase';
-import { useEffect } from 'react';
-import { clearUser, updateUserInfo, uploadUserAvatar } from '../../redux/slices/user.slice';
-import { useRef } from 'react';
-import noimg from '../../assets/no_img.jpg';
-import { logOutUser } from '../../service/user';
 import { useNavigate } from 'react-router';
+import noimg from '../../assets/no_img.jpg';
+import { clearUser, updateUserInfo, uploadUserAvatar } from '../../redux/slices/user.slice';
+import { supabase } from '../../service/supabase';
+import { logOutUser } from '../../service/user';
+import * as S from '../../styledComponents/MyProfile';
+import Mypost from './Mypost';
 
 const Mypage = () => {
   const { isLoggedIn, session } = useSelector((state) => state.user.userInfo);
