@@ -19,6 +19,7 @@ export const PostItem = styled.li`
   border-radius: 15px;
   width: 300px;
   height: 400px;
+  width: 300px;
   overflow: hidden;
   &:hover {
     background-color: #dcdcdc;
@@ -92,7 +93,7 @@ export const PostImage = styled.img`
 export const SearchInput = styled.form`
   padding: 0px 20px;
   width: 1320px;
-  margin: 20px auto;
+  margin: 20px auto 0 auto;
   display: flex;
   justify-content: flex-end;
   gap: 20px;
@@ -135,6 +136,7 @@ export const SwiperContainer = styled.div`
   }
 
   .swiper-slide {
+    height: 560px;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -146,27 +148,12 @@ export const SwiperContainer = styled.div`
     cursor: pointer;
     border: 1px solid black;
     border-radius: 15px;
-    width: 1000px;
     height: 500px;
+    width: 1000px;
     overflow: hidden;
-    &:hover {
-      background-color: #dcdcdc;
-    }
-    & > .post-img {
-      width: 100%;
-      height: 200px;
-      margin-bottom: 20px;
-    }
-    & > .post-img > img {
-      width: 100%;
-      height: 100%;
-      display: block;
-    }
-    line-height: 1.3;
   }
 
   .swiper-pagination {
-    /* bottom: 10px !important; */
     position: absolute;
     left: 50%;
     transform: translateX(-50%);
