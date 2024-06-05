@@ -79,7 +79,7 @@ const WritePostPage = () => {
     <Wrapper>
       <Container>
         <Header>
-          <Title>메인 이미지 미리보기</Title>
+          <Title>썸네일 이미지 미리보기</Title>
           <br />
           {previewImageURL && <img src={previewImageURL} alt="Preview" style={{ maxWidth: '200px' }} />}
         </Header>
@@ -90,7 +90,7 @@ const WritePostPage = () => {
           <StyledReactQuill ref={quillRef} value={content} onChange={setContent} modules={modules} />
           <ButtonContainer>
             <Button onClick={handleCreatePost}>업로드</Button>
-            <Button onClick={handleImageButtonClick}>메인 이미지 업로드</Button>
+            <Button onClick={handleImageButtonClick}>썸네일 이미지 업로드</Button>
             <input
               onChange={(e) => handleImageInputChange(e.target.files)}
               type="file"
