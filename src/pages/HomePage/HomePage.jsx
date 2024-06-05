@@ -1,17 +1,16 @@
 import { useEffect, useState } from 'react';
 import 'react-quill/dist/quill.snow.css';
 import { useDispatch, useSelector } from 'react-redux';
-import { Swiper, SwiperSlide } from 'swiper/react';
+import { useNavigate } from 'react-router-dom';
 import 'swiper/css';
 import 'swiper/css/navigation';
 import 'swiper/css/pagination';
-import { Pagination } from 'swiper/modules';
-import { Navigation } from 'swiper/modules';
-import { useNavigate } from 'react-router-dom';
-import postImg from '../../assets/diablo.jpg';
+import { Navigation, Pagination } from 'swiper/modules';
+import { Swiper, SwiperSlide } from 'swiper/react';
 import { fetchPosts, likePost } from '../../redux/slices/postSlice';
 import { supabase } from '../../service/supabase';
 import {
+  LikeButton,
   PostContent,
   PostImage,
   PostItem,
@@ -19,8 +18,7 @@ import {
   PostTitle,
   SearchBtn,
   SearchInput,
-  SwiperContainer,
-  LikeButton
+  SwiperContainer
 } from './HomePage.styles';
 
 function HomePage() {
@@ -162,6 +160,7 @@ function HomePage() {
             </div>
             <PostTitle>{post.title}</PostTitle>
             <br />
+            <div>{post.name}</div>
             <PostContent dangerouslySetInnerHTML={{ __html: post.content }} />
             <br />
             <div className="like-button-container">
