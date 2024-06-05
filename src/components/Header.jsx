@@ -57,7 +57,7 @@ function Header() {
     } else {
       setUsername('');
     }
-  }, [dispatch, session]);
+  }, [session]);
 
   const logOutHandler = () => {
     logOutUser();
