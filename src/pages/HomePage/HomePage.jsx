@@ -47,39 +47,6 @@ function HomePage() {
 
   const [images, setImages] = useState([]);
 
-  const handleSearchChange = (e) => {
-    e.preventDefault();
-    const filteredPosts = posts.filter((post) => post.title.includes(search));
-    setSearchPost(filteredPosts);
-  };
-
-  useEffect(() => {
-    setSearchPost(posts.filter((post) => post.title.toLowerCase().includes(search.toLowerCase())));
-  }, [posts]);
-
-  console.log(posts);
-
-  useEffect(() => {
-    const fetchImages = async () => {
-      const { data, error } = await supabase.from('posts').select('*');
-
-      if (error) {
-        console.error('이미지 가져오기 에러:', error);
-      } else {
-        const filteredData = data.filter((item) => item.images && item.images.length > 0);
-        console.log(data);
-
-        const sortedImages = filteredData.sort((a, b) => new Date(b.created_at) - new Date(a.created_at));
-        console.log(sortedImages);
-
-        const topImages = sortedImages.slice(0, 5);
-        setImages(topImages.map((item) => item.images));
-      }
-    };
-
-    fetchImages();
-  }, []);
-
   const params = {
     pagination: {
       clickable: true
@@ -90,6 +57,12 @@ function HomePage() {
       delay: 2500,
       disableOnInteraction: false
     }
+  };
+
+  const handleSearchChange = (e) => {
+    e.preventDefault();
+    const filteredPosts = posts.filter((post) => post.title.includes(search));
+    setSearchPost(filteredPosts);
   };
 
   const handleLike = async (e, postId) => {
@@ -108,6 +81,29 @@ function HomePage() {
       dispatch(likePost({ userId: user.id, postId }));
     }
   };
+
+  useEffect(() => {
+    const fetchImages = async () => {
+      const { data, error } = await supabase.from('posts').select('*');
+
+      if (error) {
+        console.error('이미지 가져오기 에러:', error);
+      } else {
+        const filteredData = data.filter((item) => item.images && item.images.length > 0);
+
+        const sortedImages = filteredData.sort((a, b) => new Date(b.created_at) - new Date(a.created_at));
+
+        const topImages = sortedImages.slice(0, 5);
+        setImages(topImages.map((item) => item.images));
+      }
+    };
+
+    fetchImages();
+  }, []);
+
+  useEffect(() => {
+    setSearchPost(posts.filter((post) => post.title.toLowerCase().includes(search.toLowerCase())));
+  }, [posts]);
 
   useEffect(() => {
     if (status === 'idle') {

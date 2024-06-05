@@ -182,3 +182,9 @@ export const SwiperContainer = styled.div`
     right: 10px;
   }
 `;
+
+export const UserName = styled.div`
+  margin: 5px 25px;
+  font-size: 14px;
+  color: #333;
+`;

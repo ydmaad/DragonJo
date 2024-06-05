@@ -22,7 +22,6 @@ export const CommentsForm = ({ postId }) => {
   useEffect(() => {
     const getComments = async () => {
       const { data, error } = await supabase.from('comments').select('*').eq('post_id', postId);
-      console.log(data, error);
     };
     getComments();
   });
