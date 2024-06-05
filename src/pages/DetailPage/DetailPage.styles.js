@@ -6,64 +6,28 @@ export const PostContent = styled.div`
   font-size: 18px;
   margin: 0 25px;
   width: 250px;
-  /* display: -webkit-box;
-  -webkit-box-orient: vertical;
-  overflow: hidden;
-  -webkit-line-clamp: 5;
-  text-overflow: ellipsis; */
-
-  /* h1 {
-    font-size: 36px;
-    font-weight: 900;
-  }
-  h2 {
-    font-size: 32px;
-    font-weight: 800;
-  }
-  h3 {
-    font-size: 28px;
-    font-weight: 700;
-  }
-  h4 {
-    font-size: 24px;
-    font-weight: 600;
-  }
-  h5 {
-    font-size: 20px;
-    font-weight: 500;
-  }
-  h6 {
-    font-size: 16px;
-    font-weight: 500;
-  } */
 
   img {
     max-width: 100%;
     /* 최소크기 */
     height: auto;
   }
+`;
 
-  /* ul,
-  ol {
-    padding-left: 20px;
-  } */
-  /* li { 들여쓰기 } */
-  /* 글자수 제한, 용량 제한에 따른 css 적용 */
-
-  /* blockquote {
-    margin: 10px 0;
-    padding-left: 20px;
-    border-left: 5px solid #ccc;
-  } */
+export const Wrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 `;
 
 export const Container = styled.div`
-  width: 100%;
+  box-sizing: border-box;
+  width: 700px;
   display: flex;
   flex-direction: column;
   align-items: center;
   padding: 20px;
-  background-color: #f9f9f9;
+  margin: 20px;
 `;
 
 export const Header = styled.div`
@@ -84,7 +48,7 @@ export const Subtitle = styled.p`
 export const Form = styled.div`
   display: flex;
   flex-direction: column;
-  width: 50%;
+  width: 80%;
 `;
 
 export const Label = styled.label`
@@ -111,6 +75,7 @@ export const Textarea = styled.textarea`
 export const ButtonContainer = styled.div`
   display: flex;
   justify-content: space-between;
+  margin-top: 60px;
 `;
 
 export const Button = styled.button`
@@ -119,9 +84,9 @@ export const Button = styled.button`
   border: none;
   border-radius: 5px;
   cursor: pointer;
-  background-color: #007bff;
+  background-color: #2fa93c;
   color: white;
   &:hover {
-    background-color: #0056b3;
+    background-color: #0b453a;
   }
 `;
