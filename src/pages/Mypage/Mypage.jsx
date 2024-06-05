@@ -3,14 +3,10 @@ import { useDispatch, useSelector } from 'react-redux';
 import Mypost from './Mypost';
 import { supabase } from '../../service/supabase';
 import { clearUser, updateUserInfo, uploadUserAvatar } from '../../redux/slices/user.slice';
-import { useRef } from 'react';
 import { useNavigate } from 'react-router';
 import noimg from '../../assets/no_img.jpg';
-import { clearUser, updateUserInfo, uploadUserAvatar } from '../../redux/slices/user.slice';
-import { supabase } from '../../service/supabase';
 import { logOutUser } from '../../service/user';
 import * as S from '../../styledComponents/MyProfile';
-import Mypost from './Mypost';
 
 const Mypage = () => {
   const { isLoggedIn, session } = useSelector((state) => state.user.userInfo);
@@ -141,7 +137,6 @@ const Mypage = () => {
                     <S.MypagetdTitle>비밀번호</S.MypagetdTitle>
                     <S.MypageContents>
                       <div>
-                        <h3>pass******</h3>
                         <button onClick={resetUserPassword}>변경</button>
                       </div>
                     </S.MypageContents>
@@ -168,7 +163,7 @@ const Mypage = () => {
                     </S.MypageContents>
                   </tr>
                   <tr>
-                    <S.MypagetdTitle>탈퇴신청</S.MypagetdTitle>
+                    <S.MypagetdTitle>회원탈퇴</S.MypagetdTitle>
                     <S.MypageContents>
                       <div>
                         <button onClick={withDrawal}>탈퇴</button>
