@@ -14,7 +14,7 @@ export const Form = styled.form`
   margin: 20px auto;
   padding: 20px;
   background-color: #f9f9f9;
-  border-radius: 5px;
+  border-radius: 10px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 `;
 
@@ -29,8 +29,8 @@ export const Textarea = styled.textarea`
   padding: 10px;
   margin-bottom: 20px;
   border: 1px solid #ccc;
-  border-radius: 5px;
-  height: 100px;
+  border-radius: 8px;
+  height: 50px;
 `;
 
 export const Button = styled.button`
@@ -57,7 +57,7 @@ export const Comment = styled.div`
   flex-direction: column;
   padding: 10px;
   border: 1px solid #ccc;
-  border-radius: 5px;
+  border-radius: 10px;
   margin: 20px;
   margin-bottom: 10px;
   background-color: #fff;
