@@ -2,14 +2,19 @@ import { useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router';
 import noimg from '../../assets/no_img.jpg';
+import { updateCommentUserName, updatePostUserName } from '../../redux/slices/postSlice';
 import { clearUser, updateUserInfo, uploadUserAvatar } from '../../redux/slices/user.slice';
 import { supabase } from '../../service/supabase';
 import { logOutUser } from '../../service/user';
 import * as S from '../../styledComponents/MyProfile';
 import Mypost from './Mypost';
-import { updatePostUserName,updateCommentUserName } from '../../redux/slices/postSlice';
 const Mypage = () => {
   const { isLoggedIn, user } = useSelector((state) => state.user.userInfo);
+
+  const posts = useSelector((state) => state.posts.posts);
+
+  const inputRef = useRef(null);
+
   const [isEditing, setIsEditing] = useState(false);
   const [newUsername, setNewUsername] = useState('');
   const [avatarsURL, setAvatarsURL] = useState('');
@@ -64,14 +69,14 @@ const Mypage = () => {
   };
   const handleSaveClick = async () => {
     const { data, error } = await supabase.auth.updateUser({
-      data: { name: newUsername.trim() }
+      data: { name: inputRef?.current?.value.trim() }
     });
     if (error) {
       console.log('error=>', error);
     } else {
       // console.log('data=', data);
-      dispatch(updatePostUserName({ id: user.id, name: newUsername.trim() }));
-      dispatch(updateCommentUserName({ id: user.id, name: newUsername.trim() }));
+      dispatch(updatePostUserName({ id: user.id, name: inputRef?.current?.value.trim() }));
+      dispatch(updateCommentUserName({ id: user.id, name: inputRef?.current?.value.trim() }));
       dispatch(updateUserInfo(data));
       setIsEditing((prev) => !prev);
     }
@@ -148,12 +153,7 @@ const Mypage = () => {
                     <S.MypageContents>
                       {isEditing ? (
                         <div>
-                          <input
-                            type="text"
-                            value={newUsername}
-                            onChange={(e) => setNewUsername(e.target.value)}
-                            maxLength="10"
-                          />
+                          <input ref={inputRef} type="text" defaultValue={newUsername} maxLength="10" />
                           <div className="user-confirm">
                             <button onClick={handleSaveClick}>확인</button>
                             <button className="cancel-btn" onClick={handleEditToggle}>
