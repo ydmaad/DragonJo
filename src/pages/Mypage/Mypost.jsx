@@ -22,7 +22,6 @@ const Mypost = () => {
 
     myPosts();
   }, [user]);
- console.log(mypost)
   return (
     <>
       <S.MypostBox>

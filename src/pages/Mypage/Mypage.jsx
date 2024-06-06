@@ -7,7 +7,7 @@ import { supabase } from '../../service/supabase';
 import { logOutUser } from '../../service/user';
 import * as S from '../../styledComponents/MyProfile';
 import Mypost from './Mypost';
-
+import { updatePostUserName,updateCommentUserName } from '../../redux/slices/postSlice';
 const Mypage = () => {
   const { isLoggedIn, user } = useSelector((state) => state.user.userInfo);
   const [isEditing, setIsEditing] = useState(false);
@@ -62,7 +62,6 @@ const Mypage = () => {
   const handleUploadButtonClick = () => {
     avatarUploadRef.current.click();
   };
-
   const handleSaveClick = async () => {
     const { data, error } = await supabase.auth.updateUser({
       data: { name: newUsername.trim() }
@@ -71,6 +70,8 @@ const Mypage = () => {
       console.log('error=>', error);
     } else {
       // console.log('data=', data);
+      dispatch(updatePostUserName({ id: user.id, name: newUsername.trim() }));
+      dispatch(updateCommentUserName({ id: user.id, name: newUsername.trim() }));
       dispatch(updateUserInfo(data));
       setIsEditing((prev) => !prev);
     }
