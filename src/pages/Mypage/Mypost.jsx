@@ -22,6 +22,7 @@ const Mypost = () => {
 
     myPosts();
   }, [user]);
+ console.log(mypost)
   return (
     <>
       <S.MypostBox>
@@ -50,6 +51,7 @@ const Mypost = () => {
                   content={item.content}
                   contentsId={item.id}
                   image={item.images}
+                  postId={item.id}
                 />
               ))
             ) : (
