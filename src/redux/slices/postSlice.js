@@ -21,16 +21,18 @@ export const updatePost = createAsyncThunk('posts/updatePost', async ({ id, titl
   return data[0];
 });
 
-export const updatePostUserName = createAsyncThunk('posts/updatePostUserName', async ({ id,name }) => {
-  const { data } = await supabase.from('posts').update({name}).eq('user_id', id).select();
+export const updatePostUserName = createAsyncThunk('posts/updatePostUserName', async ({ id: user_id, name }) => {
+  const data = await supabase.from('posts').update({ name }).eq('user_id', user_id).select();
   return data;
 });
 
-export const updateCommentUserName = createAsyncThunk('comments/updatePostUserName', async ({ id,name }) => {
-  const { data } = await supabase.from('comments').update({name}).eq('user_id', id).select();
-  return data;
-});
-
+export const updateCommentUserName = createAsyncThunk(
+  'comments/updateCommentUserName',
+  async ({ id: user_id, name: writer }) => {
+    const data = await supabase.from('comments').update({ writer }).eq('user_id', String(user_id)).select();
+    return data;
+  }
+);
 
 export const likePost = createAsyncThunk('posts/likePost', async ({ userId, postId }) => {
   const { data, error } = await supabase.rpc('toggle_like', { p_user_id: userId, p_post_id: postId });
@@ -76,19 +78,16 @@ const postsSlice = createSlice({
         }
       })
       .addCase(updatePostUserName.fulfilled, (state, action) => {
-        const updatedUser = action.payload; 
-        const index = state.posts.find((post) => post.user_id === updatedUser.id);
-        if (index !== -1) {
-          state.posts[index].name = updatedUser.name; 
-        }
+        const data = action.payload;
+        state.posts.forEach((post) => {
+          data.data.forEach((data, idx) => {
+            if (data.id === post.id) {
+              state.posts[idx].name = data.name;
+            }
+          });
+        });
       })
-      .addCase(updateCommentUserName.fulfilled, (state, action) => {
-        const updatedUser = action.payload; 
-        const index = state.posts.find((post) => post.user_id === updatedUser.id);
-        if (index !== -1) {
-          state.posts[index].name = updatedUser.name; 
-        }
-      })
+      .addCase(updateCommentUserName.fulfilled, (state, action) => {})
       .addCase(likePost.fulfilled, (state, action) => {
         const index = state.posts.findIndex((post) => post.user_id === action.payload.id);
         if (index !== -1) {
