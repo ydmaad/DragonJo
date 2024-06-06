@@ -4,7 +4,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 import Swal from 'sweetalert2';
 import { fetchPosts, updatePost } from '../../redux/slices/postSlice';
 import { CommentsForm } from './CommentsForm';
-import { Wrapper, Button, ButtonContainer, Container, Form, Header, PostContent, Title } from './DetailPage.styles';
+import { Button, ButtonContainer, Container, Form, Header, PostContent, Title, Wrapper } from './DetailPage.styles';
 
 const DetailPage = () => {
   const { id } = useParams();
@@ -15,7 +15,7 @@ const DetailPage = () => {
 
   const post = useSelector((state) => state.posts.posts.find((post) => post.id === postId));
   const userId = useSelector((state) => state.user.userInfo.user.id);
-  console.log(userId);
+  // console.log(userId);
   const [title, setTitle] = useState('');
   const [content, setContent] = useState('');
   const [writerId, setWriterId] = useState('');
