@@ -1,19 +1,19 @@
 import { useEffect, useState } from 'react';
-import { supabase } from '../../service/supabase';
 import { useSelector } from 'react-redux';
 import Swal from 'sweetalert2';
+import { supabase } from '../../service/supabase';
 import {
-  Wrapper,
+  Button,
+  Comment,
+  CommentAuthor,
+  CommentContainer,
+  CommentContent,
+  CommentDate,
+  DeleteButton,
   Form,
   Label,
   Textarea,
-  Button,
-  CommentContainer,
-  Comment,
-  CommentAuthor,
-  CommentContent,
-  CommentDate,
-  DeleteButton
+  Wrapper
 } from './CommentsForm.styles';
 
 export const CommentsForm = ({ postId }) => {
@@ -22,7 +22,7 @@ export const CommentsForm = ({ postId }) => {
   const [refetch, setRefetch] = useState(false);
 
   const user_name = useSelector((state) => state.user.userInfo.user.name);
-  console.log(user_name);
+  // console.log(user_name);
 
   const handleTextareaChange = (e) => {
     setComment(e.target.value);
@@ -36,7 +36,7 @@ export const CommentsForm = ({ postId }) => {
         post_id: postId,
         writer: user_name
       });
-      console.log(data, error);
+      // console.log(data, error);
       setComment('');
       // getComments();
     } catch (error) {
