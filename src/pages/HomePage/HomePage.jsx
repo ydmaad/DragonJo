@@ -33,17 +33,6 @@ function HomePage() {
   const status = useSelector((state) => state.posts.status);
   const error = useSelector((state) => state.posts.error);
 
-  //   useEffect(() => {
-  //     const getUserData = async () => {
-
-  // const { data: { user } } = await supabase.auth.getUser(jwt)
-  //       console.log(user);
-  //     };
-  //     getUserData();
-  //     console.log();
-  //   }, []);
-  // console.log(posts[0].user_id)
-
   const [search, setSearch] = useState('');
   const [searchPost, setSearchPost] = useState([]);
 
@@ -58,25 +47,6 @@ function HomePage() {
   useEffect(() => {
     setSearchPost(posts.filter((post) => post.title.toLowerCase().includes(search.toLowerCase())));
   }, [posts]);
-
-  useEffect(() => {
-    const fetchImages = async () => {
-      const { data, error } = await supabase.from('posts').select('*');
-
-      if (error) {
-        console.error('이미지 가져오기 에러:', error);
-      } else {
-        const filteredData = data.filter((item) => item.images && item.images.length > 0);
-
-        const sortedImages = filteredData.sort((a, b) => new Date(b.created_at) - new Date(a.created_at));
-
-        const topImages = sortedImages.slice(0, 5);
-        setImages(topImages.map((item) => item.images));
-      }
-    };
-
-    fetchImages();
-  }, []);
 
   const params = {
     pagination: {
@@ -125,10 +95,6 @@ function HomePage() {
 
     fetchImages();
   }, []);
-
-  useEffect(() => {
-    setSearchPost(posts.filter((post) => post.title.toLowerCase().includes(search.toLowerCase())));
-  }, [posts]);
 
   useEffect(() => {
     if (status === 'idle') {
@@ -214,3 +180,4 @@ function HomePage() {
 }
 
 export default HomePage;
+//푸시를 다시 해보잣
