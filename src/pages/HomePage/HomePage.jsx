@@ -7,22 +7,22 @@ import 'swiper/css/navigation';
 import 'swiper/css/pagination';
 import { Navigation, Pagination } from 'swiper/modules';
 import { Swiper, SwiperSlide } from 'swiper/react';
-import { fetchPosts, likePost } from '../../redux/slices/postSlice';
-import { supabase } from '../../service/supabase';
 import no_img from '../../assets/no_img.jpg';
+import { likePost } from '../../redux/slices/postSlice';
+import { supabase } from '../../service/supabase';
 import {
   LikeButton,
+  NoSearchResults,
   PostContent,
   PostImage,
   PostItem,
   PostList,
   PostTitle,
+  ReturnAllResult,
   SearchBtn,
   SearchInput,
   SwiperContainer,
-  UserName,
-  NoSearchResults,
-  ReturnAllResult
+  UserName
 } from './HomePage.styles';
 
 function HomePage() {
@@ -129,12 +129,6 @@ function HomePage() {
   useEffect(() => {
     setSearchPost(posts.filter((post) => post.title.toLowerCase().includes(search.toLowerCase())));
   }, [posts]);
-
-  useEffect(() => {
-    if (status === 'idle') {
-      dispatch(fetchPosts());
-    }
-  }, [status, dispatch]);
 
   if (status === 'loading') {
     return <div>Loading...</div>;
