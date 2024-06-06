@@ -22,12 +22,14 @@ export const Wrapper = styled.div`
 
 export const Container = styled.div`
   box-sizing: border-box;
-  width: 700px;
+  width: 650px;
   display: flex;
   flex-direction: column;
   align-items: center;
   padding: 20px;
   margin: 20px;
+  border-top: 2px solid #ccc;
+  border-bottom: 2px solid #ccc;
 `;
 
 export const Header = styled.div`
@@ -38,6 +40,11 @@ export const Header = styled.div`
 export const Title = styled.h1`
   font-size: 24px;
   color: #333;
+  /* border-top: 1px solid #ccc; */
+  border-bottom: 1px solid #ccc;
+  margin-bottom: 10px;
+  background-color: #fff;
+  padding: 5px 10px;
 `;
 
 export const Subtitle = styled.p`

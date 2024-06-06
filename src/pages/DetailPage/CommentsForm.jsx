@@ -89,8 +89,15 @@ export const CommentsForm = ({ postId }) => {
   return (
     <Wrapper>
       <Form onSubmit={handleSubmit}>
-        <Label htmlFor="comment">댓글</Label>
-        <Textarea name="comment" id="comment" type="text" onChange={handleTextareaChange} value={comment} />
+        <Label htmlFor="comment">댓글 남기기</Label>
+        <Textarea
+          name="comment"
+          id="comment"
+          type="text"
+          onChange={handleTextareaChange}
+          value={comment}
+          placeholder="댓글 작성"
+        />
         <Button type="submit">저장</Button>
       </Form>
       <CommentContainer>
