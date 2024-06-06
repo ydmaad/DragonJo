@@ -21,6 +21,17 @@ export const updatePost = createAsyncThunk('posts/updatePost', async ({ id, titl
   return data[0];
 });
 
+export const updatePostUserName = createAsyncThunk('posts/updatePostUserName', async ({ id,name }) => {
+  const { data } = await supabase.from('posts').update({name}).eq('user_id', id).select();
+  return data;
+});
+
+export const updateCommentUserName = createAsyncThunk('comments/updatePostUserName', async ({ id,name }) => {
+  const { data } = await supabase.from('comments').update({name}).eq('user_id', id).select();
+  return data;
+});
+
+
 export const likePost = createAsyncThunk('posts/likePost', async ({ userId, postId }) => {
   const { data, error } = await supabase.rpc('toggle_like', { p_user_id: userId, p_post_id: postId });
 
@@ -64,8 +75,22 @@ const postsSlice = createSlice({
           state.posts[index] = action.payload;
         }
       })
+      .addCase(updatePostUserName.fulfilled, (state, action) => {
+        const updatedUser = action.payload; 
+        const index = state.posts.find((post) => post.user_id === updatedUser.id);
+        if (index !== -1) {
+          state.posts[index].name = updatedUser.name; 
+        }
+      })
+      .addCase(updateCommentUserName.fulfilled, (state, action) => {
+        const updatedUser = action.payload; 
+        const index = state.posts.find((post) => post.user_id === updatedUser.id);
+        if (index !== -1) {
+          state.posts[index].name = updatedUser.name; 
+        }
+      })
       .addCase(likePost.fulfilled, (state, action) => {
-        const index = state.posts.findIndex((post) => post.id === action.payload.id);
+        const index = state.posts.findIndex((post) => post.user_id === action.payload.id);
         if (index !== -1) {
           state.posts[index].likes = action.payload.likes;
         }
