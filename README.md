@@ -21,6 +21,7 @@
 | 최슬기 | 팀원 | 디테일 페이지 및 댓글 기능 <br/> 피그마 작성                                |
 | 김승회 | 팀원 | 로그인, 회원가입, 비밀번호 재설정 등 Auth 관련 기능 <br/> 프로젝트 리팩토링 |
 
+
 ## ⚙️ 기술 스택
 
 ![HTML5](https://img.shields.io/badge/HTML5-E34F26?style=for-the-badge&logo=html5&logoColor=white) ![JavaScript](https://img.shields.io/badge/JavaScript-323330?style=for-the-badge&logo=javascript&logoColor=F7DF1E)
