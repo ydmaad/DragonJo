@@ -36,12 +36,13 @@ const WritePostPage = () => {
   const quillRef = useRef(null);
   const imageInputRef = useRef(null);
 
-  const handleCreatePost = () => {
+  const handleCreatePost = (e) => {
     if (title && content) {
       dispatch(createPost({ title, content, imageURL: imageURL, name: user.name }));
       navigate('/');
     } else {
       alert('제목과 내용을 입력해주세요.');
+      e.preventDefault();
     }
   };
 
@@ -101,7 +102,13 @@ const WritePostPage = () => {
           <Label>게시글 내용</Label>
           <StyledReactQuill ref={quillRef} value={content} onChange={setContent} modules={modules} />
           <ButtonContainer>
-            <Button onClick={handleCreatePost}>업로드</Button>
+            <Button
+              onClick={(e) => {
+                handleCreatePost(e);
+              }}
+            >
+              업로드
+            </Button>
             <Button onClick={handleImageButtonClick}>썸네일 이미지 업로드</Button>
             <input
               onChange={(e) => handleImageInputChange(e.target.files)}
