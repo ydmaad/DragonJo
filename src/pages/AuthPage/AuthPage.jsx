@@ -1,6 +1,6 @@
 import { LogInIcon, UserRoundPlusIcon } from 'lucide-react';
-import { useRef, useState } from 'react';
-import { useDispatch } from 'react-redux';
+import { useEffect, useRef, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import ToggleIcon from '../../components/ToggleIcon';
@@ -28,7 +28,6 @@ const Abc = styled.div`
 
   grid-template-columns: 400px auto;
 
-  border: 2px solid red;
   border-radius: 8px;
 
   color: white;
@@ -43,9 +42,11 @@ const Abc = styled.div`
 `;
 
 const LoginImage = styled.img`
+  border-radius: 8px;
   height: 100%;
   @media (max-width: 700px) {
-    height: 200px;
+    width: 100%;
+    height: auto;
   }
 `;
 
@@ -172,7 +173,14 @@ function AuthPage() {
   const [authError, setAuthError] = useState({});
 
   const inputRef = useRef([]);
+  const { isLoggedIn } = useSelector((state) => state.user.userInfo);
+  const navigate = useNavigate();
 
+  useEffect(() => {
+    if (isLoggedIn) {
+      navigate('/');
+    }
+  }, [isLoggedIn, navigate]);
   const resetInputRef = () => {
     // console.log(inputRef);
     inputRef.current.forEach((ref) => {
@@ -260,7 +268,9 @@ function AuthPage() {
   return (
     <LoginMainDiv>
       <Abc>
-        <LoginImage src="http://via.placeholder.com/640x240" alt="" width={'100%'} />
+        {/* <LoginImage src="http://via.placeholder.com/640x240" alt="" width={'100%'} /> */}
+        {/* <LoginImage src={'./src/assets/diablo.jpg'} alt="" width={'100%'} /> */}
+        <LoginImage src={'./src/assets/profileIcon.png'} alt="" width={'100%'} />
 
         <LoginFormDiv>
           <LoginFormH1>{isLoginForm ? '로그인' : '회원가입'}</LoginFormH1>
